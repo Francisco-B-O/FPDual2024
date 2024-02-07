@@ -10,12 +10,14 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 @Entity
 @Table(name = "roles")
 public class Role {

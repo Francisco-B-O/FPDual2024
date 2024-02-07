@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
@@ -17,14 +18,17 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 @Entity
-@Table(name = "tournaments")
+@Table(name = "tournaments", uniqueConstraints = { @UniqueConstraint(name = "Tournament_name_modality", columnNames = {
+		"tournament_name", "tournament_modality_id" }) })
 public class Tournament {
 
 	@Id
@@ -33,7 +37,7 @@ public class Tournament {
 	private Long id;
 
 	@NotBlank
-	@Column(name = "tournament_name", nullable = false, unique = true)
+	@Column(name = "tournament_name", nullable = false)
 	private String name;
 
 	@NotNull

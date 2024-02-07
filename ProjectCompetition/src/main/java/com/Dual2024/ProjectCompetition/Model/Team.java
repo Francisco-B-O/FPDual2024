@@ -10,18 +10,22 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@Builder
 @Entity
-@Table(name = "teams")
+@Table(name = "teams", uniqueConstraints = {
+		@UniqueConstraint(name = "Team_name_modality", columnNames = { "team_name", "team_modality_id" }) })
 public class Team {
 
 	@Id
@@ -30,7 +34,7 @@ public class Team {
 	private Long id;
 
 	@NotBlank
-	@Column(name = "team_name", nullable = false, unique = true)
+	@Column(name = "team_name", nullable = false)
 	private String name;
 
 	@ManyToOne
