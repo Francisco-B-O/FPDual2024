@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.Model;
+package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;

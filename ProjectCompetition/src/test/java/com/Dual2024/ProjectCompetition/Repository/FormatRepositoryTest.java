@@ -12,7 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import com.Dual2024.ProjectCompetition.Model.Format;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
+import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
 
 @DataJpaTest(showSql = false)
 @Order(5)
