@@ -42,7 +42,7 @@ public class Tournament {
 
 	@NotNull
 	@Column(name = "tournament_size", nullable = false)
-	private Integer size;
+	private int size;
 
 	@ManyToOne
 	@JoinColumn(name = "tournament_format_id", nullable = false)

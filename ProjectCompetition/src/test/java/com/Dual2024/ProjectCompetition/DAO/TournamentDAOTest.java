@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.Repository;
+package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -8,12 +8,17 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.context.annotation.ComponentScan;
 
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.FormatDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.TournamentDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
@@ -21,25 +26,20 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.TournamentRepository;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
 
 @DataJpaTest(showSql = false)
-@Order(6)
-public class TournamentRepositoryTest {
+@ComponentScan(basePackages = "com.Dual2024.ProjectCompetition.DataAccess.DAO")
+public class TournamentDAOTest {
 	@Autowired
-	private TournamentRepository tournamentRepository;
+	private TournamentDAO tournamentDAO;
 	@Autowired
-	private ModalityRepository modalityRepository;
+	private ModalityDAO modalityDAO;
 	@Autowired
-	private UserRepository userRepository;
+	private UserDAO userDAO;
 	@Autowired
-	private TeamRepository teamRepository;
+	private TeamDAO teamDAO;
 	@Autowired
-	private FormatRepository formatRepository;
+	private FormatDAO formatDAO;
 	private User user, user2, user3, user4;
 	private Modality modality, savedModality;
 	private Format format, savedFormat;
@@ -57,24 +57,56 @@ public class TournamentRepositoryTest {
 		user4 = User.builder().email("test4@email.com").nick("test4").password("passwordTest")
 				.state(UserState.CONECTADO).build();
 		List<User> users1 = new ArrayList<User>();
-		users1.add(userRepository.save(user));
-		users1.add(userRepository.save(user2));
+		try {
+			users1.add(userDAO.save(user));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			users1.add(userDAO.save(user2));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 		List<User> users2 = new ArrayList<User>();
-		users2.add(userRepository.save(user3));
-		users2.add(userRepository.save(user4));
+		try {
+			users2.add(userDAO.save(user3));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			users2.add(userDAO.save(user4));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		modality = Modality.builder().name("modality1").numberPlayers(2).build();
-		savedModality = modalityRepository.save(modality);
+		try {
+			savedModality = modalityDAO.save(modality);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
 		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
 		List<Team> teams = new ArrayList<Team>();
 
-		teams.add(teamRepository.save(team));
-		teams.add(teamRepository.save(team2));
+		try {
+			teams.add(teamDAO.save(team));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			teams.add(teamDAO.save(team2));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		format = Format.builder().name("torneo").build();
-		savedFormat = formatRepository.save(format);
+		try {
+			savedFormat = formatDAO.save(format);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		tournament = Tournament.builder().name("Torneo de futbol").size(2).description("El mejor futbol")
 				.format(savedFormat).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
@@ -94,9 +126,19 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findById operation")
 	public void givenId_whenFindById_theReturnTournament() {
 
-		Tournament savedTournament = tournamentRepository.save(tournament);
+		Tournament savedTournament = null;
+		try {
+			savedTournament = tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		Tournament foundTournament = tournamentRepository.findById(tournament.getId()).get();
+		Tournament foundTournament = null;
+		try {
+			foundTournament = tournamentDAO.findById(tournament.getId()).get();
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(foundTournament).isNotNull();
 		assertThat(foundTournament).isEqualTo(savedTournament);
@@ -107,11 +149,19 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for save operation")
 	public void givenTournament_whenSave_thenReturnSavedTournament() {
 
-		Tournament savedTournament = tournamentRepository.save(tournament);
+		Tournament savedTournament = null;
 		try {
-			tournamentRepository.save(duplicatedNameModalityTournament);
-		} catch (DataIntegrityViolationException e) {
+			savedTournament = tournamentDAO.save(tournament);
+		} catch (DataException e) {
+
+			e.printStackTrace();
+		}
+
+		try {
+			tournamentDAO.save(duplicatedNameModalityTournament);
+		} catch (DataException e) {
 			assertThat(e).isNotNull();
+			e.printStackTrace();
 		}
 
 		assertThat(savedTournament).isNotNull();
@@ -122,10 +172,24 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findAll operation")
 	public void givenTournaments_whenFindAll_thenReturnAllTournaments() {
 
-		tournamentRepository.save(tournament);
-		tournamentRepository.save(tournament2);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			tournamentDAO.save(tournament2);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findAll();
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findAll();
+		} catch (DataException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isEqualTo(2);
@@ -135,11 +199,21 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByName operation")
 	public void givenTournamentName_whenFindByName_thenReturnTournament() {
 
-		Tournament savedTournament = tournamentRepository.save(tournament);
+		Tournament savedTournament = null;
+		try {
+			savedTournament = tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		Tournament foundTournament = tournamentRepository.findByName("Torneo de futbol");
+		Tournament foundTournament = null;
+		try {
+			foundTournament = tournamentDAO.findByName("Torneo de futbol");
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		assertThat(tournament).isNotNull();
+		assertThat(foundTournament).isNotNull();
 		assertThat(savedTournament).isEqualTo(foundTournament);
 	}
 
@@ -147,9 +221,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByFormat operation")
 	public void givenFormat_whenFindByFormat_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findByFormat(savedFormat);
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findByFormat(savedFormat);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -159,9 +242,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findBySize operation")
 	public void givenSize_whenFindBySize_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findBySize(2);
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findBySize(2);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -171,9 +263,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByStartDate operation")
 	public void givenStartDate_whenFindByStartDate_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -183,9 +284,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByEndDate operation")
 	public void givenEndDate_whenFindByEndDate_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findByEndDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0));
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findByEndDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -195,9 +305,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByState operation")
 	public void givenState_whenFindByState_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findByState(TournamentState.EN_JUEGO);
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findByState(TournamentState.EN_JUEGO);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -207,9 +326,18 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTournaments() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		List<Tournament> tournaments = tournamentRepository.findByModality(savedModality);
+		List<Tournament> tournaments = null;
+		try {
+			tournaments = tournamentDAO.findByModality(savedModality);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(tournaments).isNotNull();
 		assertThat(tournaments.size()).isGreaterThan(0);
@@ -219,12 +347,21 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for update operation")
 	public void givenTournament_whenUpdate_thenReturnUpdatedTournament() {
 
-		tournamentRepository.save(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 		Tournament updatedTournament = new Tournament();
 		updatedTournament.setId(tournament.getId());
 		updatedTournament.setName("Torneo de fútbol updated");
 
-		Tournament savedUpdatedTournament = tournamentRepository.save(updatedTournament);
+		Tournament savedUpdatedTournament = null;
+		try {
+			savedUpdatedTournament = tournamentDAO.save(updatedTournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
 		assertThat(savedUpdatedTournament).isNotNull();
 		assertThat(savedUpdatedTournament).isEqualTo(updatedTournament);
@@ -234,13 +371,26 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 
-		tournamentRepository.save(tournament);
-		tournamentRepository.delete(tournament);
+		try {
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			tournamentDAO.delete(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
 
-		Tournament deletedTournament = tournamentRepository.findByName("Torneo de futbol");
+		Tournament deletedTournament = null;
+		try {
+			deletedTournament = tournamentDAO.findByName("Torneo de futbol");
+		} catch (DataException e) {
+			assertThat(e).isNotNull();
+			e.printStackTrace();
+		}
 
 		assertThat(deletedTournament).isNull();
 
 	}
-
 }

@@ -16,7 +16,7 @@ public interface TournamentRepository extends JpaRepository<Tournament, Long> {
 
 	List<Tournament> findByFormat(Format format);
 
-	List<Tournament> findBySize(Integer size);
+	List<Tournament> findBySize(int size);
 
 	List<Tournament> findByStartDate(LocalDateTime startDate);
 
