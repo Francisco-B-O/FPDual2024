@@ -13,7 +13,7 @@ public interface RoleDAO {
 
 	List<Role> findAll() throws DataException;
 
-	void delete(Role Role) throws DataException;
+	void delete(Role role) throws DataException;
 
 	Role findByName(String name) throws DataException;
 }

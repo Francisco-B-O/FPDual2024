@@ -39,7 +39,7 @@ public class TournamentRepositoryTest {
 	@Autowired
 	private TeamRepository teamRepository;
 	@Autowired
-	FormatRepository formatRepository;
+	private FormatRepository formatRepository;
 	private User user, user2, user3, user4;
 	private Modality modality, savedModality;
 	private Format format, savedFormat;

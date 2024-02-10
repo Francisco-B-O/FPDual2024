@@ -75,22 +75,23 @@ public class UserDAOTest {
 		try {
 			userDao.save(duplicatedEmailUser);
 		} catch (DataException e) {
-			e.printStackTrace();
 			assertThat(e).isNotNull();
+			e.printStackTrace();
 		}
 
 		try {
 			userDao.save(duplicatedNickUser);
 		} catch (DataException e) {
-			e.printStackTrace();
 			assertThat(e).isNotNull();
+			e.printStackTrace();
 		}
 
 		try {
 			userDao.save(invalidPasswordUser);
 		} catch (DataException e) {
-			e.printStackTrace();
 			assertThat(e).isNotNull();
+			e.printStackTrace();
+
 		}
 
 		assertThat(savedUser).isNotNull();
@@ -214,6 +215,7 @@ public class UserDAOTest {
 		try {
 			deletedUser = userDao.findByEmail("test@email.com");
 		} catch (DataException e) {
+			assertThat(e).isNotNull();
 			e.printStackTrace();
 		}
 		assertThat(deletedUser).isNull();
