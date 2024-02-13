@@ -2,6 +2,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
@@ -10,37 +11,53 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 
+@Component
 public class ModelToBOConverter {
 	@Autowired
-	private ModelMapper mapper;
+	private ModelMapper modelMapper;
 
 	public UserBO userModelToBO(User user) {
-		UserBO userBO = mapper.map(user, UserBO.class);
+		UserBO userBO = modelMapper.map(user, UserBO.class);
 		return userBO;
 	}
 
 	public RoleBO roleModelToBO(Role role) {
-		RoleBO roleBO = mapper.map(role, RoleBO.class);
+		RoleBO roleBO = modelMapper.map(role, RoleBO.class);
 		return roleBO;
 	}
 
 	public ModalityBO modalityModelToBO(Modality modality) {
-		ModalityBO modalityBO = mapper.map(modality, ModalityBO.class);
+		ModalityBO modalityBO = modelMapper.map(modality, ModalityBO.class);
 		return modalityBO;
 	}
 
 	public TeamBO teamModelToBO(Team team) {
-		TeamBO teamBO = mapper.map(team, TeamBO.class);
+		TeamBO teamBO = modelMapper.map(team, TeamBO.class);
 		return teamBO;
 	}
 
 	public FormatBO formatModelToBO(Format format) {
-		FormatBO formatBO = mapper.map(format, FormatBO.class);
+		FormatBO formatBO = modelMapper.map(format, FormatBO.class);
 		return formatBO;
 	}
 
 	public TournamentBO tournamentModelToBO(Tournament tournament) {
-		TournamentBO tournamentBO = mapper.map(tournament, TournamentBO.class);
+		TournamentBO tournamentBO = modelMapper.map(tournament, TournamentBO.class);
 		return tournamentBO;
+	}
+
+	public UserBOAux userModelToBOAux(User user) {
+		UserBOAux userBOAux = modelMapper.map(user, UserBOAux.class);
+		return userBOAux;
+	}
+
+	public TeamBOAux teamModelToBOAux(Team team) {
+		TeamBOAux teamBOAux = modelMapper.map(team, TeamBOAux.class);
+		return teamBOAux;
+	}
+
+	public TournamentBOAux tournamentModelToBOAux(Tournament tournament) {
+		TournamentBOAux tournamentBOAux = modelMapper.map(tournament, TournamentBOAux.class);
+		return tournamentBOAux;
 	}
 }

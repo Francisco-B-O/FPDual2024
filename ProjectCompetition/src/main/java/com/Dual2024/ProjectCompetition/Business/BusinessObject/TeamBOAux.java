@@ -1,7 +1,5 @@
 package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class TeamBO {
-
+public class TeamBOAux {
 	private Long id;
 
 	private String name;
@@ -21,7 +18,4 @@ public class TeamBO {
 
 	private String logo;
 
-	private List<UserBOAux> users;
-
-	private List<TournamentBOAux> tournaments;
 }

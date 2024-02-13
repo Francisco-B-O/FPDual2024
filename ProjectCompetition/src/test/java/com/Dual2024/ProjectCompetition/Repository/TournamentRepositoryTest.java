@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,7 +27,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.Repository.TournamentRepositor
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
 
 @DataJpaTest(showSql = false)
-@Order(6)
 public class TournamentRepositoryTest {
 	@Autowired
 	private TournamentRepository tournamentRepository;

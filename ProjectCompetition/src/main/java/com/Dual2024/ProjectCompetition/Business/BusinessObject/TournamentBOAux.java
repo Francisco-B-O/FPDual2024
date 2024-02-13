@@ -1,7 +1,6 @@
 package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 
@@ -14,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class TournamentBO {
+public class TournamentBOAux {
 
 	private Long id;
 
@@ -35,6 +34,4 @@ public class TournamentBO {
 	private String description;
 
 	private ModalityBO modality;
-
-	private List<TeamBOAux> teams;
 }
