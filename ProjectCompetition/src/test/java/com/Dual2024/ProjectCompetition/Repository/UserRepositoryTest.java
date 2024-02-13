@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,7 +19,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
 import jakarta.validation.ConstraintViolationException;
 
 @DataJpaTest(showSql = false)
-@Order(1)
 public class UserRepositoryTest {
 	@Autowired
 	private UserRepository userRepository;
