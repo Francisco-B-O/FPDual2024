@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
-public class UserBO {
+public class UserBOAux {
 
 	private Long id;
 
@@ -28,7 +28,5 @@ public class UserBO {
 	private UserState state;
 
 	private List<RoleBO> roles;
-
-	private List<TeamBOAux> teams;
 
 }

@@ -14,35 +14,50 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 @Component
 public class BOToModelConverter {
 	@Autowired
-	private ModelMapper mapper;
+	private ModelMapper modelMapper;
 
 	public User userBOToModel(UserBO userBO) {
-		User user = mapper.map(userBO, User.class);
+		User user = modelMapper.map(userBO, User.class);
 		return user;
 	}
 
-	public Role roleBOToModel(UserBO roleBO) {
-		Role role = mapper.map(roleBO, Role.class);
+	public Role roleBOToModel(RoleBO roleBO) {
+		Role role = modelMapper.map(roleBO, Role.class);
 		return role;
 	}
 
 	public Modality modalityBOToModel(ModalityBO modalityBO) {
-		Modality modality = mapper.map(modalityBO, Modality.class);
+		Modality modality = modelMapper.map(modalityBO, Modality.class);
 		return modality;
 	}
 
 	public Team teamBOToModel(TeamBO teamBO) {
-		Team team = mapper.map(teamBO, Team.class);
+		Team team = modelMapper.map(teamBO, Team.class);
 		return team;
 	}
 
 	public Format formatBOToModel(FormatBO formatBO) {
-		Format format = mapper.map(formatBO, Format.class);
+		Format format = modelMapper.map(formatBO, Format.class);
 		return format;
 	}
 
 	public Tournament tournamentBOToModel(TournamentBO tournamentBO) {
-		Tournament tournament = mapper.map(tournamentBO, Tournament.class);
+		Tournament tournament = modelMapper.map(tournamentBO, Tournament.class);
+		return tournament;
+	}
+
+	public User userBOAuxToModel(UserBOAux userBOAux) {
+		User user = modelMapper.map(userBOAux, User.class);
+		return user;
+	}
+
+	public Team teamBOAuxToModel(TeamBOAux teamBOAux) {
+		Team team = modelMapper.map(teamBOAux, Team.class);
+		return team;
+	}
+
+	public Tournament tournamentBOAuxToModel(TournamentBOAux tournamentBOAux) {
+		Tournament tournament = modelMapper.map(tournamentBOAux, Tournament.class);
 		return tournament;
 	}
 
