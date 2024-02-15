@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -106,12 +107,9 @@ public class TournamentRepositoryTest {
 	public void givenTournament_whenSave_thenReturnSavedTournament() {
 
 		Tournament savedTournament = tournamentRepository.save(tournament);
-		try {
-			tournamentRepository.save(duplicatedNameModalityTournament);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
 
+		assertThrows(DataIntegrityViolationException.class,
+				() -> tournamentRepository.save(duplicatedNameModalityTournament));
 		assertThat(savedTournament).isNotNull();
 		assertThat(savedTournament.getId()).isGreaterThan(0);
 	}

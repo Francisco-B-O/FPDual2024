@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class UserDAOTest {
 
 		User foundUser = null;
 		try {
-			foundUser = userDao.findById(user.getId()).get();
+			foundUser = userDao.findById(user.getId());
 		} catch (DataException e) {
 
 			e.printStackTrace();
@@ -72,28 +73,9 @@ public class UserDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			userDao.save(duplicatedEmailUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
-		try {
-			userDao.save(duplicatedNickUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
-		try {
-			userDao.save(invalidPasswordUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-
-		}
-
+		assertThrows(DataException.class, () -> userDao.save(duplicatedEmailUser));
+		assertThrows(DataException.class, () -> userDao.save(duplicatedNickUser));
+		assertThrows(DataException.class, () -> userDao.save(invalidPasswordUser));
 		assertThat(savedUser).isNotNull();
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
@@ -211,14 +193,7 @@ public class UserDAOTest {
 			e.printStackTrace();
 		}
 
-		User deletedUser = null;
-		try {
-			deletedUser = userDao.findByEmail("test@email.com");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedUser).isNull();
+		assertThrows(DataException.class, () -> userDao.findByEmail("test@email.com"));
 	}
 
 }

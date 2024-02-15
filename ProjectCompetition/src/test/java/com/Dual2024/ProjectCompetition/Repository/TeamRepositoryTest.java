@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,12 +76,8 @@ public class TeamRepositoryTest {
 	public void givenTeamObject_whenSave_theReturnSavedTeam() {
 
 		Team savedTeam = teamRepository.save(team);
-		try {
-			teamRepository.save(duplicatedNameModalityTeam);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
 
+		assertThrows(DataIntegrityViolationException.class, () -> teamRepository.save(duplicatedNameModalityTeam));
 		assertThat(savedTeam).isNotNull();
 		assertThat(savedTeam.getId()).isGreaterThan(0);
 	}

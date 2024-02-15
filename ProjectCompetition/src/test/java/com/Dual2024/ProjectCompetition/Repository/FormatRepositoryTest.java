@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -46,12 +47,7 @@ public class FormatRepositoryTest {
 
 		Format savedFormat = formatRepository.save(format);
 
-		try {
-			formatRepository.save(duplicatedNameFormat);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> formatRepository.save(duplicatedNameFormat));
 		assertThat(savedFormat).isNotNull();
 		assertThat(savedFormat.getId()).isGreaterThan(0);
 	}

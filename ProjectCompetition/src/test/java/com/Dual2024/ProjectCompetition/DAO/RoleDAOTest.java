@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class RoleDAOTest {
 
 		Role foundRole = null;
 		try {
-			foundRole = roleDAO.findById(role.getId()).get();
+			foundRole = roleDAO.findById(role.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -63,13 +64,7 @@ public class RoleDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			roleDAO.save(duplicatedNameRole);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> roleDAO.save(duplicatedNameRole));
 		assertThat(savedRole).isNotNull();
 		assertThat(savedRole).isEqualTo(role);
 	}
@@ -166,14 +161,6 @@ public class RoleDAOTest {
 			e.printStackTrace();
 		}
 
-		Role deletedRole = null;
-
-		try {
-			deletedRole = roleDAO.findByName("test");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedRole).isNull();
+		assertThrows(DataException.class, () -> roleDAO.findByName("test"));
 	}
 }

@@ -78,7 +78,6 @@ public class ModelToBOConverterTest {
 	public void givenUser_whenUserModelToBO_thenReturnUserBO() {
 
 		UserBO userTest = modelToBOConverter.userModelToBO(user);
-
 		assertThat(userTest.getId()).isEqualTo(user.getId());
 		assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userTest.getNick()).isEqualTo(user.getNick());

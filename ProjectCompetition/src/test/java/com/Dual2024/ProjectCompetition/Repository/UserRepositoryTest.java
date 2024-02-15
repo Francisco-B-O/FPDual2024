@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -56,25 +57,9 @@ public class UserRepositoryTest {
 
 		User savedUser = userRepository.save(user);
 
-		try {
-
-			userRepository.save(duplicatedEmailUser);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-		try {
-
-			userRepository.save(duplicatedNickUser);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-		try {
-
-			userRepository.save(invalidPasswordUser);
-		} catch (ConstraintViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(duplicatedEmailUser));
+		assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(duplicatedNickUser));
+		assertThrows(ConstraintViolationException.class, () -> userRepository.save(invalidPasswordUser));
 		assertThat(savedUser).isNotNull();
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}

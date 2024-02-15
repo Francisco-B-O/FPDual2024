@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -135,7 +136,7 @@ public class TournamentDAOTest {
 
 		Tournament foundTournament = null;
 		try {
-			foundTournament = tournamentDAO.findById(tournament.getId()).get();
+			foundTournament = tournamentDAO.findById(tournament.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -157,13 +158,7 @@ public class TournamentDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			tournamentDAO.save(duplicatedNameModalityTournament);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> tournamentDAO.save(duplicatedNameModalityTournament));
 		assertThat(savedTournament).isNotNull();
 		assertThat(savedTournament.getId()).isGreaterThan(0);
 	}
@@ -187,7 +182,6 @@ public class TournamentDAOTest {
 		try {
 			tournaments = tournamentDAO.findAll();
 		} catch (DataException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -382,15 +376,7 @@ public class TournamentDAOTest {
 			e.printStackTrace();
 		}
 
-		Tournament deletedTournament = null;
-		try {
-			deletedTournament = tournamentDAO.findByName("Torneo de futbol");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
-		assertThat(deletedTournament).isNull();
+		assertThrows(DataException.class, () -> tournamentDAO.findByName("Torneo de futbol"));
 
 	}
 }

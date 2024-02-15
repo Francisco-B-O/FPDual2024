@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class FormatDAOTest {
 
 		Format foundFormat = null;
 		try {
-			foundFormat = formatDAO.findById(format.getId()).get();
+			foundFormat = formatDAO.findById(format.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -63,13 +64,7 @@ public class FormatDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			formatDAO.save(duplicatedNameFormat);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> formatDAO.save(duplicatedNameFormat));
 		assertThat(savedFormat).isNotNull();
 		assertThat(savedFormat.getId()).isGreaterThan(0);
 	}
@@ -161,14 +156,7 @@ public class FormatDAOTest {
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
-		Format deletedFormat = null;
-		try {
-			deletedFormat = formatDAO.findByName("torneo");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
 
-		assertThat(deletedFormat).isNull();
+		assertThrows(DataException.class, () -> formatDAO.findByName("torneo"));
 	}
 }

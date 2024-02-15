@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -46,12 +47,7 @@ public class ModalityRepositoryTest {
 
 		Modality savedModality = modalityRepository.save(modality);
 
-		try {
-			modalityRepository.save(duplicatedNameModality);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> modalityRepository.save(duplicatedNameModality));
 		assertThat(savedModality).isNotNull();
 		assertThat(savedModality.getId()).isGreaterThan(0);
 	}

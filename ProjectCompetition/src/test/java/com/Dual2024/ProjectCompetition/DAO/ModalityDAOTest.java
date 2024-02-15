@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class ModalityDAOTest {
 
 		Modality foundModality = null;
 		try {
-			foundModality = modalityDAO.findById(modality.getId()).get();
+			foundModality = modalityDAO.findById(modality.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -63,13 +64,7 @@ public class ModalityDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			modalityDAO.save(duplicatedNameModality);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> modalityDAO.save(duplicatedNameModality));
 		assertThat(savedModality).isNotNull();
 		assertThat(savedModality.getId()).isGreaterThan(0);
 	}
@@ -189,13 +184,6 @@ public class ModalityDAOTest {
 			e.printStackTrace();
 		}
 
-		Modality deletedModality = null;
-		try {
-			deletedModality = modalityDAO.findByName("modality1");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedModality).isNull();
+		assertThrows(DataException.class, () -> modalityDAO.findByName("modality1"));
 	}
 }

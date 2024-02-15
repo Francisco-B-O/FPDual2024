@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,7 @@ public class TeamDAOTest {
 
 		Team foundTeam = null;
 		try {
-			foundTeam = teamDAO.findById(team.getId()).get();
+			foundTeam = teamDAO.findById(team.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -113,13 +114,7 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			teamDAO.save(duplicatedNameModalityTeam);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> teamDAO.save(duplicatedNameModalityTeam));
 		assertThat(savedTeam).isNotNull();
 		assertThat(savedTeam.getId()).isGreaterThan(0);
 	}
@@ -238,14 +233,7 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		Team deletedTeam = null;
-		try {
-			deletedTeam = teamDAO.findByName("TestTeam");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedTeam).isNull();
+		assertThrows(DataException.class, () -> teamDAO.findByName("TestTeam"));
 
 	}
 
