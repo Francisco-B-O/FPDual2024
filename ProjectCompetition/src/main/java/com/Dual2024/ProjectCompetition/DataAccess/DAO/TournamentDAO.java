@@ -2,7 +2,6 @@ package com.Dual2024.ProjectCompetition.DataAccess.DAO;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
@@ -13,7 +12,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 public interface TournamentDAO {
 	Tournament save(Tournament tournament) throws DataException;
 
-	Optional<Tournament> findById(Long id) throws DataException;
+	Tournament findById(Long id) throws DataException;
 
 	List<Tournament> findAll() throws DataException;
 

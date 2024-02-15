@@ -34,9 +34,14 @@ public class RoleDAOImpl implements RoleDAO {
 	}
 
 	@Override
-	public Optional<Role> findById(Long id) throws DataException {
+	public Role findById(Long id) throws DataException {
 		try {
-			return roleRepository.findById(id);
+			Optional<Role> role = roleRepository.findById(id);
+			if (role.isPresent()) {
+				return role.get();
+			} else {
+				throw new DataException("Role not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Role not found", nre);
 		}
@@ -56,7 +61,11 @@ public class RoleDAOImpl implements RoleDAO {
 	@Override
 	public void delete(Role role) throws DataException {
 		try {
-			roleRepository.delete(role);
+			if (role.equals(null)) {
+				throw new DataException("Role not deleted");
+			} else {
+				roleRepository.delete(role);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Role not deleted", nre);
 		}

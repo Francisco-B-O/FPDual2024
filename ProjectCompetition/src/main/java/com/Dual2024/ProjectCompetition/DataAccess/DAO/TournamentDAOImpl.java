@@ -38,9 +38,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	}
 
 	@Override
-	public Optional<Tournament> findById(Long id) throws DataException {
+	public Tournament findById(Long id) throws DataException {
 		try {
-			return tournamentRepository.findById(id);
+			Optional<Tournament> tournament = tournamentRepository.findById(id);
+			if (tournament.isPresent()) {
+				return tournament.get();
+			} else {
+				throw new DataException("Tournament not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Tournament not found", nre);
 		}
@@ -60,7 +65,11 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public void delete(Tournament tournament) throws DataException {
 		try {
-			tournamentRepository.delete(tournament);
+			if (tournament.equals(null)) {
+				throw new DataException("Tournament not deleted");
+			} else {
+				tournamentRepository.delete(tournament);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Tournament not deleted", nre);
 		}

@@ -14,6 +14,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 
 import jakarta.validation.ConstraintViolationException;
+
 @Component
 public class TeamDAOImpl implements TeamDAO {
 	@Autowired
@@ -34,9 +35,14 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public Optional<Team> findById(Long id) throws DataException {
+	public Team findById(Long id) throws DataException {
 		try {
-			return teamRepository.findById(id);
+			Optional<Team> team = teamRepository.findById(id);
+			if (team.isPresent()) {
+				return team.get();
+			} else {
+				throw new DataException("Team not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Team not found", nre);
 		}
@@ -56,7 +62,11 @@ public class TeamDAOImpl implements TeamDAO {
 	@Override
 	public void delete(Team team) throws DataException {
 		try {
-			teamRepository.delete(team);
+			if (team.equals(null)) {
+				throw new DataException("Team not deleted");
+			} else {
+				teamRepository.delete(team);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Team not deleted", nre);
 		}

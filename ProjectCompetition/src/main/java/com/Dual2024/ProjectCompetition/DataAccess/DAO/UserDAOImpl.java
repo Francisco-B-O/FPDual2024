@@ -35,9 +35,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public Optional<User> findById(Long id) throws DataException {
+	public User findById(Long id) throws DataException {
 		try {
-			return userRepository.findById(id);
+			Optional<User> user = userRepository.findById(id);
+			if (user.isPresent()) {
+				return user.get();
+			} else {
+				throw new DataException("User not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not found", nre);
 		}
@@ -57,6 +62,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void delete(User user) throws DataException {
 		try {
+			if (user.equals(null)) {
+				throw new DataException("User not deleted");
+			} else {
+				userRepository.delete(user);
+			}
 			userRepository.delete(user);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not deleted", nre);
