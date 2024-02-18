@@ -3,7 +3,6 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +27,7 @@ public class TournamentBO {
 
 	private LocalDateTime endDate;
 
-	private TournamentState state;
+	private TournamentStateBO state;
 
 	private String logo;
 

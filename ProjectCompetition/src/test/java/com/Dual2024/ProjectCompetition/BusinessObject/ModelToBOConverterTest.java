@@ -21,8 +21,10 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentStateBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserStateBO;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
@@ -82,7 +84,7 @@ public class ModelToBOConverterTest {
 		assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userTest.getNick()).isEqualTo(user.getNick());
 		assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-		assertThat(userTest.getState()).isEqualTo(user.getState());
+		assertThat(userTest.getState()).isEqualTo(UserStateBO.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
 		assertThat(userTest.getTeams().getFirst().getId()).isEqualTo(user.getTeams().getFirst().getId());
 	}
@@ -129,7 +131,7 @@ public class ModelToBOConverterTest {
 		assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
 		assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
 		assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-		assertThat(tournamentTest.getState()).isEqualTo(tournament.getState());
+		assertThat(tournamentTest.getState()).isEqualTo(TournamentStateBO.EN_JUEGO);
 		assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
 		assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
 		assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());
@@ -159,7 +161,7 @@ public class ModelToBOConverterTest {
 		assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userTest.getNick()).isEqualTo(user.getNick());
 		assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-		assertThat(userTest.getState()).isEqualTo(user.getState());
+		assertThat(userTest.getState()).isEqualTo(UserStateBO.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
 	}
 
@@ -185,7 +187,7 @@ public class ModelToBOConverterTest {
 		assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
 		assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
 		assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-		assertThat(tournamentTest.getState()).isEqualTo(tournament.getState());
+		assertThat(tournamentTest.getState()).isEqualTo(TournamentStateBO.EN_JUEGO);
 		assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
 		assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
 		assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());

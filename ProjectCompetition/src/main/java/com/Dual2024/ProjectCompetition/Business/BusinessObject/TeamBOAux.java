@@ -1,5 +1,7 @@
 package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,5 @@ public class TeamBOAux {
 
 	private String logo;
 
+	private List<TournamentBOAux> tournaments;
 }

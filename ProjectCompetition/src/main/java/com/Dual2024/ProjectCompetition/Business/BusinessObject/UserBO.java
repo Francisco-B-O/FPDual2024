@@ -2,8 +2,6 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import java.util.List;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +23,7 @@ public class UserBO {
 
 	private String avatar;
 
-	private UserState state;
+	private UserStateBO state;
 
 	private List<RoleBO> roles;
 
