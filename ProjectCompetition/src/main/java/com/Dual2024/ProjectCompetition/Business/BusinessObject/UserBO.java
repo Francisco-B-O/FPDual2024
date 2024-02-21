@@ -29,4 +29,15 @@ public class UserBO {
 
 	private List<TeamBOAux> teams;
 
+	public boolean isInActiveTournament() {
+		boolean isInActiveTournament = false;
+		for (TeamBOAux team : this.teams) {
+			for (TournamentBOAux tournament : team.getTournaments()) {
+				if (tournament.getState().equals(TournamentStateBO.EN_JUEGO)) {
+					isInActiveTournament = true;
+				}
+			}
+		}
+		return isInActiveTournament;
+	}
 }
