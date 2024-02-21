@@ -2,6 +2,8 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import java.util.List;
 
+import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +30,7 @@ public class TeamBO {
 	public boolean isInActiveTournament() {
 		boolean isInActiveTournament = false;
 		for (TournamentBOAux tournament : this.tournaments) {
-			if (tournament.getState().equals(TournamentStateBO.EN_JUEGO)) {
+			if (tournament.getState().equals(TournamentState.EN_JUEGO)) {
 				isInActiveTournament = true;
 			}
 		}
