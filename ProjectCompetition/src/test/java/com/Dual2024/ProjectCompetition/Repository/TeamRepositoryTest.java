@@ -99,12 +99,14 @@ public class TeamRepositoryTest {
 	@DisplayName("JUnit test for findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
-		Team savedTeam = teamRepository.save(team);
+		teamRepository.save(team);
+		teamRepository.save(team2);
 
-		Team foundTeam = teamRepository.findByName("TestTeam");
+		List<Team> teams = teamRepository.findByName("TestTeam");
 
-		assertThat(foundTeam).isNotNull();
-		assertThat(foundTeam).isEqualTo(savedTeam);
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
+
 	}
 
 	@Test
@@ -139,12 +141,11 @@ public class TeamRepositoryTest {
 	@Test
 	@DisplayName("JUnit test for delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
+		
 		teamRepository.save(team);
-
 		teamRepository.delete(team);
 
-		Team deletedTeam = teamRepository.findByName("TestTeam");
-		assertThat(deletedTeam).isNull();
+		assertThat(teamRepository.findById(team.getId())).isNotPresent();
 
 	}
 

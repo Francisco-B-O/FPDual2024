@@ -131,12 +131,13 @@ public class TournamentRepositoryTest {
 	@DisplayName("JUnit test for findByName operation")
 	public void givenTournamentName_whenFindByName_thenReturnTournament() {
 
-		Tournament savedTournament = tournamentRepository.save(tournament);
+		tournamentRepository.save(tournament);
+		tournamentRepository.save(tournament2);
 
-		Tournament foundTournament = tournamentRepository.findByName("Torneo de futbol");
+		List<Tournament> tournaments = tournamentRepository.findByName("Torneo de futbol");
 
-		assertThat(tournament).isNotNull();
-		assertThat(savedTournament).isEqualTo(foundTournament);
+		assertThat(tournaments).isNotNull();
+		assertThat(tournaments.size()).isEqualTo(1);
 	}
 
 	@Test
@@ -233,9 +234,7 @@ public class TournamentRepositoryTest {
 		tournamentRepository.save(tournament);
 		tournamentRepository.delete(tournament);
 
-		Tournament deletedTournament = tournamentRepository.findByName("Torneo de futbol");
-
-		assertThat(deletedTournament).isNull();
+		assertThat(tournamentRepository.findById(tournament.getId())).isNotPresent();
 
 	}
 

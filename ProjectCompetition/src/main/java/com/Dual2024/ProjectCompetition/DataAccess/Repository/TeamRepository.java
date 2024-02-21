@@ -9,7 +9,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 
 @Repository
 public interface TeamRepository extends JpaRepository<Team, Long> {
-	Team findByName(String name);
+	List<Team> findByName(String name);
 
 	List<Team> findByModality(Modality modality);
 
