@@ -15,7 +15,7 @@ public interface TeamDAO {
 
 	void delete(Team team) throws DataException;
 
-	Team findByName(String name) throws DataException;
+	List<Team> findByName(String name) throws DataException;
 
 	List<Team> findByModality(Modality modality) throws DataException;
 }

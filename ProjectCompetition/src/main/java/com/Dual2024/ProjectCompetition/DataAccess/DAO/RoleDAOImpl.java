@@ -51,7 +51,12 @@ public class RoleDAOImpl implements RoleDAO {
 	@Override
 	public List<Role> findAll() throws DataException {
 		try {
-			return roleRepository.findAll();
+			List<Role> roles = roleRepository.findAll();
+			if (roles.isEmpty()) {
+				throw new DataException("Roles not found");
+			} else {
+				return roles;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Roles not found", nre);
 		}

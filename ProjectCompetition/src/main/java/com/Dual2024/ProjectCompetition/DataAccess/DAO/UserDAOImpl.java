@@ -52,7 +52,13 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> findAll() throws DataException {
 		try {
-			return userRepository.findAll();
+
+			List<User> users = userRepository.findAll();
+			if (users.isEmpty()) {
+				throw new DataException("Users not found");
+			} else {
+				return users;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Users not found", nre);
 		}
@@ -105,8 +111,14 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> findByState(UserState state) throws DataException {
+
 		try {
-			return userRepository.findByState(state);
+			List<User> users = userRepository.findByState(state);
+			if (users.isEmpty()) {
+				throw new DataException("Users not found");
+			} else {
+				return users;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Users not found", nre);
 		}

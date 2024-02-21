@@ -193,22 +193,27 @@ public class TournamentDAOTest {
 	@DisplayName("JUnit test for findByName operation")
 	public void givenTournamentName_whenFindByName_thenReturnTournament() {
 
-		Tournament savedTournament = null;
 		try {
-			savedTournament = tournamentDAO.save(tournament);
+			tournamentDAO.save(tournament);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			tournamentDAO.save(tournament2);
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		Tournament foundTournament = null;
+		List<Tournament> tournaments = null;
 		try {
-			foundTournament = tournamentDAO.findByName("Torneo de futbol");
+			tournaments = tournamentDAO.findByName("Torneo de futbol");
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		assertThat(foundTournament).isNotNull();
-		assertThat(savedTournament).isEqualTo(foundTournament);
+		assertThat(tournaments).isNotNull();
+		assertThat(tournaments.size()).isEqualTo(1);
+
 	}
 
 	@Test

@@ -149,22 +149,27 @@ public class TeamDAOTest {
 	@DisplayName("JUnit test for findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
-		Team savedTeam = null;
 		try {
-			savedTeam = teamDAO.save(team);
+			teamDAO.save(team);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			teamDAO.save(team2);
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		Team foundTeam = null;
+		List<Team> teams = null;
 		try {
-			foundTeam = teamDAO.findByName("TestTeam");
+			teams = teamDAO.findByName("TestTeam");
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		assertThat(foundTeam).isNotNull();
-		assertThat(foundTeam).isEqualTo(savedTeam);
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
+
 	}
 
 	@Test

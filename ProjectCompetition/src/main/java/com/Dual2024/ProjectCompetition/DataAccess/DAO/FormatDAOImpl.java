@@ -52,7 +52,12 @@ public class FormatDAOImpl implements FormatDAO {
 	@Override
 	public List<Format> findAll() throws DataException {
 		try {
-			return formatRepository.findAll();
+			List<Format> formats = formatRepository.findAll();
+			if (formats.isEmpty()) {
+				throw new DataException("Formats not found");
+			} else {
+				return formats;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Formats not found", nre);
 		}

@@ -52,7 +52,12 @@ public class TeamDAOImpl implements TeamDAO {
 	@Override
 	public List<Team> findAll() throws DataException {
 		try {
-			return teamRepository.findAll();
+			List<Team> teams = teamRepository.findAll();
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Teams not found", nre);
 		}
@@ -74,23 +79,28 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public Team findByName(String name) throws DataException {
+	public List<Team> findByName(String name) throws DataException {
 		try {
-			Team team = teamRepository.findByName(name);
-			if (team == null) {
-				throw new DataException("Team not found");
+			List<Team> teams = teamRepository.findByName(name);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
 			} else {
-				return team;
+				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Team not found", nre);
+			throw new DataException("Teams not found", nre);
 		}
 	}
 
 	@Override
 	public List<Team> findByModality(Modality modality) throws DataException {
 		try {
-			return teamRepository.findByModality(modality);
+			List<Team> teams = teamRepository.findByModality(modality);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Teams not found", nre);
 		}

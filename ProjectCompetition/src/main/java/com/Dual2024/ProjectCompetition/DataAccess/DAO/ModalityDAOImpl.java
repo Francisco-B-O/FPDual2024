@@ -52,7 +52,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 	@Override
 	public List<Modality> findAll() throws DataException {
 		try {
-			return modalityRepository.findAll();
+			List<Modality> modalities = modalityRepository.findAll();
+			if (modalities.isEmpty()) {
+				throw new DataException("Modalities not found");
+			} else {
+				return modalities;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modalities not found", nre);
 		}
@@ -90,7 +95,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 	@Override
 	public List<Modality> findByNumberPlayers(int numberPlayers) throws DataException {
 		try {
-			return modalityRepository.findByNumberPlayers(numberPlayers);
+			List<Modality> modalities = modalityRepository.findByNumberPlayers(numberPlayers);
+			if (modalities.isEmpty()) {
+				throw new DataException("Modalities not found");
+			} else {
+				return modalities;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modalities not found", nre);
 		}
