@@ -65,8 +65,8 @@ public class TournamentRepositoryTest {
 		modality = Modality.builder().name("modality1").numberPlayers(2).build();
 		savedModality = modalityRepository.save(modality);
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
+		team = Team.builder().captain(user).name("TestTeam").users(users1).modality(modality).build();
+		team2 = Team.builder().captain(user2).name("TestTeam2").users(users2).modality(modality).build();
 		List<Team> teams = new ArrayList<Team>();
 
 		teams.add(teamRepository.save(team));
@@ -90,7 +90,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTournament() {
 
 		Tournament savedTournament = tournamentRepository.save(tournament);
@@ -103,7 +103,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTournament_whenSave_thenReturnSavedTournament() {
 
 		Tournament savedTournament = tournamentRepository.save(tournament);
@@ -115,7 +115,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTournaments_whenFindAll_thenReturnAllTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -128,7 +128,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTournamentName_whenFindByName_thenReturnTournament() {
 
 		tournamentRepository.save(tournament);
@@ -141,7 +141,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByFormat operation")
+	@DisplayName("findByFormat operation")
 	public void givenFormat_whenFindByFormat_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -153,7 +153,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findBySize operation")
+	@DisplayName("findBySize operation")
 	public void givenSize_whenFindBySize_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -165,7 +165,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByStartDate operation")
+	@DisplayName("findByStartDate operation")
 	public void givenStartDate_whenFindByStartDate_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -177,7 +177,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByEndDate operation")
+	@DisplayName("findByEndDate operation")
 	public void givenEndDate_whenFindByEndDate_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -189,7 +189,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByState operation")
+	@DisplayName("findByState operation")
 	public void givenState_whenFindByState_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -201,7 +201,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTournaments() {
 
 		tournamentRepository.save(tournament);
@@ -213,7 +213,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenTournament_whenUpdate_thenReturnUpdatedTournament() {
 
 		tournamentRepository.save(tournament);
@@ -228,7 +228,7 @@ public class TournamentRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 
 		tournamentRepository.save(tournament);

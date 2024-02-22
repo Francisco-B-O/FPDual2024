@@ -32,7 +32,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnFormat() {
 
 		Format savedFormat = null;
@@ -54,7 +54,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenFormatObject_whenSave_theReturnSavedFormat() {
 
 		Format savedFormat = null;
@@ -70,7 +70,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenFormatList_whenSave_theReturnFormatList() {
 
 		try {
@@ -96,7 +96,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenFormat_whenFindByName_theReturnFormat() {
 
 		Format savedFormat = null;
@@ -118,7 +118,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenFormat_whenUpdate_theReturnUpdatedFormat() {
 
 		try {
@@ -142,7 +142,7 @@ public class FormatDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenFormat_whenDelete_thenDeletedFormat() {
 
 		try {

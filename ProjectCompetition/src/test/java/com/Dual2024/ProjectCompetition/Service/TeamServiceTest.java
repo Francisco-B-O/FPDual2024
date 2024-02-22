@@ -81,8 +81,9 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for teamRegister operation : correct case")
+	@DisplayName("teamRegister operation : correct case")
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenReturnTeamBO() {
+
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
 		BDDMockito.given(boToModelConverter.teamBOToModel(teamBO)).willReturn(team);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
@@ -90,24 +91,20 @@ public class TeamServiceTest {
 		try {
 			BDDMockito.given(teamDAO.save(team)).willReturn(team);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		try {
 			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		try {
 			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		TeamBO savedTeam = null;
 		try {
 			savedTeam = teamService.registerTeam(userBOAux, teamBO);
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(savedTeam).isNotNull();
@@ -116,55 +113,51 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for teamRegister operation : incorrect case -> Duplicated name and modality")
+	@DisplayName("teamRegister operation : incorrect case -> Duplicated name and modality")
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenThrowDuplicatedNameAndModalityException() {
+
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
 		try {
 			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		try {
 			BDDMockito.given(teamDAO.findByModality(team.getModality())).willReturn(teams);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(DuplicatedNameAndModalityException.class, () -> teamService.registerTeam(userBOAux, teamBO));
 	}
 
 	@Test
-	@DisplayName("JUnit test for teamRegister operation : incorrect case -> Duplicated captain")
+	@DisplayName("teamRegister operation : incorrect case -> Duplicated captain")
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenThrowDuplicatedCaptainException() {
+
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
 		try {
 			BDDMockito.given(teamDAO.findByCaptain(user)).willReturn(teams);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(DuplicatedCaptainException.class, () -> teamService.registerTeam(userBOAux, teamBO));
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamById operation : correct case")
+	@DisplayName("getTeamById operation : correct case")
 	public void givenId_whenGetTeamById_thenReturnTeamBO() {
 
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		TeamBO foundTeam = null;
 		try {
 			foundTeam = teamService.getTeamById(1L);
 		} catch (BusinessException e) {
-			e.printStackTrace();
-
 		}
 
 		assertThat(foundTeam).isNotNull();
@@ -172,33 +165,30 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamById operation : incorrect case -> Not found")
+	@DisplayName("getTeamById operation : incorrect case -> Not found")
 	public void givenId_whenGetTeamById_thenThrowsBusinessException() {
 
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		assertThrows(BusinessException.class, () -> teamService.getTeamById(1L));
 	}
 
 	@Test
-	@DisplayName("JUnit test for getAllTeams operation : correct case")
+	@DisplayName("getAllTeams operation : correct case")
 	public void givenNothing_whenGetAllTeams_thenReturnAllTeams() {
 
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		try {
 			BDDMockito.given(teamDAO.findAll()).willReturn(teams);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		List<TeamBO> foundTeams = null;
 		try {
 			foundTeams = teamService.getAllteams();
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(foundTeams).isNotNull();
@@ -207,13 +197,12 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getAllTeams operation : incorrect case -> Exception")
+	@DisplayName("getAllTeams operation : incorrect case -> Exception")
 	public void givenNothing_whenGetAllTeams_thenThrowsBusinessException() {
 
 		try {
 			BDDMockito.given(teamDAO.findAll()).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> teamService.getAllteams());
@@ -221,7 +210,7 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamsByModality operation : correct case")
+	@DisplayName("getTeamsByModality operation : correct case")
 	public void givenModality_whenGetTeamsByModality_thenReturnThisTeams() {
 
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
@@ -229,14 +218,12 @@ public class TeamServiceTest {
 		try {
 			BDDMockito.given(teamDAO.findByModality(team.getModality())).willReturn(teams);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		List<TeamBO> foundTeams = null;
 		try {
 			foundTeams = teamService.getTeamsByModality(teamBO.getModality());
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(foundTeams).isNotNull();
@@ -245,14 +232,13 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamsByModality operation : incorrect case -> Not found")
+	@DisplayName("getTeamsByModality operation : incorrect case -> Not found")
 	public void givenModality_whenGetTeamsByModality_thenThrowsBusinessException() {
 
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
 		try {
 			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> teamService.getTeamsByModality(teamBO.getModality()));
@@ -260,21 +246,19 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamsByName operation : correct case")
+	@DisplayName("getTeamsByName operation : correct case")
 	public void givenModality_whenGetTeamsByName_thenReturnThisTeams() {
 
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		try {
 			BDDMockito.given(teamDAO.findByName(team.getName())).willReturn(teams);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		List<TeamBO> foundTeams = null;
 		try {
 			foundTeams = teamService.getTeamsByName(teamBO.getName());
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(foundTeams).isNotNull();
@@ -283,13 +267,12 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getTeamsByName operation : incorrect case -> Not found")
+	@DisplayName("getTeamsByName operation : incorrect case -> Not found")
 	public void givenModality_whenGetTeamsByName_thenThrowsBusinessException() {
 
 		try {
 			BDDMockito.given(teamDAO.findByName(team.getName())).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> teamService.getTeamsByName(teamBO.getName()));
@@ -297,56 +280,51 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for deleteTeam operation : correct case")
-	public void givenTeamBO_whenDeleteTeam_thenDeleteTeam() {
+	@DisplayName("deleteTeam operation : correct case")
+	public void givenId_whenDeleteTeam_thenDeleteTeam() {
 
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		BDDMockito.given(boToModelConverter.teamBOToModel(teamBO)).willReturn(team);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		try {
 			BDDMockito.willDoNothing().given(teamDAO).delete(team);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		try {
 			teamService.deleteTeam(1L);
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		try {
 			verify(teamDAO, times(1)).delete(team);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Test
-	@DisplayName("JUnit test for deleteTeam operation : incorrect case -> Not found")
-	public void givenTeamBO_whenDeleteTeam_thenThrowsBusinessException() {
+	@DisplayName("deleteTeam operation : incorrect case -> Not found")
+	public void givenId_whenDeleteTeam_thenThrowsBusinessException() {
 
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> teamService.deleteTeam(1L));
 	}
 
 	@Test
-	@DisplayName("JUnit test for deleteTeam operation : incorrect case -> Team in active tournament")
-	public void givenTeamBOThatIsInActiveTournament_whenDeleteTeam_thenThrowsBusinessException() {
+	@DisplayName("deleteTeam operation : incorrect case -> Team in active tournament")
+	public void givenIdTeamBOThatIsInActiveTournament_whenDeleteTeam_thenThrowsBusinessException() {
 		teamBO.getTournaments().getFirst().setState(TournamentState.EN_JUEGO);
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 		} catch (DataException e) {
-			e.printStackTrace();
+
 		}
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 
@@ -354,7 +332,7 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for addPlayer operation : correct case")
+	@DisplayName("addPlayer operation : correct case")
 	public void givenIdAndTeamBO_whenAddPlayer_thenReturnTeamWithPlayerAdded() {
 		BDDMockito.given(boToModelConverter.teamBOToModel(teamBO)).willReturn(team);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
@@ -366,7 +344,7 @@ public class TeamServiceTest {
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 		} catch (DataException e) {
-			e.printStackTrace();
+
 		}
 		try {
 			teamService.addPlayer(1L, teamBO);
@@ -376,7 +354,7 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for addPlayer operation : incorrect case -> Player not exists")
+	@DisplayName("addPlayer operation : incorrect case -> Player not exists")
 	public void givenIdThatNotExistsAndTeamBO_whenAddPlayer_thenThrowBusinessException() {
 		try {
 			BDDMockito.given(userDAO.findById(1L)).willThrow(DataException.class);
@@ -387,7 +365,7 @@ public class TeamServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for addPlayer operation : incorrect case -> Player not exists")
+	@DisplayName("addPlayer operation : incorrect case -> Player not exists")
 	public void givenIdAndTeamBOThatNotExists_whenAddPlayer_thenThrowBusinessException() {
 		BDDMockito.given(modelToBOConverter.userModelToBOAux(user)).willReturn(userBOAux);
 		try {
@@ -397,7 +375,6 @@ public class TeamServiceTest {
 		try {
 			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> teamService.addPlayer(1L, teamBO));

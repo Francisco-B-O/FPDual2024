@@ -21,10 +21,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentStateBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserStateBO;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
@@ -76,7 +74,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for User -> UserBO")
+	@DisplayName("User -> UserBO")
 	public void givenUser_whenUserModelToBO_thenReturnUserBO() {
 
 		UserBO userTest = modelToBOConverter.userModelToBO(user);
@@ -84,13 +82,13 @@ public class ModelToBOConverterTest {
 		assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userTest.getNick()).isEqualTo(user.getNick());
 		assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-		assertThat(userTest.getState()).isEqualTo(UserStateBO.CONECTADO);
+		assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
 		assertThat(userTest.getTeams().getFirst().getId()).isEqualTo(user.getTeams().getFirst().getId());
 	}
 
 	@Test
-	@DisplayName("JUnit test for Role -> RoleBO")
+	@DisplayName("Role -> RoleBO")
 	public void givenRole_whenRoleModelToBO_thenReturnRoleBO() {
 
 		RoleBO roleTest = modelToBOConverter.roleModelToBO(role);
@@ -100,7 +98,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for Modality -> ModalityBO")
+	@DisplayName("Modality -> ModalityBO")
 	public void givenModality_whenModalityModelToBO_thenReturnModalityBO() {
 
 		ModalityBO modalityTest = modelToBOConverter.modalityModelToBO(modality);
@@ -111,7 +109,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for Format -> FormatBO")
+	@DisplayName("Format -> FormatBO")
 	public void givenFormat_whenFormatToBO_thenReturnFormatBO() {
 
 		FormatBO formatTest = modelToBOConverter.formatModelToBO(format);
@@ -121,7 +119,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for Tournametn -> TournamentBO")
+	@DisplayName("Tournametn -> TournamentBO")
 	public void givenTournament_whenTournamentModelToBO_thenReturnTournamentBO() {
 
 		TournamentBO tournamentTest = modelToBOConverter.tournamentModelToBO(tournament);
@@ -131,7 +129,7 @@ public class ModelToBOConverterTest {
 		assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
 		assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
 		assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-		assertThat(tournamentTest.getState()).isEqualTo(TournamentStateBO.EN_JUEGO);
+		assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
 		assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
 		assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
 		assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());
@@ -140,7 +138,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for Team -> TeamBO")
+	@DisplayName("Team -> TeamBO")
 	public void givenTeam_whenTeamModelToBO_thenReturnTeamBO() {
 
 		TeamBO teamTest = modelToBOConverter.teamModelToBO(team);
@@ -152,7 +150,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for User -> UserBOAux")
+	@DisplayName("User -> UserBOAux")
 	public void givenUser_whenUserModelToBOAux_thenReturnUserBOAux() {
 
 		UserBOAux userTest = modelToBOConverter.userModelToBOAux(user);
@@ -161,12 +159,12 @@ public class ModelToBOConverterTest {
 		assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
 		assertThat(userTest.getNick()).isEqualTo(user.getNick());
 		assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-		assertThat(userTest.getState()).isEqualTo(UserStateBO.CONECTADO);
+		assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
 	}
 
 	@Test
-	@DisplayName("JUnit test for Team -> TeamBOAux")
+	@DisplayName("Team -> TeamBOAux")
 	public void givenTeam_whenTeamModelToBOAux_thenReturnTeamBOAux() {
 
 		TeamBOAux teamTest = modelToBOConverter.teamModelToBOAux(team);
@@ -177,7 +175,7 @@ public class ModelToBOConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for Tournament -> TournamentBOAux")
+	@DisplayName("Tournament -> TournamentBOAux")
 	public void givenTournament_whenTournamentModelToBOAux_thenReturnTournamentBOAux() {
 
 		TournamentBOAux tournamentTest = modelToBOConverter.tournamentModelToBOAux(tournament);
@@ -187,7 +185,7 @@ public class ModelToBOConverterTest {
 		assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
 		assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
 		assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-		assertThat(tournamentTest.getState()).isEqualTo(TournamentStateBO.EN_JUEGO);
+		assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
 		assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
 		assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
 		assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());

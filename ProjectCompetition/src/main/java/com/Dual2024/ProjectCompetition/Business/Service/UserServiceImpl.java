@@ -10,15 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedEmailException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNickException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.InvalidSizePasswordException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.UserInActiveTournamentException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentStateBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
@@ -29,7 +26,8 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDAO userDAO;
-
+	@Autowired
+	RoleDAO roleDAO;
 	@Autowired
 	BOToModelConverter boToModelConverter;
 
@@ -60,15 +58,13 @@ public class UserServiceImpl implements UserService {
 		} catch (DataException e) {
 		}
 		try {
-
+			List<RoleBO> defaultRole = new ArrayList<RoleBO>();
+			defaultRole.add(modelToBOConverter.roleModelToBO(roleDAO.findByName("JUGADOR")));
+			userBO.setRoles(defaultRole);
 			return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(userBO)));
 
 		} catch (DataException e) {
-			if (userBO.getPassword().length() < 6) {
-				throw new InvalidSizePasswordException("The password must be at least 6 characters", e);
-			} else {
-				throw new BusinessException("Error registering user", e);
-			}
+			throw new BusinessException("Error registering user", e);
 		}
 	}
 
@@ -82,20 +78,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUser(UserBO userBO) throws BusinessException {
-		boolean isInActiveTournament = false;
-		for (TeamBOAux team : userBO.getTeams()) {
-			for (TournamentBOAux tournament : team.getTournaments()) {
-				if (tournament.getState().equals(TournamentStateBO.EN_JUEGO)) {
-					isInActiveTournament = true;
-				}
-			}
+	public void deleteUser(Long id) throws BusinessException {
+		UserBO userBO;
+		try {
+			userBO = modelToBOConverter.userModelToBO(userDAO.findById(id));
+		} catch (DataException e) {
+			throw new BusinessException("User not found", e);
 		}
-		if (isInActiveTournament) {
+		if (userBO.isInActiveTournament()) {
 			throw new UserInActiveTournamentException("This user is in an active tournament");
 		} else {
 			try {
-				modelToBOConverter.userModelToBO(userDAO.findById(userBO.getId()));
 				userDAO.delete(boToModelConverter.userBOToModel(userBO));
 			} catch (DataException e) {
 				throw new BusinessException("User not deleted", e);
@@ -137,11 +130,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserBO UpdateUser(Long id, String avatar) throws BusinessException {
+	public UserBO UpdateUser(Long id, String avatar, String password) throws BusinessException {
 		UserBO user = null;
 		try {
 			user = modelToBOConverter.userModelToBO(userDAO.findById(id));
 			user.setAvatar(avatar);
+			user.setPassword(password);
 		} catch (DataException e) {
 			throw new BusinessException("This user not exists", e);
 		}

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -40,7 +39,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -52,7 +51,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenUserObject_whenSave_theReturnSavedUser() {
 
 		User savedUser = userRepository.save(user);
@@ -65,7 +64,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenUsersList_whenFindAll_theReturnUsersList() {
 
 		userRepository.save(user);
@@ -78,7 +77,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByEmail operation")
+	@DisplayName("findByEmail operation")
 	public void givenUser_whenFindByEmail_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -90,7 +89,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByNick operation")
+	@DisplayName("findByNick operation")
 	public void givenUser_whenFindByNick_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -102,7 +101,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenUser_whenUpdate_theReturnUpdatedUser() {
 
 		userRepository.save(user);
@@ -120,7 +119,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenUser_whenDelete_thenDeleteUser() {
 
 		userRepository.save(user);

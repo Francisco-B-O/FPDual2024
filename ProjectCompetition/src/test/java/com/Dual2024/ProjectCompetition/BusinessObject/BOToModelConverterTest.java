@@ -21,10 +21,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentStateBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserStateBO;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
@@ -58,7 +56,7 @@ public class BOToModelConverterTest {
 		roles.add(roleBO);
 
 		userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-				.state(UserStateBO.CONECTADO).roles(roles).build();
+				.state(UserState.CONECTADO).roles(roles).build();
 		List<UserBOAux> usersAux = new ArrayList<UserBOAux>();
 		usersAux.add(userBOAux);
 
@@ -72,26 +70,26 @@ public class BOToModelConverterTest {
 
 		tournamentBOAux = TournamentBOAux.builder().id(1L).name("Torneo de futbol").size(2)
 				.description("El mejor futbol").format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentStateBO.EN_JUEGO).modality(modalityBO)
+				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
 				.build();
 		List<TournamentBOAux> tournamentsAux = new ArrayList<TournamentBOAux>();
 		tournamentsAux.add(tournamentBOAux);
 
 		userBO = UserBO.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-				.state(UserStateBO.CONECTADO).roles(roles).teams(teamsAux).build();
+				.state(UserState.CONECTADO).roles(roles).teams(teamsAux).build();
 
 		teamBO = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO)
 				.tournaments(tournamentsAux).build();
 
 		tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
 				.format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentStateBO.EN_JUEGO).modality(modalityBO)
+				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
 				.teams(teamsAux).build();
 
 	}
 
 	@Test
-	@DisplayName("JUnit test for UserBO -> User")
+	@DisplayName("UserBO -> User")
 	public void givenUserBO_whenUserBOToModel_thenReturnUserModel() {
 
 		User userTest = boToModelConverter.userBOToModel(userBO);
@@ -106,7 +104,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for RoleBO -> Role")
+	@DisplayName("RoleBO -> Role")
 	public void givenRoleBO_whenRoleBOToModel_thenReturnRoleModel() {
 
 		Role roleTest = boToModelConverter.roleBOToModel(roleBO);
@@ -116,7 +114,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for ModalityBO -> Modality")
+	@DisplayName("ModalityBO -> Modality")
 	public void givenModalityBO_whenModalityBOToModel_thenReturnModalityModel() {
 
 		Modality modalityTest = boToModelConverter.modalityBOToModel(modalityBO);
@@ -127,7 +125,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for FormatBO -> Format")
+	@DisplayName("FormatBO -> Format")
 	public void givenFormatBO_whenFormatBOToModel_thenReturnFormatModel() {
 
 		Format formatTest = boToModelConverter.formatBOToModel(formatBO);
@@ -137,7 +135,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for TournamentBO -> Tournament")
+	@DisplayName("TournamentBO -> Tournament")
 	public void givenTournamentBO_whenTournamentBOToModel_thenReturnTournamentModel() {
 
 		Tournament tournamentTest = boToModelConverter.tournamentBOToModel(tournamentBO);
@@ -156,7 +154,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for TeamBO -> Team")
+	@DisplayName("TeamBO -> Team")
 	public void givenTeamBO_whenTeamBOToModel_thenReturnTeamModel() {
 
 		Team teamTest = boToModelConverter.teamBOToModel(teamBO);
@@ -168,7 +166,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for UserBOAux -> User")
+	@DisplayName("UserBOAux -> User")
 	public void givenUserBOAux_whenUserBOAuxToModel_thenReturnUserModel() {
 
 		User userTest = boToModelConverter.userBOAuxToModel(userBOAux);
@@ -182,7 +180,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for TeamBOAux -> Team")
+	@DisplayName("TeamBOAux -> Team")
 	public void givenTeamBOAux_whenTeamBOAuxToModel_thenReturnTeamModel() {
 
 		Team teamTest = boToModelConverter.teamBOAuxToModel(teamBOAux);
@@ -193,7 +191,7 @@ public class BOToModelConverterTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for TournamentBOAux -> Tournament")
+	@DisplayName("TournamentBOAux -> Tournament")
 	public void givenTournamentBOAux_whenTournamentBOAuxToModel_thenReturnTournamentModel() {
 
 		Tournament tournamentTest = boToModelConverter.tournamentBOAuxToModel(tournamentBOAux);

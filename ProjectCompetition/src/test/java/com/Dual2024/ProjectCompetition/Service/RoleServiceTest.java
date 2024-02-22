@@ -40,7 +40,7 @@ public class RoleServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getAllRoles operation : correct case")
+	@DisplayName("getAllRoles operation : correct case")
 	public void givenNothing_whenGetAllRoles_thenReturnAllRoles() {
 
 		List<Role> rolesList = new ArrayList<Role>();
@@ -49,14 +49,12 @@ public class RoleServiceTest {
 		try {
 			BDDMockito.given(roleDAO.findAll()).willReturn(rolesList);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		List<RoleBO> roles = null;
 		try {
 			roles = roleService.getAllRoles();
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(roles).isNotNull();

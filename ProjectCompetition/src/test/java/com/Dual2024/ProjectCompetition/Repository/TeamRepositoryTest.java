@@ -61,7 +61,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTeam() {
 
 		Team savedTeam = teamRepository.save(team);
@@ -73,7 +73,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTeamObject_whenSave_theReturnSavedTeam() {
 
 		Team savedTeam = teamRepository.save(team);
@@ -84,7 +84,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTeams_whenFindAll_thenReturnAllTeams() {
 
 		teamRepository.save(team);
@@ -97,7 +97,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
 		teamRepository.save(team);
@@ -111,7 +111,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTeams() {
 
 		teamRepository.save(team);
@@ -124,7 +124,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByCaptain operation")
+	@DisplayName("findByCaptain operation")
 	public void givenModality_whenFindByCaptain_thenReturnTeams() {
 
 		teamRepository.save(team);
@@ -136,7 +136,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenTeam_whenUpdate_thenUpdateTeam() {
 
 		teamRepository.save(team);
@@ -152,7 +152,7 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 
 		teamRepository.save(team);

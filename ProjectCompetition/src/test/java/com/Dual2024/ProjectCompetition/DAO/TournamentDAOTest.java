@@ -87,8 +87,8 @@ public class TournamentDAOTest {
 			e.printStackTrace();
 		}
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
+		team = Team.builder().name("TestTeam").users(users1).captain(user).modality(modality).build();
+		team2 = Team.builder().name("TestTeam2").users(users2).captain(user2).modality(modality).build();
 		List<Team> teams = new ArrayList<Team>();
 
 		try {
@@ -124,7 +124,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTournament() {
 
 		Tournament savedTournament = null;
@@ -147,7 +147,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTournament_whenSave_thenReturnSavedTournament() {
 
 		Tournament savedTournament = null;
@@ -164,7 +164,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTournaments_whenFindAll_thenReturnAllTournaments() {
 
 		try {
@@ -190,7 +190,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTournamentName_whenFindByName_thenReturnTournament() {
 
 		try {
@@ -217,7 +217,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByFormat operation")
+	@DisplayName("findByFormat operation")
 	public void givenFormat_whenFindByFormat_thenReturnTournaments() {
 
 		try {
@@ -238,7 +238,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findBySize operation")
+	@DisplayName("findBySize operation")
 	public void givenSize_whenFindBySize_thenReturnTournaments() {
 
 		try {
@@ -259,7 +259,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByStartDate operation")
+	@DisplayName("findByStartDate operation")
 	public void givenStartDate_whenFindByStartDate_thenReturnTournaments() {
 
 		try {
@@ -280,7 +280,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByEndDate operation")
+	@DisplayName("findByEndDate operation")
 	public void givenEndDate_whenFindByEndDate_thenReturnTournaments() {
 
 		try {
@@ -301,7 +301,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByState operation")
+	@DisplayName("findByState operation")
 	public void givenState_whenFindByState_thenReturnTournaments() {
 
 		try {
@@ -314,7 +314,6 @@ public class TournamentDAOTest {
 		try {
 			tournaments = tournamentDAO.findByState(TournamentState.EN_JUEGO);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(tournaments).isNotNull();
@@ -322,7 +321,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTournaments() {
 
 		try {
@@ -343,7 +342,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenTournament_whenUpdate_thenReturnUpdatedTournament() {
 
 		try {
@@ -367,7 +366,7 @@ public class TournamentDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 
 		try {

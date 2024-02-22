@@ -32,7 +32,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnUser() {
 
 		Modality savedModality = null;
@@ -54,7 +54,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenModalityObject_whenSave_theReturnSavedUser() {
 
 		Modality savedModality = null;
@@ -70,7 +70,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenModalitiesList_whenFindAll_theReturnModalitiesList() {
 
 		try {
@@ -96,7 +96,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenModality_whenFindByName_theReturnModality() {
 
 		Modality savedModality = null;
@@ -118,7 +118,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByNumberPlayers operation")
+	@DisplayName("findByNumberPlayers operation")
 	public void givenNumberPlayers_whenFindByNumberPlayers_theReturnModalitiesList() {
 
 		try {
@@ -144,7 +144,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenModality_whenUpdate_theReturnUpdatedModality() {
 
 		try {
@@ -169,7 +169,7 @@ public class ModalityDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenUser_whenDelete_thenDeleteUser() {
 
 		try {

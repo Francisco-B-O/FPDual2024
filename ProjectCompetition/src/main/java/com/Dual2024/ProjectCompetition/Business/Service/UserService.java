@@ -14,7 +14,7 @@ public interface UserService {
 
 	UserBO getUser(Long id) throws BusinessException;
 
-	void deleteUser(UserBO userBO) throws BusinessException;
+	void deleteUser(Long id) throws BusinessException;
 
 	UserBO getUserByNick(String nick) throws BusinessException;
 
@@ -22,7 +22,7 @@ public interface UserService {
 
 	List<UserBO> getUsersByState(UserState state) throws BusinessException;
 
-	UserBO UpdateUser(Long id, String avatar) throws BusinessException;
+	UserBO UpdateUser(Long id, String avatar, String password) throws BusinessException;
 
 	UserBO UpdateRoleUser(Long id, List<RoleBO> roles) throws BusinessException;
 }

@@ -31,7 +31,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnRole() {
 
 		Role savedRole = null;
@@ -53,7 +53,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenRole_whenSave_thenSaveRole() {
 
 		Role savedRole = null;
@@ -70,7 +70,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenRolesList_whenFindAll_thenReturnRolesList() {
 
 		try {
@@ -96,7 +96,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenRole_whenFindByName_thenReturnRole() {
 
 		Role savedRole = null;
@@ -120,7 +120,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenRole_whenUpdate_thenUpdateRole() {
 
 		try {
@@ -145,7 +145,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenRole_whenDelete_thenDeleteRole() {
 
 		try {

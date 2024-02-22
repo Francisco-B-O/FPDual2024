@@ -48,7 +48,7 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for addModality operation : correct case")
+	@DisplayName("addModality operation : correct case")
 	public void givenModalityBO_whenAddModality_thenReturnModalityBO() {
 
 		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
@@ -56,19 +56,16 @@ public class ModalityServiceTest {
 		try {
 			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		try {
 			BDDMockito.given(modalityDAO.save(modality)).willReturn(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		ModalityBO savedModality = null;
 		try {
 			savedModality = modalityService.addModality(modalityBO);
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		assertThat(savedModality).isNotNull();
@@ -76,32 +73,29 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for addModality operation : incorrect case -> Duplicated name")
+	@DisplayName("addModality operation : incorrect case -> Duplicated name")
 	public void givenModalityBO_whenAddModality_thenThrowDuplicatedNameException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willReturn(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(DuplicatedNameException.class, () -> modalityService.addModality(modalityBO));
 	}
 
 	@Test
-	@DisplayName("JUnit test for addModality operation : incorrect case -> Modality not saved")
+	@DisplayName("addModality operation : incorrect case -> Modality not saved")
 	public void givenModalityBO_whenAddModality_thenThrowBusinessException() {
 
 		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
 		try {
 			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		try {
 			BDDMockito.given(modalityDAO.save(modality)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> modalityService.addModality(modalityBO));
@@ -109,22 +103,19 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityById operation : correct case")
+	@DisplayName("getModalityById operation : correct case")
 	public void givenId_whenGetModalityById_thenReturnModalityBO() {
 
 		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
 		try {
 			BDDMockito.given(modalityDAO.findById(1L)).willReturn(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		ModalityBO foundModality = null;
 		try {
 			foundModality = modalityService.getModalityById(1L);
 		} catch (BusinessException e) {
-			e.printStackTrace();
-
 		}
 
 		assertThat(foundModality).isNotNull();
@@ -132,13 +123,12 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityById operation : incorrect case -> Not found")
+	@DisplayName("getModalityById operation : incorrect case -> Not found")
 	public void givenId_whenGetModalityById_thenThrowBusinessException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findById(1L)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> modalityService.getModalityById(1L));
@@ -146,22 +136,19 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityByName operation : correct case")
+	@DisplayName("getModalityByName operation : correct case")
 	public void givenModalityName_whenGetModalityByName_thenReturnModalityBO() {
 
 		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
 		try {
 			BDDMockito.given(modalityDAO.findByName("modality1")).willReturn(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		ModalityBO foundModality = null;
 		try {
 			foundModality = modalityService.getModalityByName("modality1");
 		} catch (BusinessException e) {
-			e.printStackTrace();
-
 		}
 
 		assertThat(foundModality).isNotNull();
@@ -169,20 +156,19 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityByName operation : incorrect case -> Not found")
+	@DisplayName("getModalityByName operation : incorrect case -> Not found")
 	public void givenModalityName_whenGetModalityByName_thenThrowBusinessException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> modalityService.getModalityByName("modality1"));
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityByNumberPlayers operation : correct case")
+	@DisplayName("getModalityByNumberPlayers operation : correct case")
 	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenReturnListModalityBO() {
 
 		List<Modality> modalities = new ArrayList<Modality>();
@@ -191,14 +177,12 @@ public class ModalityServiceTest {
 		try {
 			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willReturn(modalities);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
+
 		List<ModalityBO> modalitiesBO = null;
 		try {
-			modalitiesBO = modalityService.getModalityByNumberPlayers(2);
+			modalitiesBO = modalityService.getModalitiesByNumberPlayers(2);
 		} catch (BusinessException e) {
-			e.printStackTrace();
-
 		}
 
 		assertThat(modalitiesBO).isNotNull();
@@ -206,21 +190,20 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getModalityByNumberPlayers operation : incorrect case -> Exception")
+	@DisplayName("getModalityByNumberPlayers operation : incorrect case -> Exception")
 	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
-		assertThrows(BusinessException.class, () -> modalityService.getModalityByNumberPlayers(2));
+		assertThrows(BusinessException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
 
 	}
 
 	@Test
-	@DisplayName("JUnit test for getAllModalitiess operation : correct case")
+	@DisplayName("getAllModalitiess operation : correct case")
 	public void givenNumberPlayers_whenGetAllModalities_thenReturnListModalityBO() {
 
 		List<Modality> modalities = new ArrayList<Modality>();
@@ -229,14 +212,12 @@ public class ModalityServiceTest {
 		try {
 			BDDMockito.given(modalityDAO.findAll()).willReturn(modalities);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
+
 		List<ModalityBO> modalitiesBO = null;
 		try {
 			modalitiesBO = modalityService.getAllModalities();
 		} catch (BusinessException e) {
-			e.printStackTrace();
-
 		}
 
 		assertThat(modalitiesBO).isNotNull();
@@ -244,13 +225,12 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for getAllModalities operation : incorrect case -> Exception")
+	@DisplayName("getAllModalities operation : incorrect case -> Exception")
 	public void givenNothing_whenGetAllModalities_thenThrowBusinessException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findAll()).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> modalityService.getAllModalities());
@@ -258,43 +238,38 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for deleteModality operation : correct case")
-	public void givenModalityBO_whenDeleteModality_thenDeleteModality() {
+	@DisplayName("deleteModality operation : correct case")
+	public void givenId_whenDeleteModality_thenDeleteModality() {
 
 		try {
 			BDDMockito.given(modalityDAO.findById(1L)).willReturn(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
 		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
 		try {
 			BDDMockito.willDoNothing().given(modalityDAO).delete(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		try {
 			modalityService.deleteModality(modalityBO);
 		} catch (BusinessException e) {
-			e.printStackTrace();
 		}
 
 		try {
 			verify(modalityDAO, times(1)).delete(modality);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 	}
 
 	@Test
-	@DisplayName("JUnit test for deleteUser operation : incorrect case -> notFound")
-	public void givenUserBOThatNotExists_whenDeleteUser_thenThrowBusinessException() {
+	@DisplayName("deleteModality operation : incorrect case -> notFound")
+	public void givenId_whenDeleteModality_thenThrowBusinessException() {
 
 		try {
 			BDDMockito.given(modalityDAO.findById(1L)).willThrow(DataException.class);
 		} catch (DataException e) {
-			e.printStackTrace();
 		}
 
 		assertThrows(BusinessException.class, () -> modalityService.deleteModality(modalityBO));

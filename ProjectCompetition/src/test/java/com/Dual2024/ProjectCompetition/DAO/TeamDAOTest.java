@@ -83,7 +83,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTeam() {
 
 		Team savedTeam = null;
@@ -105,7 +105,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTeamObject_whenSave_theReturnSavedTeam() {
 
 		Team savedTeam = null;
@@ -121,7 +121,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTeams_whenFindAll_thenReturnAllTeams() {
 
 		try {
@@ -147,7 +147,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
 		try {
@@ -174,7 +174,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTeams() {
 
 		try {
@@ -200,7 +200,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenTeam_whenUpdate_thenUpdateTeam() {
 
 		try {
@@ -225,7 +225,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 		try {
 			teamDAO.save(team);
@@ -244,7 +244,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByCaptain operation")
+	@DisplayName("findByCaptain operation")
 	public void givenModality_whenFindByCaptain_thenReturnTeams() {
 
 		try {
