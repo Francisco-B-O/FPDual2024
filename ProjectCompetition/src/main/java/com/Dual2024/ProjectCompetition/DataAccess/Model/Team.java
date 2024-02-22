@@ -1,18 +1,19 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
 import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,10 @@ public class Team {
 	@ManyToOne
 	@JoinColumn(name = "team_modality_id", nullable = false)
 	private Modality modality;
+
+	@ManyToOne
+	@JoinColumn(name = "team_captain_id", nullable = false)
+	private User captain;
 
 	@Lob
 	@Column(name = "team_logo")

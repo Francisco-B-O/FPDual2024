@@ -75,9 +75,10 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
-		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).modality(modality).build();
+		team = Team.builder().name("TestTeam").users(users1).captain(user).modality(modality).build();
+		team2 = Team.builder().name("TestTeam2").users(users2).captain(user2).modality(modality).build();
+		duplicatedNameModalityTeam = Team.builder().name("TestTeam").captain(user3).users(users2).modality(modality)
+				.build();
 
 	}
 
@@ -240,6 +241,27 @@ public class TeamDAOTest {
 
 		assertThrows(DataException.class, () -> teamDAO.findByName("TestTeam"));
 
+	}
+
+	@Test
+	@DisplayName("JUnit test for findByCaptain operation")
+	public void givenModality_whenFindByCaptain_thenReturnTeams() {
+
+		try {
+			teamDAO.save(team);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+
+		List<Team> teams = null;
+		try {
+			teams = teamDAO.findByCaptain(userDAO.findByNick("test"));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		assertThat(teams).isNotNull();
+
+		assertThat(teams.size()).isEqualTo(1);
 	}
 
 }

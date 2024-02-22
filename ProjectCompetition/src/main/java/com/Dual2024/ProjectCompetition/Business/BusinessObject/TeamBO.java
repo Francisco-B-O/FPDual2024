@@ -23,6 +23,8 @@ public class TeamBO {
 
 	private String logo;
 
+	private UserBOAux captain;
+
 	private List<UserBOAux> users;
 
 	private List<TournamentBOAux> tournaments;

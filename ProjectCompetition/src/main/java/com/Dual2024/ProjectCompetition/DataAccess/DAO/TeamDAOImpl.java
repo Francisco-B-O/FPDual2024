@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 
 import jakarta.validation.ConstraintViolationException;
@@ -105,4 +106,19 @@ public class TeamDAOImpl implements TeamDAO {
 			throw new DataException("Teams not found", nre);
 		}
 	}
+
+	@Override
+	public List<Team> findByCaptain(User captain) throws DataException {
+		try {
+			List<Team> teams = teamRepository.findByCaptain(captain);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
+		} catch (NestedRuntimeException nre) {
+			throw new DataException("Teams not found", nre);
+		}
+	}
+
 }

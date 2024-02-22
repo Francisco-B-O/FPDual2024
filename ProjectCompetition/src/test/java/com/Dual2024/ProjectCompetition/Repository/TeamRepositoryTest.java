@@ -53,9 +53,10 @@ public class TeamRepositoryTest {
 		modality = Modality.builder().name("modality1").numberPlayers(2).build();
 		modalityRepository.save(modality);
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
-		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).modality(modality).build();
+		team = Team.builder().name("TestTeam").users(users1).modality(modality).captain(user).build();
+		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).captain(user2).build();
+		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).captain(user3).modality(modality)
+				.build();
 
 	}
 
@@ -117,9 +118,21 @@ public class TeamRepositoryTest {
 		teamRepository.save(team2);
 
 		List<Team> teams = teamRepository.findByModality(modalityRepository.findByName("modality1"));
-		assertThat(teams).isNotNull();
 
+		assertThat(teams).isNotNull();
 		assertThat(teams.size()).isEqualTo(2);
+	}
+
+	@Test
+	@DisplayName("JUnit test for findByCaptain operation")
+	public void givenModality_whenFindByCaptain_thenReturnTeams() {
+
+		teamRepository.save(team);
+
+		List<Team> teams = teamRepository.findByCaptain(userRepository.findByNick("test"));
+
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
 	}
 
 	@Test
@@ -141,7 +154,7 @@ public class TeamRepositoryTest {
 	@Test
 	@DisplayName("JUnit test for delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
-		
+
 		teamRepository.save(team);
 		teamRepository.delete(team);
 

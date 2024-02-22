@@ -21,4 +21,8 @@ public class TeamBOAux {
 	private String logo;
 
 	private List<TournamentBOAux> tournaments;
+
+	private UserBOAux captain;
+
+	private List<UserBOAux> users;
 }
