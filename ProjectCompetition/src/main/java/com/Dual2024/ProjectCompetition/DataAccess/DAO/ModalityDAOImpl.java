@@ -14,6 +14,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
 
 import jakarta.validation.ConstraintViolationException;
+
 @Component
 public class ModalityDAOImpl implements ModalityDAO {
 	@Autowired
@@ -34,9 +35,14 @@ public class ModalityDAOImpl implements ModalityDAO {
 	}
 
 	@Override
-	public Optional<Modality> findById(Long id) throws DataException {
+	public Modality findById(Long id) throws DataException {
 		try {
-			return modalityRepository.findById(id);
+			Optional<Modality> modality = modalityRepository.findById(id);
+			if (modality.isPresent()) {
+				return modality.get();
+			} else {
+				throw new DataException("Modality not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modality not found", nre);
 		}
@@ -46,7 +52,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 	@Override
 	public List<Modality> findAll() throws DataException {
 		try {
-			return modalityRepository.findAll();
+			List<Modality> modalities = modalityRepository.findAll();
+			if (modalities.isEmpty()) {
+				throw new DataException("Modalities not found");
+			} else {
+				return modalities;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modalities not found", nre);
 		}
@@ -56,7 +67,11 @@ public class ModalityDAOImpl implements ModalityDAO {
 	@Override
 	public void delete(Modality modality) throws DataException {
 		try {
-			modalityRepository.delete(modality);
+			if (modality.equals(null)) {
+				throw new DataException("Modality not deleted");
+			} else {
+				modalityRepository.delete(modality);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modality not deleted", nre);
 		}
@@ -80,7 +95,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 	@Override
 	public List<Modality> findByNumberPlayers(int numberPlayers) throws DataException {
 		try {
-			return modalityRepository.findByNumberPlayers(numberPlayers);
+			List<Modality> modalities = modalityRepository.findByNumberPlayers(numberPlayers);
+			if (modalities.isEmpty()) {
+				throw new DataException("Modalities not found");
+			} else {
+				return modalities;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modalities not found", nre);
 		}

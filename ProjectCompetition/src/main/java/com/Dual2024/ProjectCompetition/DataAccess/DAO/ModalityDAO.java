@@ -1,7 +1,6 @@
 package com.Dual2024.ProjectCompetition.DataAccess.DAO;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
@@ -9,11 +8,11 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 public interface ModalityDAO {
 	Modality save(Modality modality) throws DataException;
 
-	Optional<Modality> findById(Long id) throws DataException;
+	Modality findById(Long id) throws DataException;
 
 	List<Modality> findAll() throws DataException;
 
-	void delete(Modality Role) throws DataException;
+	void delete(Modality modality) throws DataException;
 
 	Modality findByName(String name) throws DataException;
 

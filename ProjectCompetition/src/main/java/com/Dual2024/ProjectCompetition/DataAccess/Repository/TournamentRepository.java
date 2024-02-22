@@ -12,7 +12,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 
 @Repository
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {
-	Tournament findByName(String name);
+	List<Tournament> findByName(String name);
 
 	List<Tournament> findByFormat(Format format);
 

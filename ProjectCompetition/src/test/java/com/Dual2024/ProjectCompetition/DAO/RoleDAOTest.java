@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnRole() {
 
 		Role savedRole = null;
@@ -42,7 +43,7 @@ public class RoleDAOTest {
 
 		Role foundRole = null;
 		try {
-			foundRole = roleDAO.findById(role.getId()).get();
+			foundRole = roleDAO.findById(role.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +53,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenRole_whenSave_thenSaveRole() {
 
 		Role savedRole = null;
@@ -63,19 +64,13 @@ public class RoleDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			roleDAO.save(duplicatedNameRole);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> roleDAO.save(duplicatedNameRole));
 		assertThat(savedRole).isNotNull();
 		assertThat(savedRole).isEqualTo(role);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenRolesList_whenFindAll_thenReturnRolesList() {
 
 		try {
@@ -101,7 +96,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenRole_whenFindByName_thenReturnRole() {
 
 		Role savedRole = null;
@@ -125,7 +120,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenRole_whenUpdate_thenUpdateRole() {
 
 		try {
@@ -150,7 +145,7 @@ public class RoleDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenRole_whenDelete_thenDeleteRole() {
 
 		try {
@@ -166,14 +161,6 @@ public class RoleDAOTest {
 			e.printStackTrace();
 		}
 
-		Role deletedRole = null;
-
-		try {
-			deletedRole = roleDAO.findByName("test");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedRole).isNull();
+		assertThrows(DataException.class, () -> roleDAO.findByName("test"));
 	}
 }

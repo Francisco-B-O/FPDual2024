@@ -11,9 +11,11 @@ import org.springframework.stereotype.Component;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 
 import jakarta.validation.ConstraintViolationException;
+
 @Component
 public class TeamDAOImpl implements TeamDAO {
 	@Autowired
@@ -34,9 +36,14 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public Optional<Team> findById(Long id) throws DataException {
+	public Team findById(Long id) throws DataException {
 		try {
-			return teamRepository.findById(id);
+			Optional<Team> team = teamRepository.findById(id);
+			if (team.isPresent()) {
+				return team.get();
+			} else {
+				throw new DataException("Team not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Team not found", nre);
 		}
@@ -46,7 +53,12 @@ public class TeamDAOImpl implements TeamDAO {
 	@Override
 	public List<Team> findAll() throws DataException {
 		try {
-			return teamRepository.findAll();
+			List<Team> teams = teamRepository.findAll();
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Teams not found", nre);
 		}
@@ -56,7 +68,11 @@ public class TeamDAOImpl implements TeamDAO {
 	@Override
 	public void delete(Team team) throws DataException {
 		try {
-			teamRepository.delete(team);
+			if (team.equals(null)) {
+				throw new DataException("Team not deleted");
+			} else {
+				teamRepository.delete(team);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Team not deleted", nre);
 		}
@@ -64,25 +80,45 @@ public class TeamDAOImpl implements TeamDAO {
 	}
 
 	@Override
-	public Team findByName(String name) throws DataException {
+	public List<Team> findByName(String name) throws DataException {
 		try {
-			Team team = teamRepository.findByName(name);
-			if (team == null) {
-				throw new DataException("Team not found");
+			List<Team> teams = teamRepository.findByName(name);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
 			} else {
-				return team;
+				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Team not found", nre);
+			throw new DataException("Teams not found", nre);
 		}
 	}
 
 	@Override
 	public List<Team> findByModality(Modality modality) throws DataException {
 		try {
-			return teamRepository.findByModality(modality);
+			List<Team> teams = teamRepository.findByModality(modality);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Teams not found", nre);
 		}
 	}
+
+	@Override
+	public List<Team> findByCaptain(User captain) throws DataException {
+		try {
+			List<Team> teams = teamRepository.findByCaptain(captain);
+			if (teams.isEmpty()) {
+				throw new DataException("Teams not found");
+			} else {
+				return teams;
+			}
+		} catch (NestedRuntimeException nre) {
+			throw new DataException("Teams not found", nre);
+		}
+	}
+
 }

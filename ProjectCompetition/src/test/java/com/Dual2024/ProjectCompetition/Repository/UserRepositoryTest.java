@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -8,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
@@ -39,7 +39,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -51,36 +51,20 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenUserObject_whenSave_theReturnSavedUser() {
 
 		User savedUser = userRepository.save(user);
 
-		try {
-
-			userRepository.save(duplicatedEmailUser);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-		try {
-
-			userRepository.save(duplicatedNickUser);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-		try {
-
-			userRepository.save(invalidPasswordUser);
-		} catch (ConstraintViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(duplicatedEmailUser));
+		assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(duplicatedNickUser));
+		assertThrows(ConstraintViolationException.class, () -> userRepository.save(invalidPasswordUser));
 		assertThat(savedUser).isNotNull();
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenUsersList_whenFindAll_theReturnUsersList() {
 
 		userRepository.save(user);
@@ -93,7 +77,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByEmail operation")
+	@DisplayName("findByEmail operation")
 	public void givenUser_whenFindByEmail_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -105,7 +89,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByNick operation")
+	@DisplayName("findByNick operation")
 	public void givenUser_whenFindByNick_theReturnUser() {
 
 		User savedUser = userRepository.save(user);
@@ -117,7 +101,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenUser_whenUpdate_theReturnUpdatedUser() {
 
 		userRepository.save(user);
@@ -135,7 +119,7 @@ public class UserRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenUser_whenDelete_thenDeleteUser() {
 
 		userRepository.save(user);

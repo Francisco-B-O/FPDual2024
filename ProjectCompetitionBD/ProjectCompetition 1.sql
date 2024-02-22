@@ -8,7 +8,7 @@ CREATE TABLE users (
     user_email VARCHAR(50) UNIQUE NOT NULL,
     user_password VARCHAR(256) NOT NULL,
     user_avatar LONGTEXT,
-    user_state ENUM('DESCONECTADO','DESACTIVADO','CONECTADO') NOT NULL
+    user_state ENUM('DESCONECTADO', 'DESACTIVADO', 'CONECTADO') NOT NULL
 );
 
 CREATE TABLE roles (
@@ -40,16 +40,20 @@ CREATE TABLE teams (
     team_name VARCHAR(20) NOT NULL,
     team_logo LONGTEXT,
     team_modality_id INT UNSIGNED NOT NULL,
-    UNIQUE (team_modality_id, team_name),
+    team_captain_id INT UNSIGNED NOT NULL,
+    UNIQUE (team_modality_id , team_name),
     CONSTRAINT fk_modalityId_teams FOREIGN KEY (team_modality_id)
         REFERENCES modalities (modality_id)
+        ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT fk_userCaptainId_teams FOREIGN KEY (team_captain_id)
+        REFERENCES users (user_id)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE users_teams (
     users_teams_user_id INT UNSIGNED NOT NULL,
     users_teams_team_id INT UNSIGNED NOT NULL,
-    PRIMARY KEY (users_teams_user_id, users_teams_team_id),
+    PRIMARY KEY (users_teams_user_id , users_teams_team_id),
     CONSTRAINT fk_userId_users_teams FOREIGN KEY (users_teams_user_id)
         REFERENCES users (user_id)
         ON DELETE CASCADE,
@@ -69,11 +73,11 @@ CREATE TABLE tournaments (
     tournament_size INT NOT NULL,
     tournament_start_date DATETIME NOT NULL,
     tournament_end_date DATETIME NOT NULL,
-    tournament_state ENUM('NO_COMENZADO', 'EN_JUEGO', 'FINALIZADO','SUSPENDIDO','APLAZADO') NOT NULL,
+    tournament_state ENUM('NO_COMENZADO', 'EN_JUEGO', 'FINALIZADO', 'SUSPENDIDO', 'APLAZADO') NOT NULL,
     tournament_logo LONGTEXT,
     tournament_description VARCHAR(256) NOT NULL,
     tournament_modality_id INT UNSIGNED NOT NULL,
-	tournament_format_id INT UNSIGNED NOT NULL,
+    tournament_format_id INT UNSIGNED NOT NULL,
     CONSTRAINT fk_modalityId_tournaments FOREIGN KEY (tournament_modality_id)
         REFERENCES modalities (modality_id),
     CONSTRAINT fk_formatId_tournaments FOREIGN KEY (tournament_format_id)
@@ -84,7 +88,7 @@ CREATE TABLE tournaments (
 CREATE TABLE tournaments_teams (
     tournaments_teams_tournament_id INT UNSIGNED NOT NULL,
     tournaments_teams_team_id INT UNSIGNED NOT NULL,
-	PRIMARY KEY (tournaments_teams_tournament_id, tournaments_teams_team_id),
+    PRIMARY KEY (tournaments_teams_tournament_id , tournaments_teams_team_id),
     CONSTRAINT fk_tournamentId_inscriptions FOREIGN KEY (tournaments_teams_tournament_id)
         REFERENCES tournaments (tournament_id)
         ON DELETE CASCADE ON UPDATE CASCADE,

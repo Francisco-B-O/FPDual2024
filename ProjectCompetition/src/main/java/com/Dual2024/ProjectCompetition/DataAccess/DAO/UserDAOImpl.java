@@ -35,9 +35,14 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public Optional<User> findById(Long id) throws DataException {
+	public User findById(Long id) throws DataException {
 		try {
-			return userRepository.findById(id);
+			Optional<User> user = userRepository.findById(id);
+			if (user.isPresent()) {
+				return user.get();
+			} else {
+				throw new DataException("User not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not found", nre);
 		}
@@ -47,7 +52,13 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<User> findAll() throws DataException {
 		try {
-			return userRepository.findAll();
+
+			List<User> users = userRepository.findAll();
+			if (users.isEmpty()) {
+				throw new DataException("Users not found");
+			} else {
+				return users;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Users not found", nre);
 		}
@@ -57,6 +68,11 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public void delete(User user) throws DataException {
 		try {
+			if (user.equals(null)) {
+				throw new DataException("User not deleted");
+			} else {
+				userRepository.delete(user);
+			}
 			userRepository.delete(user);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not deleted", nre);
@@ -95,8 +111,14 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public List<User> findByState(UserState state) throws DataException {
+
 		try {
-			return userRepository.findByState(state);
+			List<User> users = userRepository.findByState(state);
+			if (users.isEmpty()) {
+				throw new DataException("Users not found");
+			} else {
+				return users;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Users not found", nre);
 		}

@@ -38,9 +38,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	}
 
 	@Override
-	public Optional<Tournament> findById(Long id) throws DataException {
+	public Tournament findById(Long id) throws DataException {
 		try {
-			return tournamentRepository.findById(id);
+			Optional<Tournament> tournament = tournamentRepository.findById(id);
+			if (tournament.isPresent()) {
+				return tournament.get();
+			} else {
+				throw new DataException("Tournament not found");
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Tournament not found", nre);
 		}
@@ -50,9 +55,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findAll() throws DataException {
 		try {
-			return tournamentRepository.findAll();
+			List<Tournament> tournaments = tournamentRepository.findAll();
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -60,7 +70,11 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public void delete(Tournament tournament) throws DataException {
 		try {
-			tournamentRepository.delete(tournament);
+			if (tournament.equals(null)) {
+				throw new DataException("Tournament not deleted");
+			} else {
+				tournamentRepository.delete(tournament);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Tournament not deleted", nre);
 		}
@@ -68,25 +82,31 @@ public class TournamentDAOImpl implements TournamentDAO {
 	}
 
 	@Override
-	public Tournament findByName(String name) throws DataException {
+	public List<Tournament> findByName(String name) throws DataException {
 		try {
-			Tournament tournament = tournamentRepository.findByName(name);
-			if (tournament == null) {
-				throw new DataException("Tournament not found");
+			List<Tournament> tournaments = tournamentRepository.findByName(name);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
 			} else {
-				return tournament;
+				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournament not found", nre);
+			throw new DataException("Tournaments not found");
 		}
+
 	}
 
 	@Override
 	public List<Tournament> findByFormat(Format format) throws DataException {
 		try {
-			return tournamentRepository.findByFormat(format);
+			List<Tournament> tournaments = tournamentRepository.findByFormat(format);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -94,9 +114,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findBySize(int size) throws DataException {
 		try {
-			return tournamentRepository.findBySize(size);
+			List<Tournament> tournaments = tournamentRepository.findBySize(size);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -104,9 +129,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findByStartDate(LocalDateTime startDate) throws DataException {
 		try {
-			return tournamentRepository.findByStartDate(startDate);
+			List<Tournament> tournaments = tournamentRepository.findByStartDate(startDate);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -114,9 +144,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findByEndDate(LocalDateTime endDate) throws DataException {
 		try {
-			return tournamentRepository.findByEndDate(endDate);
+			List<Tournament> tournaments = tournamentRepository.findByEndDate(endDate);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -124,9 +159,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findByState(TournamentState state) throws DataException {
 		try {
-			return tournamentRepository.findByState(state);
+			List<Tournament> tournaments = tournamentRepository.findByState(state);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}
@@ -134,9 +174,14 @@ public class TournamentDAOImpl implements TournamentDAO {
 	@Override
 	public List<Tournament> findByModality(Modality modality) throws DataException {
 		try {
-			return tournamentRepository.findByModality(modality);
+			List<Tournament> tournaments = tournamentRepository.findByModality(modality);
+			if (tournaments.isEmpty()) {
+				throw new DataException("Tournaments not found");
+			} else {
+				return tournaments;
+			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found", nre);
+			throw new DataException("Tournaments not found");
 		}
 
 	}

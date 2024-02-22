@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnRole() {
 
 		Role savedRole = roleRepository.save(role);
@@ -41,23 +42,18 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenRole_whenSave_thenSaveRole() {
 
 		Role savedRole = roleRepository.save(role);
 
-		try {
-			roleRepository.save(duplicatedNameRole);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> roleRepository.save(duplicatedNameRole));
 		assertThat(savedRole).isNotNull();
 		assertThat(savedRole).isEqualTo(role);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenRolesList_whenFindAll_thenReturnRolesList() {
 
 		roleRepository.save(role);
@@ -70,7 +66,7 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenRole_whenFindByName_thenReturnRole() {
 
 		Role savedRole = roleRepository.save(role);
@@ -82,7 +78,7 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenRole_whenUpdate_thenUpdateRole() {
 
 		roleRepository.save(role);
@@ -98,7 +94,7 @@ public class RoleRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenRole_whenDelete_thenDeleteRole() {
 
 		roleRepository.save(role);

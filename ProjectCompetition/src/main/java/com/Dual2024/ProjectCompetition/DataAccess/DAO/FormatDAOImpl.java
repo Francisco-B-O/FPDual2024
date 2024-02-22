@@ -34,9 +34,15 @@ public class FormatDAOImpl implements FormatDAO {
 	}
 
 	@Override
-	public Optional<Format> findById(Long id) throws DataException {
+	public Format findById(Long id) throws DataException {
 		try {
-			return formatRepository.findById(id);
+			Optional<Format> format = formatRepository.findById(id);
+			if (format.isPresent()) {
+				return format.get();
+			} else {
+				throw new DataException("Format not found");
+			}
+
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Format not found", nre);
 		}
@@ -46,7 +52,12 @@ public class FormatDAOImpl implements FormatDAO {
 	@Override
 	public List<Format> findAll() throws DataException {
 		try {
-			return formatRepository.findAll();
+			List<Format> formats = formatRepository.findAll();
+			if (formats.isEmpty()) {
+				throw new DataException("Formats not found");
+			} else {
+				return formats;
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Formats not found", nre);
 		}
@@ -56,7 +67,11 @@ public class FormatDAOImpl implements FormatDAO {
 	@Override
 	public void delete(Format format) throws DataException {
 		try {
-			formatRepository.delete(format);
+			if (format.equals(null)) {
+				throw new DataException("Format not deleted");
+			} else {
+				formatRepository.delete(format);
+			}
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Format not deleted", nre);
 		}

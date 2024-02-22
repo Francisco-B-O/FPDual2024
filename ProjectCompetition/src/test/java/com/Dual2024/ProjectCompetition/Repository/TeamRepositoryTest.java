@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +53,15 @@ public class TeamRepositoryTest {
 		modality = Modality.builder().name("modality1").numberPlayers(2).build();
 		modalityRepository.save(modality);
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
-		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).modality(modality).build();
+		team = Team.builder().name("TestTeam").users(users1).modality(modality).captain(user).build();
+		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).captain(user2).build();
+		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).captain(user3).modality(modality)
+				.build();
 
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTeam() {
 
 		Team savedTeam = teamRepository.save(team);
@@ -71,22 +73,18 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTeamObject_whenSave_theReturnSavedTeam() {
 
 		Team savedTeam = teamRepository.save(team);
-		try {
-			teamRepository.save(duplicatedNameModalityTeam);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
 
+		assertThrows(DataIntegrityViolationException.class, () -> teamRepository.save(duplicatedNameModalityTeam));
 		assertThat(savedTeam).isNotNull();
 		assertThat(savedTeam.getId()).isGreaterThan(0);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTeams_whenFindAll_thenReturnAllTeams() {
 
 		teamRepository.save(team);
@@ -99,32 +97,46 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
-		Team savedTeam = teamRepository.save(team);
+		teamRepository.save(team);
+		teamRepository.save(team2);
 
-		Team foundTeam = teamRepository.findByName("TestTeam");
+		List<Team> teams = teamRepository.findByName("TestTeam");
 
-		assertThat(foundTeam).isNotNull();
-		assertThat(foundTeam).isEqualTo(savedTeam);
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
+
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTeams() {
 
 		teamRepository.save(team);
 		teamRepository.save(team2);
 
 		List<Team> teams = teamRepository.findByModality(modalityRepository.findByName("modality1"));
-		assertThat(teams).isNotNull();
 
+		assertThat(teams).isNotNull();
 		assertThat(teams.size()).isEqualTo(2);
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("findByCaptain operation")
+	public void givenModality_whenFindByCaptain_thenReturnTeams() {
+
+		teamRepository.save(team);
+
+		List<Team> teams = teamRepository.findByCaptain(userRepository.findByNick("test"));
+
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
+	}
+
+	@Test
+	@DisplayName("update operation")
 	public void givenTeam_whenUpdate_thenUpdateTeam() {
 
 		teamRepository.save(team);
@@ -140,14 +152,13 @@ public class TeamRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
-		teamRepository.save(team);
 
+		teamRepository.save(team);
 		teamRepository.delete(team);
 
-		Team deletedTeam = teamRepository.findByName("TestTeam");
-		assertThat(deletedTeam).isNull();
+		assertThat(teamRepository.findById(team.getId())).isNotPresent();
 
 	}
 

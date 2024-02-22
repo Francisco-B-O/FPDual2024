@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnUser() {
 
 		User savedUser = null;
@@ -51,7 +52,7 @@ public class UserDAOTest {
 
 		User foundUser = null;
 		try {
-			foundUser = userDao.findById(user.getId()).get();
+			foundUser = userDao.findById(user.getId());
 		} catch (DataException e) {
 
 			e.printStackTrace();
@@ -62,7 +63,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenUserObject_whenSave_theReturnSavedUser() {
 
 		User savedUser = null;
@@ -72,34 +73,15 @@ public class UserDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			userDao.save(duplicatedEmailUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
-		try {
-			userDao.save(duplicatedNickUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
-		try {
-			userDao.save(invalidPasswordUser);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-
-		}
-
+		assertThrows(DataException.class, () -> userDao.save(duplicatedEmailUser));
+		assertThrows(DataException.class, () -> userDao.save(duplicatedNickUser));
+		assertThrows(DataException.class, () -> userDao.save(invalidPasswordUser));
 		assertThat(savedUser).isNotNull();
 		assertThat(savedUser.getId()).isGreaterThan(0);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenUsersList_whenFindAll_theReturnUsersList() {
 
 		try {
@@ -125,7 +107,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByEmail operation")
+	@DisplayName("findByEmail operation")
 	public void givenUser_whenFindByEmail_theReturnUser() {
 
 		User savedUser = null;
@@ -147,7 +129,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByNick operation")
+	@DisplayName("findByNick operation")
 	public void givenUser_whenFindByNick_theReturnUser() {
 
 		User savedUser = null;
@@ -169,7 +151,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenUser_whenUpdate_theReturnUpdatedUser() {
 
 		try {
@@ -196,7 +178,7 @@ public class UserDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenUser_whenDelete_thenDeleteUser() {
 
 		try {
@@ -211,14 +193,7 @@ public class UserDAOTest {
 			e.printStackTrace();
 		}
 
-		User deletedUser = null;
-		try {
-			deletedUser = userDao.findByEmail("test@email.com");
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-		assertThat(deletedUser).isNull();
+		assertThrows(DataException.class, () -> userDao.findByEmail("test@email.com"));
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,14 +75,15 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		team = Team.builder().name("TestTeam").users(users1).modality(modality).build();
-		team2 = Team.builder().name("TestTeam2").users(users2).modality(modality).build();
-		duplicatedNameModalityTeam = Team.builder().name("TestTeam").users(users2).modality(modality).build();
+		team = Team.builder().name("TestTeam").users(users1).captain(user).modality(modality).build();
+		team2 = Team.builder().name("TestTeam2").users(users2).captain(user2).modality(modality).build();
+		duplicatedNameModalityTeam = Team.builder().name("TestTeam").captain(user3).users(users2).modality(modality)
+				.build();
 
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnTeam() {
 
 		Team savedTeam = null;
@@ -93,7 +95,7 @@ public class TeamDAOTest {
 
 		Team foundTeam = null;
 		try {
-			foundTeam = teamDAO.findById(team.getId()).get();
+			foundTeam = teamDAO.findById(team.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
@@ -103,7 +105,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenTeamObject_whenSave_theReturnSavedTeam() {
 
 		Team savedTeam = null;
@@ -113,19 +115,13 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		try {
-			teamDAO.save(duplicatedNameModalityTeam);
-		} catch (DataException e) {
-			assertThat(e).isNotNull();
-			e.printStackTrace();
-		}
-
+		assertThrows(DataException.class, () -> teamDAO.save(duplicatedNameModalityTeam));
 		assertThat(savedTeam).isNotNull();
 		assertThat(savedTeam.getId()).isGreaterThan(0);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenTeams_whenFindAll_thenReturnAllTeams() {
 
 		try {
@@ -151,29 +147,34 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenTeam_whenFindByName_thenReturnTeam() {
 
-		Team savedTeam = null;
 		try {
-			savedTeam = teamDAO.save(team);
+			teamDAO.save(team);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		try {
+			teamDAO.save(team2);
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		Team foundTeam = null;
+		List<Team> teams = null;
 		try {
-			foundTeam = teamDAO.findByName("TestTeam");
+			teams = teamDAO.findByName("TestTeam");
 		} catch (DataException e) {
 			e.printStackTrace();
 		}
 
-		assertThat(foundTeam).isNotNull();
-		assertThat(foundTeam).isEqualTo(savedTeam);
+		assertThat(teams).isNotNull();
+		assertThat(teams.size()).isEqualTo(1);
+
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByModality operation")
+	@DisplayName("findByModality operation")
 	public void givenModality_whenFindByModality_thenReturnTeams() {
 
 		try {
@@ -199,7 +200,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenTeam_whenUpdate_thenUpdateTeam() {
 
 		try {
@@ -224,7 +225,7 @@ public class TeamDAOTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenTeam_whenDelete_thenRemoveTeam() {
 		try {
 			teamDAO.save(team);
@@ -238,15 +239,29 @@ public class TeamDAOTest {
 			e.printStackTrace();
 		}
 
-		Team deletedTeam = null;
+		assertThrows(DataException.class, () -> teamDAO.findByName("TestTeam"));
+
+	}
+
+	@Test
+	@DisplayName("findByCaptain operation")
+	public void givenModality_whenFindByCaptain_thenReturnTeams() {
+
 		try {
-			deletedTeam = teamDAO.findByName("TestTeam");
+			teamDAO.save(team);
 		} catch (DataException e) {
-			assertThat(e).isNotNull();
 			e.printStackTrace();
 		}
-		assertThat(deletedTeam).isNull();
 
+		List<Team> teams = null;
+		try {
+			teams = teamDAO.findByCaptain(userDAO.findByNick("test"));
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+		assertThat(teams).isNotNull();
+
+		assertThat(teams.size()).isEqualTo(1);
 	}
 
 }

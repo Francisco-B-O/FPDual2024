@@ -1,6 +1,7 @@
 package com.Dual2024.ProjectCompetition.Repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findById operation")
+	@DisplayName("findById operation")
 	public void givenId_whenFindById_theReturnUser() {
 
 		Modality savedModality = modalityRepository.save(modality);
@@ -41,23 +42,18 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for save operation")
+	@DisplayName("save operation")
 	public void givenModalityObject_whenSave_theReturnSavedUser() {
 
 		Modality savedModality = modalityRepository.save(modality);
 
-		try {
-			modalityRepository.save(duplicatedNameModality);
-		} catch (DataIntegrityViolationException e) {
-			assertThat(e).isNotNull();
-		}
-
+		assertThrows(DataIntegrityViolationException.class, () -> modalityRepository.save(duplicatedNameModality));
 		assertThat(savedModality).isNotNull();
 		assertThat(savedModality.getId()).isGreaterThan(0);
 	}
 
 	@Test
-	@DisplayName("JUnit test for findAll operation")
+	@DisplayName("findAll operation")
 	public void givenModalitiesList_whenFindAll_theReturnModalitiesList() {
 
 		modalityRepository.save(modality);
@@ -70,7 +66,7 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByName operation")
+	@DisplayName("findByName operation")
 	public void givenModality_whenFindByName_theReturnModality() {
 
 		Modality savedModality = modalityRepository.save(modality);
@@ -82,7 +78,7 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for findByNumberPlayers operation")
+	@DisplayName("findByNumberPlayers operation")
 	public void givenNumberPlayers_whenFindByNumberPlayers_theReturnModalitiesList() {
 
 		modalityRepository.save(modality);
@@ -95,7 +91,7 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for update operation")
+	@DisplayName("update operation")
 	public void givenModality_whenUpdate_theReturnUpdatedModality() {
 
 		modalityRepository.save(modality);
@@ -111,7 +107,7 @@ public class ModalityRepositoryTest {
 	}
 
 	@Test
-	@DisplayName("JUnit test for delete operation")
+	@DisplayName("delete operation")
 	public void givenUser_whenDelete_thenDeleteUser() {
 
 		modalityRepository.save(modality);
