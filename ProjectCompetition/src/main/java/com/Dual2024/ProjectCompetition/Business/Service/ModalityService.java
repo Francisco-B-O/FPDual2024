@@ -16,5 +16,7 @@ public interface ModalityService {
 
 	void deleteModality(ModalityBO modalityBO) throws BusinessException;
 
-	List<ModalityBO> getModalityByNumberPlayers(int numberPlayers) throws BusinessException;
+	List<ModalityBO> getModalitiesByNumberPlayers(int numberPlayers) throws BusinessException;
+
+	ModalityBO updateModality(ModalityBO modalityBO) throws BusinessException;
 }

@@ -82,4 +82,21 @@ public class FormatServiceImpl implements FormatService {
 		}
 	}
 
+	@Override
+	public FormatBO updateFormat(FormatBO formatBO) throws BusinessException {
+		FormatBO format = null;
+		try {
+			format = modelToBOConverter.formatModelToBO(formatDAO.findById(formatBO.getId()));
+			format = formatBO;
+		} catch (DataException e) {
+			throw new BusinessException("This format not exists", e);
+		}
+		try {
+
+			return modelToBOConverter.formatModelToBO(formatDAO.save(boToModelConverter.formatBOToModel(format)));
+		} catch (DataException e) {
+			throw new BusinessException("format could not be updated", e);
+		}
+	}
+
 }

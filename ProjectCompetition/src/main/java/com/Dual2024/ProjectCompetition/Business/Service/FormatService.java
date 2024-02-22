@@ -15,4 +15,6 @@ public interface FormatService {
 	void deleteFormat(FormatBO formatBO) throws BusinessException;
 
 	FormatBO getFormatByName(String name) throws BusinessException;
+
+	FormatBO updateFormat(FormatBO formatBO) throws BusinessException;
 }

@@ -74,7 +74,7 @@ public class ModalityServiceImpl implements ModalityService {
 	}
 
 	@Override
-	public List<ModalityBO> getModalityByNumberPlayers(int numberPlayers) throws BusinessException {
+	public List<ModalityBO> getModalitiesByNumberPlayers(int numberPlayers) throws BusinessException {
 		List<ModalityBO> listModalitiesBO = new ArrayList<ModalityBO>();
 		try {
 			modalityDAO.findByNumberPlayers(numberPlayers).forEach(
@@ -96,4 +96,22 @@ public class ModalityServiceImpl implements ModalityService {
 
 	}
 
+	@Override
+	public ModalityBO updateModality(ModalityBO modalityBO) throws BusinessException {
+		ModalityBO modality = null;
+		try {
+			modality = modelToBOConverter.modalityModelToBO(modalityDAO.findById(modalityBO.getId()));
+			modality = modalityBO;
+
+		} catch (DataException e) {
+			throw new BusinessException("This modality not exists", e);
+		}
+		try {
+
+			return modelToBOConverter
+					.modalityModelToBO(modalityDAO.save(boToModelConverter.modalityBOToModel(modality)));
+		} catch (DataException e) {
+			throw new BusinessException("Modality could not be updated", e);
+		}
+	}
 }
