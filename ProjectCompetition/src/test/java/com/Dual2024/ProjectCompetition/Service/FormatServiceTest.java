@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.FormatNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
@@ -131,7 +132,7 @@ public class FormatServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> FormatService.getFormatById(1L));
+		assertThrows(FormatNotFoundException.class, () -> FormatService.getFormatById(1L));
 
 	}
 
@@ -164,7 +165,7 @@ public class FormatServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> FormatService.getFormatByName("Format1"));
+		assertThrows(FormatNotFoundException.class, () -> FormatService.getFormatByName("Format1"));
 	}
 
 	@Test
@@ -190,7 +191,7 @@ public class FormatServiceTest {
 	}
 
 	@Test
-	@DisplayName("getAllFormatss operation : incorrect case -> Exception")
+	@DisplayName("getAllFormatss operation : incorrect case -> not found")
 	public void givenNothing_whenGetAllFormats_thenThrowBusinessException() {
 
 		try {
@@ -198,7 +199,7 @@ public class FormatServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> FormatService.getAllFormats());
+		assertThrows(FormatNotFoundException.class, () -> FormatService.getAllFormats());
 
 	}
 
@@ -237,7 +238,7 @@ public class FormatServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> FormatService.deleteFormat(formatBO));
+		assertThrows(FormatNotFoundException.class, () -> FormatService.deleteFormat(formatBO));
 
 	}
 }

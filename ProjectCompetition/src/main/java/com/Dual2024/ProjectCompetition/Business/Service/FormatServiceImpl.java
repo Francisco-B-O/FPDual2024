@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.FormatNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
@@ -47,7 +48,7 @@ public class FormatServiceImpl implements FormatService {
 		try {
 			return modelToBOConverter.formatModelToBO(formatDAO.findById(id));
 		} catch (DataException e) {
-			throw new BusinessException("Format not found", e);
+			throw new FormatNotFoundException("Format not found", e);
 		}
 	}
 
@@ -59,7 +60,7 @@ public class FormatServiceImpl implements FormatService {
 					.forEach((Format format) -> listFormatsBO.add(modelToBOConverter.formatModelToBO(format)));
 			return listFormatsBO;
 		} catch (DataException e) {
-			throw new BusinessException("Formats not found", e);
+			throw new FormatNotFoundException("Formats not found", e);
 		}
 	}
 
@@ -68,7 +69,7 @@ public class FormatServiceImpl implements FormatService {
 		try {
 			return modelToBOConverter.formatModelToBO(formatDAO.findByName(name));
 		} catch (DataException e) {
-			throw new BusinessException("Format not found", e);
+			throw new FormatNotFoundException("Format not found", e);
 		}
 	}
 
@@ -78,7 +79,7 @@ public class FormatServiceImpl implements FormatService {
 			modelToBOConverter.formatModelToBO(formatDAO.findById(formatBO.getId()));
 			formatDAO.delete(boToModelConverter.formatBOToModel(formatBO));
 		} catch (DataException e) {
-			throw new BusinessException("Format not deleted", e);
+			throw new FormatNotFoundException("Format not deleted", e);
 		}
 	}
 
@@ -89,7 +90,7 @@ public class FormatServiceImpl implements FormatService {
 			format = modelToBOConverter.formatModelToBO(formatDAO.findById(formatBO.getId()));
 			format = formatBO;
 		} catch (DataException e) {
-			throw new BusinessException("This format not exists", e);
+			throw new FormatNotFoundException("This format not exists", e);
 		}
 		try {
 

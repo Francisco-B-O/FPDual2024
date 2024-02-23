@@ -21,6 +21,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessExcept
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedEmailException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNickException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.UserInActiveTournamentException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.UserNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
@@ -200,7 +201,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.getUser(1L));
+		assertThrows(UserNotFoundException.class, () -> userService.getUser(1L));
 	}
 
 	@Test
@@ -238,7 +239,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.deleteUser(1L));
+		assertThrows(UserNotFoundException.class, () -> userService.deleteUser(1L));
 
 	}
 
@@ -279,7 +280,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@DisplayName("getAllUsers operation : incorrect case -> Exception")
+	@DisplayName("getAllUsers operation : incorrect case -> not found")
 	public void givenNothing_whenGetAllUsers_thenThrowBusinessException() {
 
 		try {
@@ -287,7 +288,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.getAllUsers());
+		assertThrows(UserNotFoundException.class, () -> userService.getAllUsers());
 	}
 
 	@Test
@@ -319,7 +320,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.getUserByNick("test"));
+		assertThrows(UserNotFoundException.class, () -> userService.getUserByNick("test"));
 	}
 
 	@Test
@@ -351,7 +352,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.getUserByEmail("test@email.com"));
+		assertThrows(UserNotFoundException.class, () -> userService.getUserByEmail("test@email.com"));
 	}
 
 	@Test
@@ -376,7 +377,7 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@DisplayName("getUsersByState operation : incorrect case -> Exception")
+	@DisplayName("getUsersByState operation : incorrect case -> not found")
 	public void givenNothing_whenGetUsersByState_thenThrowBusinessException() {
 
 		try {
@@ -384,7 +385,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.getUsersByState(UserState.CONECTADO));
+		assertThrows(UserNotFoundException.class, () -> userService.getUsersByState(UserState.CONECTADO));
 	}
 
 	@Test
@@ -421,7 +422,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.UpdateUser(1L, "prueba", "pass"));
+		assertThrows(UserNotFoundException.class, () -> userService.UpdateUser(1L, "prueba", "pass"));
 
 	}
 
@@ -485,7 +486,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> userService.UpdateRoleUser(1L, roles));
+		assertThrows(UserNotFoundException.class, () -> userService.UpdateRoleUser(1L, roles));
 
 	}
 

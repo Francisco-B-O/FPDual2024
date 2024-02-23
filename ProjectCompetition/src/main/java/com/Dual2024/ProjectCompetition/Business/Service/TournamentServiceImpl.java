@@ -12,6 +12,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.ActiveTourname
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameAndModalityException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.InvalidDateException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.TeamNotFoundException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.TournamentNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
@@ -72,7 +74,7 @@ public class TournamentServiceImpl implements TournamentService {
 		try {
 			return modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
 		} catch (DataException e) {
-			throw new BusinessException("Tournament not found", e);
+			throw new TournamentNotFoundException("Tournament not found", e);
 		}
 	}
 
@@ -84,7 +86,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -94,7 +96,7 @@ public class TournamentServiceImpl implements TournamentService {
 		try {
 			tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
 		} catch (DataException e) {
-			throw new BusinessException("tournament not found", e);
+			throw new TournamentNotFoundException("tournament not found", e);
 		}
 		if (tournamentBO.getState().equals(TournamentState.EN_JUEGO)) {
 			throw new ActiveTournamentException("This tournament is active");
@@ -115,7 +117,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -128,7 +130,7 @@ public class TournamentServiceImpl implements TournamentService {
 							.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -140,7 +142,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -152,7 +154,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -164,7 +166,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -176,7 +178,7 @@ public class TournamentServiceImpl implements TournamentService {
 					.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -189,7 +191,7 @@ public class TournamentServiceImpl implements TournamentService {
 							.add(modelToBOConverter.tournamentModelToBO(tournament)));
 			return listTournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("Tournaments not found", e);
+			throw new TournamentNotFoundException("Tournaments not found", e);
 		}
 	}
 
@@ -200,7 +202,7 @@ public class TournamentServiceImpl implements TournamentService {
 			tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
 			tournament = tournamentBO;
 		} catch (DataException e) {
-			throw new BusinessException("This tournament not exists", e);
+			throw new TournamentNotFoundException("This tournament not exists", e);
 		}
 		try {
 
@@ -218,19 +220,21 @@ public class TournamentServiceImpl implements TournamentService {
 		try {
 			team = modelToBOConverter.teamModelToBOAux(teamDAO.findById(id));
 		} catch (DataException e) {
-			throw new BusinessException("This team not exists", e);
+			throw new TeamNotFoundException("This team not exists", e);
 		}
 		TournamentBO tournament = null;
 		try {
 			tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
 			List<TeamBOAux> teams = new ArrayList<TeamBOAux>();
-			if (tournamentBO.getTeams() == null) {
+			if (tournament.getTeams() == null) {
 				teams.add(team);
 				tournament.setTeams(teams);
-			} else if (tournamentBO.getTeams().contains(team)) {
+			} else if (tournament.getTeams().size() >= tournamentBO.getSize()) {
+				throw new BusinessException("Full tournament  ");
+			} else if (tournament.getTeams().contains(team)) {
 				throw new BusinessException("This team is already on the tournament ");
 			} else {
-				teams = tournamentBO.getTeams();
+				teams = tournament.getTeams();
 				for (TeamBOAux t : teams) {
 					for (UserBOAux u : team.getUsers()) {
 						if (t.getUsers().contains(u)) {
@@ -244,7 +248,7 @@ public class TournamentServiceImpl implements TournamentService {
 			}
 
 		} catch (DataException e) {
-			throw new BusinessException("This tournament not exists", e);
+			throw new TournamentNotFoundException("This tournament not exists", e);
 		}
 		try {
 
