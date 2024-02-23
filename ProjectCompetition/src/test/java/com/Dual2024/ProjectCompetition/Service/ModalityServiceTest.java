@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
@@ -131,7 +132,7 @@ public class ModalityServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> modalityService.getModalityById(1L));
+		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityById(1L));
 
 	}
 
@@ -164,7 +165,7 @@ public class ModalityServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> modalityService.getModalityByName("modality1"));
+		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityByName("modality1"));
 	}
 
 	@Test
@@ -190,7 +191,7 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("getModalityByNumberPlayers operation : incorrect case -> Exception")
+	@DisplayName("getModalityByNumberPlayers operation : incorrect case -> not found")
 	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() {
 
 		try {
@@ -198,7 +199,7 @@ public class ModalityServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
+		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
 
 	}
 
@@ -225,7 +226,7 @@ public class ModalityServiceTest {
 	}
 
 	@Test
-	@DisplayName("getAllModalities operation : incorrect case -> Exception")
+	@DisplayName("getAllModalities operation : incorrect case -> not found")
 	public void givenNothing_whenGetAllModalities_thenThrowBusinessException() {
 
 		try {
@@ -233,7 +234,7 @@ public class ModalityServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> modalityService.getAllModalities());
+		assertThrows(ModalityNotFoundException.class, () -> modalityService.getAllModalities());
 
 	}
 

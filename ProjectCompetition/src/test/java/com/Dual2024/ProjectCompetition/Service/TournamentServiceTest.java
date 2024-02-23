@@ -22,6 +22,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.ActiveTourname
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameAndModalityException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.InvalidDateException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.TournamentNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
@@ -205,7 +206,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentById(1L));
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentById(1L));
 
 	}
 
@@ -239,7 +240,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getAllTournaments());
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getAllTournaments());
 
 	}
 
@@ -273,7 +274,8 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentsByName("Torneo de futbol"));
+		assertThrows(TournamentNotFoundException.class,
+				() -> tournamentService.getTournamentsByName("Torneo de futbol"));
 
 	}
 
@@ -309,7 +311,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentsByFormat(formatBO));
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByFormat(formatBO));
 
 	}
 
@@ -344,7 +346,7 @@ public class TournamentServiceTest {
 			BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(DataException.class);
 		} catch (DataException e) {
 		}
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentsByModality(modalityBO));
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByModality(modalityBO));
 
 	}
 
@@ -378,7 +380,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentsBySize(2));
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsBySize(2));
 
 	}
 
@@ -412,7 +414,8 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.getTournamentsByState(TournamentState.EN_JUEGO));
+		assertThrows(TournamentNotFoundException.class,
+				() -> tournamentService.getTournamentsByState(TournamentState.EN_JUEGO));
 
 	}
 
@@ -448,7 +451,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class,
+		assertThrows(TournamentNotFoundException.class,
 				() -> tournamentService.getTournamentsByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)));
 
 	}
@@ -485,7 +488,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class,
+		assertThrows(TournamentNotFoundException.class,
 				() -> tournamentService.getTournamentsByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)));
 
 	}
@@ -539,7 +542,7 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.deleteTournament(1L));
+		assertThrows(TournamentNotFoundException.class, () -> tournamentService.deleteTournament(1L));
 	}
 
 	@Test

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
@@ -48,7 +49,7 @@ public class ModalityServiceImpl implements ModalityService {
 		try {
 			return modelToBOConverter.modalityModelToBO(modalityDAO.findById(id));
 		} catch (DataException e) {
-			throw new BusinessException("Modality not found", e);
+			throw new ModalityNotFoundException("Modality not found", e);
 		}
 	}
 
@@ -60,7 +61,7 @@ public class ModalityServiceImpl implements ModalityService {
 					(Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
 			return listModalitiesBO;
 		} catch (DataException e) {
-			throw new BusinessException("Modalities not found", e);
+			throw new ModalityNotFoundException("Modalities not found", e);
 		}
 	}
 
@@ -69,7 +70,7 @@ public class ModalityServiceImpl implements ModalityService {
 		try {
 			return modelToBOConverter.modalityModelToBO(modalityDAO.findByName(name));
 		} catch (DataException e) {
-			throw new BusinessException("Modality not found", e);
+			throw new ModalityNotFoundException("Modality not found", e);
 		}
 	}
 
@@ -81,7 +82,7 @@ public class ModalityServiceImpl implements ModalityService {
 					(Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
 			return listModalitiesBO;
 		} catch (DataException e) {
-			throw new BusinessException("Modalities not found", e);
+			throw new ModalityNotFoundException("Modalities not found", e);
 		}
 	}
 
@@ -104,7 +105,7 @@ public class ModalityServiceImpl implements ModalityService {
 			modality = modalityBO;
 
 		} catch (DataException e) {
-			throw new BusinessException("This modality not exists", e);
+			throw new ModalityNotFoundException("This modality not exists", e);
 		}
 		try {
 
