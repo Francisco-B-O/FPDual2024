@@ -108,11 +108,11 @@ public class ModalityRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenUser_whenDelete_thenDeleteUser() {
+	public void givenUser_whenDeleteById_thenDeleteUser() {
 
 		modalityRepository.save(modality);
 
-		modalityRepository.delete(modality);
+		modalityRepository.deleteById(modality.getId());
 
 		Modality deletedModality = modalityRepository.findByName("modality1");
 		assertThat(deletedModality).isNull();

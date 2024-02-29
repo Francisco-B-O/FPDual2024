@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
@@ -44,10 +45,10 @@ public class TournamentDAOImpl implements TournamentDAO {
 			if (tournament.isPresent()) {
 				return tournament.get();
 			} else {
-				throw new DataException("Tournament not found");
+				throw new NotFoundException("Tournament not found");
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournament not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -57,24 +58,20 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findAll();
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(Tournament tournament) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (tournament.equals(null)) {
-				throw new DataException("Tournament not deleted");
-			} else {
-				tournamentRepository.delete(tournament);
-			}
+			tournamentRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Tournament not deleted", nre);
 		}
@@ -86,12 +83,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByName(name);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -101,12 +98,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByFormat(format);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -116,12 +113,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findBySize(size);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -131,12 +128,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByStartDate(startDate);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -146,12 +143,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByEndDate(endDate);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -161,12 +158,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByState(state);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -176,12 +173,12 @@ public class TournamentDAOImpl implements TournamentDAO {
 		try {
 			List<Tournament> tournaments = tournamentRepository.findByModality(modality);
 			if (tournaments.isEmpty()) {
-				throw new DataException("Tournaments not found");
+				throw new NotFoundException("Tournaments not found");
 			} else {
 				return tournaments;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Tournaments not found");
+			throw new DataException("Data access error", nre);
 		}
 
 	}

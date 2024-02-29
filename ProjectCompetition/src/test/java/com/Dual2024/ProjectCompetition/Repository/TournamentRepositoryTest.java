@@ -229,10 +229,10 @@ public class TournamentRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenTeam_whenDelete_thenRemoveTeam() {
+	public void givenTeam_whenDeleteById_thenRemoveTeam() {
 
 		tournamentRepository.save(tournament);
-		tournamentRepository.delete(tournament);
+		tournamentRepository.deleteById(tournament.getId());
 
 		assertThat(tournamentRepository.findById(tournament.getId())).isNotPresent();
 

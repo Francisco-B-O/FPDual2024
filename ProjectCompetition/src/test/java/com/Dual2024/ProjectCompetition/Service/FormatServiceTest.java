@@ -26,6 +26,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverte
 import com.Dual2024.ProjectCompetition.Business.Service.FormatServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.FormatDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,7 +56,7 @@ public class FormatServiceTest {
 		BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
 		BDDMockito.given(modelToBOConverter.formatModelToBO(format)).willReturn(formatBO);
 		try {
-			BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(DataException.class);
+			BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
@@ -91,7 +92,7 @@ public class FormatServiceTest {
 
 		BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
 		try {
-			BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(DataException.class);
+			BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
@@ -128,7 +129,7 @@ public class FormatServiceTest {
 	public void givenId_whenGetFormatById_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(FormatDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(FormatDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -161,7 +162,7 @@ public class FormatServiceTest {
 	public void givenFormatName_whenGetFormatByName_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(FormatDAO.findByName("Format1")).willThrow(DataException.class);
+			BDDMockito.given(FormatDAO.findByName("Format1")).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -195,7 +196,7 @@ public class FormatServiceTest {
 	public void givenNothing_whenGetAllFormats_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(FormatDAO.findAll()).willThrow(DataException.class);
+			BDDMockito.given(FormatDAO.findAll()).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -208,37 +209,19 @@ public class FormatServiceTest {
 	public void givenId_whenDeleteFormat_thenDeleteFormat() {
 
 		try {
-			BDDMockito.given(FormatDAO.findById(1L)).willReturn(format);
-		} catch (DataException e) {
-		}
-		BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
-		BDDMockito.given(modelToBOConverter.formatModelToBO(format)).willReturn(formatBO);
-		try {
-			BDDMockito.willDoNothing().given(FormatDAO).delete(format);
+			BDDMockito.willDoNothing().given(FormatDAO).delete(1L);
 		} catch (DataException e) {
 		}
 
 		try {
-			FormatService.deleteFormat(formatBO);
+			FormatService.deleteFormat(1L);
 		} catch (BusinessException e) {
 		}
 
 		try {
-			verify(FormatDAO, times(1)).delete(format);
+			verify(FormatDAO, times(1)).delete(1L);
 		} catch (DataException e) {
 		}
 	}
 
-	@Test
-	@DisplayName("deleteFormat operation : incorrect case -> notFound")
-	public void givenId_whenDeleteFormat_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(FormatDAO.findById(1L)).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(FormatNotFoundException.class, () -> FormatService.deleteFormat(formatBO));
-
-	}
 }

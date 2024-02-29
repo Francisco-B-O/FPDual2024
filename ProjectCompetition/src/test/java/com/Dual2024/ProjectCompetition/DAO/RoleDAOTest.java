@@ -156,7 +156,7 @@ public class RoleDAOTest {
 		}
 
 		try {
-			roleDAO.delete(role);
+			roleDAO.delete(role.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

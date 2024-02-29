@@ -19,6 +19,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 
@@ -41,22 +42,29 @@ public class UserServiceImpl implements UserService {
 		try {
 			userDAO.findAll().forEach((User user) -> listUserBO.add(modelToBOConverter.userModelToBO(user)));
 			return listUserBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("Users not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find users", null);
 		}
 	}
 
 	@Override
 	public UserBO registerUser(UserBO userBO) throws BusinessException {
 		try {
-			userDAO.findByEmail(userBO.getEmail());
-			throw new DuplicatedEmailException("This email is already registered");
+			UserBO found = modelToBOConverter
+					.userModelToBO(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()).getFirst());
+			if (found.getEmail().equals(userBO.getEmail())) {
+				throw new DuplicatedEmailException("This email is already registered");
+			}
+			if (found.getNick().equals(userBO.getNick())) {
+				throw new DuplicatedNickException("This email is already registered");
+			}
+
+		} catch (NotFoundException e) {
+
 		} catch (DataException e) {
-		}
-		try {
-			userDAO.findByNick(userBO.getNick());
-			throw new DuplicatedNickException("This nickname is already registered");
-		} catch (DataException e) {
+
 		}
 		try {
 			List<RoleBO> defaultRole = new ArrayList<RoleBO>();
@@ -73,24 +81,28 @@ public class UserServiceImpl implements UserService {
 	public UserBO getUser(Long id) throws BusinessException {
 		try {
 			return modelToBOConverter.userModelToBO(userDAO.findById(id));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("User not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find user ", null);
 		}
 	}
 
 	@Override
 	public void deleteUser(Long id) throws BusinessException {
-		UserBO userBO;
+		UserBO userBO = null;
 		try {
 			userBO = modelToBOConverter.userModelToBO(userDAO.findById(id));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("User not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("User not deleted", e);
 		}
 		if (userBO.isInActiveTournament()) {
 			throw new UserInActiveTournamentException("This user is in an active tournament");
 		} else {
 			try {
-				userDAO.delete(boToModelConverter.userBOToModel(userBO));
+				userDAO.delete(id);
 			} catch (DataException e) {
 				throw new BusinessException("User not deleted", e);
 			}
@@ -103,8 +115,10 @@ public class UserServiceImpl implements UserService {
 
 		try {
 			return modelToBOConverter.userModelToBO(userDAO.findByNick(nick));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("User not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find user", null);
 		}
 	}
 
@@ -113,8 +127,10 @@ public class UserServiceImpl implements UserService {
 
 		try {
 			return modelToBOConverter.userModelToBO(userDAO.findByEmail(email));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("User not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find user", null);
 		}
 	}
 
@@ -124,8 +140,10 @@ public class UserServiceImpl implements UserService {
 		try {
 			userDAO.findByState(state).forEach((User user) -> listUserBO.add(modelToBOConverter.userModelToBO(user)));
 			return listUserBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("Users not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find users", null);
 		}
 
 	}
@@ -137,8 +155,10 @@ public class UserServiceImpl implements UserService {
 			user = modelToBOConverter.userModelToBO(userDAO.findById(id));
 			user.setAvatar(avatar);
 			user.setPassword(password);
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("This user not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("User could not be updated", e);
 		}
 		try {
 
@@ -158,8 +178,10 @@ public class UserServiceImpl implements UserService {
 			try {
 				user = modelToBOConverter.userModelToBO(userDAO.findById(id));
 				user.setRoles(roles);
-			} catch (DataException e) {
+			} catch (NotFoundException e) {
 				throw new UserNotFoundException("This user not exists", e);
+			} catch (DataException e) {
+				throw new BusinessException("User could not be updated", e);
 			}
 			try {
 

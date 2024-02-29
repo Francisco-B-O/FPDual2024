@@ -16,4 +16,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findByState(UserState state);
 
+	List<User> findByNickOrEmail(String nick, String email);
+
 }

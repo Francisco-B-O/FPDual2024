@@ -22,6 +22,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 
 @Service
@@ -74,8 +75,10 @@ public class TeamServiceImpl implements TeamService {
 	public TeamBO getTeamById(Long id) throws BusinessException {
 		try {
 			return modelToBOConverter.teamModelToBO(teamDAO.findById(id));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("Team not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find team", null);
 		}
 	}
 
@@ -85,8 +88,10 @@ public class TeamServiceImpl implements TeamService {
 		try {
 			teamDAO.findAll().forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
 			return listTeamsBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("Teams not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find teams", null);
 		}
 	}
 
@@ -102,7 +107,7 @@ public class TeamServiceImpl implements TeamService {
 			throw new UserInActiveTournamentException("This team is in an active tournament");
 		} else {
 			try {
-				teamDAO.delete(boToModelConverter.teamBOToModel(teamBO));
+				teamDAO.delete(id);
 			} catch (DataException e) {
 				throw new BusinessException("Team not deleted", e);
 			}
@@ -116,8 +121,10 @@ public class TeamServiceImpl implements TeamService {
 		try {
 			teamDAO.findByName(name).forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
 			return listTeamsBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("Teams not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find teams", null);
 		}
 	}
 
@@ -128,8 +135,10 @@ public class TeamServiceImpl implements TeamService {
 			teamDAO.findByModality(boToModelConverter.modalityBOToModel(modalityBO))
 					.forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
 			return listTeamsBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("Teams not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find teams", null);
 		}
 	}
 

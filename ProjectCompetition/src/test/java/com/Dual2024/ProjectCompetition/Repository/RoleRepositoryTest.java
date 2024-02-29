@@ -95,11 +95,11 @@ public class RoleRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenRole_whenDelete_thenDeleteRole() {
+	public void givenRole_whenDeleteById_thenDeleteRole() {
 
 		roleRepository.save(role);
 
-		roleRepository.delete(role);
+		roleRepository.deleteById(role.getId());
 
 		Role deletedRole = roleRepository.findByName("test");
 		assertThat(deletedRole).isNull();

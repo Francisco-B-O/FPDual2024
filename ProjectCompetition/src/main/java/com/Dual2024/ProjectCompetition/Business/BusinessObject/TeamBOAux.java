@@ -19,10 +19,9 @@ public class TeamBOAux {
 	private ModalityBO modality;
 
 	private String logo;
+	private Long captainId;
 
 	private List<TournamentBOAux> tournaments;
-
-	private UserBOAux captain;
 
 	private List<UserBOAux> users;
 }

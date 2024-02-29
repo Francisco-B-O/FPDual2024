@@ -12,7 +12,7 @@ public interface ModalityDAO {
 
 	List<Modality> findAll() throws DataException;
 
-	void delete(Modality modality) throws DataException;
+	void delete(Long id) throws DataException;
 
 	Modality findByName(String name) throws DataException;
 

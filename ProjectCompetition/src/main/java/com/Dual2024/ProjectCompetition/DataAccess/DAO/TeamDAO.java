@@ -14,7 +14,7 @@ public interface TeamDAO {
 
 	List<Team> findAll() throws DataException;
 
-	void delete(Team team) throws DataException;
+	void delete(Long id) throws DataException;
 
 	List<Team> findByName(String name) throws DataException;
 

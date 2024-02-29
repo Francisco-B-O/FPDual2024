@@ -32,6 +32,7 @@ import com.Dual2024.ProjectCompetition.Business.Service.UserServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
@@ -94,11 +95,8 @@ public class UserServiceTest {
 		BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
 		BDDMockito.given(modelToBOConverter.roleModelToBO(role)).willReturn(roleBO);
 		try {
-			BDDMockito.given(userDAO.findByEmail(userBO.getEmail())).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(userDAO.findByNick(userBO.getNick())).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()))
+					.willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
@@ -124,8 +122,9 @@ public class UserServiceTest {
 	@DisplayName("userRegister operation : incorrect case -> Duplicated email")
 	public void givenUserBO_whenUserRegister_thenThrowDuplicatedEmailException() {
 
+		BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
 		try {
-			BDDMockito.given(userDAO.findByEmail(userBO.getEmail())).willReturn(user);
+			BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail())).willReturn(usersList);
 		} catch (DataException e) {
 		}
 
@@ -136,16 +135,15 @@ public class UserServiceTest {
 	@DisplayName("userRegister operation : incorrect case -> Duplicated nick")
 	public void givenUserBO_whenUserRegister_thenThrowDuplicatedNickException() {
 
+		UserBO test = UserBO.builder().email("hola").id(1L).nick("test").password("passwordTest")
+				.state(UserState.CONECTADO).build();
+		BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
 		try {
-			BDDMockito.given(userDAO.findByEmail(userBO.getEmail())).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(userDAO.findByNick(userBO.getNick())).willReturn(user);
+			BDDMockito.given(userDAO.findByNickOrEmail(test.getNick(), test.getEmail())).willReturn(usersList);
 		} catch (DataException e) {
 		}
 
-		assertThrows(DuplicatedNickException.class, () -> userService.registerUser(userBO));
+		assertThrows(DuplicatedNickException.class, () -> userService.registerUser(test));
 	}
 
 	@Test
@@ -156,11 +154,8 @@ public class UserServiceTest {
 		user.setPassword("p");
 		BDDMockito.given(boToModelConverter.userBOToModel(userBO)).willReturn(user);
 		try {
-			BDDMockito.given(userDAO.findByEmail(userBO.getEmail())).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(userDAO.findByNick(userBO.getNick())).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()))
+					.willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
@@ -197,7 +192,7 @@ public class UserServiceTest {
 	public void givenId_whenGetUser_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -212,10 +207,9 @@ public class UserServiceTest {
 			BDDMockito.given(userDAO.findById(1L)).willReturn(user);
 		} catch (DataException e) {
 		}
-		BDDMockito.given(boToModelConverter.userBOToModel(userBO)).willReturn(user);
 		BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
 		try {
-			BDDMockito.willDoNothing().given(userDAO).delete(user);
+			BDDMockito.willDoNothing().given(userDAO).delete(1L);
 		} catch (DataException e) {
 		}
 
@@ -225,7 +219,7 @@ public class UserServiceTest {
 		}
 
 		try {
-			verify(userDAO, times(1)).delete(user);
+			verify(userDAO, times(1)).delete(1L);
 		} catch (DataException e) {
 		}
 	}
@@ -284,7 +278,7 @@ public class UserServiceTest {
 	public void givenNothing_whenGetAllUsers_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findAll()).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findAll()).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -316,7 +310,7 @@ public class UserServiceTest {
 	public void givenNick_whenGetUserByNick_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findByNick("test")).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findByNick("test")).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -348,7 +342,7 @@ public class UserServiceTest {
 	public void givenEmail_whenGetUserByEmail_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findByEmail("test@email.com")).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findByEmail("test@email.com")).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -381,7 +375,7 @@ public class UserServiceTest {
 	public void givenNothing_whenGetUsersByState_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 

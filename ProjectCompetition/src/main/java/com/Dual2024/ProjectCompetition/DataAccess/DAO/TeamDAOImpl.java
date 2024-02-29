@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
@@ -42,10 +43,10 @@ public class TeamDAOImpl implements TeamDAO {
 			if (team.isPresent()) {
 				return team.get();
 			} else {
-				throw new DataException("Team not found");
+				throw new NotFoundException("Team not found");
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Team not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -55,24 +56,20 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 			List<Team> teams = teamRepository.findAll();
 			if (teams.isEmpty()) {
-				throw new DataException("Teams not found");
+				throw new NotFoundException("Teams not found");
 			} else {
 				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Teams not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(Team team) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (team.equals(null)) {
-				throw new DataException("Team not deleted");
-			} else {
-				teamRepository.delete(team);
-			}
+			teamRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Team not deleted", nre);
 		}
@@ -84,12 +81,12 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 			List<Team> teams = teamRepository.findByName(name);
 			if (teams.isEmpty()) {
-				throw new DataException("Teams not found");
+				throw new NotFoundException("Teams not found");
 			} else {
 				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Teams not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 
@@ -98,12 +95,12 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 			List<Team> teams = teamRepository.findByModality(modality);
 			if (teams.isEmpty()) {
-				throw new DataException("Teams not found");
+				throw new NotFoundException("Teams not found");
 			} else {
 				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Teams not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 
@@ -112,12 +109,12 @@ public class TeamDAOImpl implements TeamDAO {
 		try {
 			List<Team> teams = teamRepository.findByCaptain(captain);
 			if (teams.isEmpty()) {
-				throw new DataException("Teams not found");
+				throw new NotFoundException("Teams not found");
 			} else {
 				return teams;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Teams not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 

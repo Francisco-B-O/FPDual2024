@@ -33,6 +33,7 @@ import com.Dual2024.ProjectCompetition.Business.Service.TeamServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
@@ -75,7 +76,7 @@ public class TeamServiceTest {
 		tournamentsBO.add(tournamentBOAUX);
 		team = Team.builder().modality(modality).id(1L).name("team1").logo("logo").captain(user)
 				.tournaments(tournaments).build();
-		teamBO = TeamBO.builder().modality(modalityBO).id(1L).name("team1").logo("logo").captain(userBOAux)
+		teamBO = TeamBO.builder().modality(modalityBO).id(1L).name("team1").logo("logo").captainId(1L)
 				.tournaments(tournamentsBO).build();
 		teams = new ArrayList<Team>();
 		teamsBO = new ArrayList<TeamBO>();
@@ -96,11 +97,11 @@ public class TeamServiceTest {
 		} catch (DataException e) {
 		}
 		try {
-			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
-			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -123,7 +124,7 @@ public class TeamServiceTest {
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
 		try {
-			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		try {
@@ -172,7 +173,7 @@ public class TeamServiceTest {
 	public void givenId_whenGetTeamById_thenThrowsBusinessException() {
 
 		try {
-			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 		assertThrows(TeamNotFoundException.class, () -> teamService.getTeamById(1L));
@@ -204,7 +205,7 @@ public class TeamServiceTest {
 	public void givenNothing_whenGetAllTeams_thenThrowsBusinessException() {
 
 		try {
-			BDDMockito.given(teamDAO.findAll()).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findAll()).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -240,7 +241,7 @@ public class TeamServiceTest {
 
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
 		try {
-			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -274,7 +275,7 @@ public class TeamServiceTest {
 	public void givenModality_whenGetTeamsByName_thenThrowsBusinessException() {
 
 		try {
-			BDDMockito.given(teamDAO.findByName(team.getName())).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findByName(team.getName())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -290,10 +291,9 @@ public class TeamServiceTest {
 			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 		} catch (DataException e) {
 		}
-		BDDMockito.given(boToModelConverter.teamBOToModel(teamBO)).willReturn(team);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		try {
-			BDDMockito.willDoNothing().given(teamDAO).delete(team);
+			BDDMockito.willDoNothing().given(teamDAO).delete(1L);
 		} catch (DataException e) {
 		}
 
@@ -303,7 +303,7 @@ public class TeamServiceTest {
 		}
 
 		try {
-			verify(teamDAO, times(1)).delete(team);
+			verify(teamDAO, times(1)).delete(1L);
 		} catch (DataException e) {
 		}
 	}
@@ -313,7 +313,7 @@ public class TeamServiceTest {
 	public void givenId_whenDeleteTeam_thenThrowsBusinessException() {
 
 		try {
-			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 

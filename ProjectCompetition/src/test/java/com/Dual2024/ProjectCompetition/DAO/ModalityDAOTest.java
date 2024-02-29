@@ -179,7 +179,7 @@ public class ModalityDAOTest {
 		}
 
 		try {
-			modalityDAO.delete(modality);
+			modalityDAO.delete(modality.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

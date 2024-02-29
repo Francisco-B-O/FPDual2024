@@ -234,7 +234,7 @@ public class TeamDAOTest {
 		}
 
 		try {
-			teamDAO.delete(team);
+			teamDAO.delete(team.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

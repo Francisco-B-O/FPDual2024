@@ -15,6 +15,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 
 @Service
@@ -48,8 +49,10 @@ public class ModalityServiceImpl implements ModalityService {
 	public ModalityBO getModalityById(Long id) throws BusinessException {
 		try {
 			return modelToBOConverter.modalityModelToBO(modalityDAO.findById(id));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new ModalityNotFoundException("Modality not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find modality", e);
 		}
 	}
 
@@ -60,8 +63,10 @@ public class ModalityServiceImpl implements ModalityService {
 			modalityDAO.findAll().forEach(
 					(Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
 			return listModalitiesBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new ModalityNotFoundException("Modalities not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find modalities", e);
 		}
 	}
 
@@ -69,8 +74,10 @@ public class ModalityServiceImpl implements ModalityService {
 	public ModalityBO getModalityByName(String name) throws BusinessException {
 		try {
 			return modelToBOConverter.modalityModelToBO(modalityDAO.findByName(name));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new ModalityNotFoundException("Modality not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find modality", e);
 		}
 	}
 
@@ -81,16 +88,17 @@ public class ModalityServiceImpl implements ModalityService {
 			modalityDAO.findByNumberPlayers(numberPlayers).forEach(
 					(Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
 			return listModalitiesBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new ModalityNotFoundException("Modalities not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Error when trying to find modalities", e);
 		}
 	}
 
 	@Override
-	public void deleteModality(ModalityBO modalityBO) throws BusinessException {
+	public void deleteModality(Long id) throws BusinessException {
 		try {
-			modelToBOConverter.modalityModelToBO(modalityDAO.findById(modalityBO.getId()));
-			modalityDAO.delete(boToModelConverter.modalityBOToModel(modalityBO));
+			modalityDAO.delete(id);
 		} catch (DataException e) {
 			throw new BusinessException("Modality not deleted", e);
 		}

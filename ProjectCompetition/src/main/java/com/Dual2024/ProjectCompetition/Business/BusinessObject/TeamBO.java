@@ -23,7 +23,7 @@ public class TeamBO {
 
 	private String logo;
 
-	private UserBOAux captain;
+	private Long captainId;
 
 	private List<UserBOAux> users;
 

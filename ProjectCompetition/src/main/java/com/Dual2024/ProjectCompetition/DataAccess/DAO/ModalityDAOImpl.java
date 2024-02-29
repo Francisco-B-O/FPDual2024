@@ -9,8 +9,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
-
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
 
 import jakarta.validation.ConstraintViolationException;
@@ -41,10 +41,10 @@ public class ModalityDAOImpl implements ModalityDAO {
 			if (modality.isPresent()) {
 				return modality.get();
 			} else {
-				throw new DataException("Modality not found");
+				throw new NotFoundException("Modality not found");
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Modality not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -54,24 +54,20 @@ public class ModalityDAOImpl implements ModalityDAO {
 		try {
 			List<Modality> modalities = modalityRepository.findAll();
 			if (modalities.isEmpty()) {
-				throw new DataException("Modalities not found");
+				throw new NotFoundException("Modalities not found");
 			} else {
 				return modalities;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Modalities not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(Modality modality) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (modality.equals(null)) {
-				throw new DataException("Modality not deleted");
-			} else {
-				modalityRepository.delete(modality);
-			}
+			modalityRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Modality not deleted", nre);
 		}
@@ -83,12 +79,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 		try {
 			Modality modality = modalityRepository.findByName(name);
 			if (modality == null) {
-				throw new DataException("Modality not found");
+				throw new NotFoundException("Modality not found");
 			} else {
 				return modality;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Modality not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 
@@ -97,12 +93,12 @@ public class ModalityDAOImpl implements ModalityDAO {
 		try {
 			List<Modality> modalities = modalityRepository.findByNumberPlayers(numberPlayers);
 			if (modalities.isEmpty()) {
-				throw new DataException("Modalities not found");
+				throw new NotFoundException("Modalities not found");
 			} else {
 				return modalities;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Modalities not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 }

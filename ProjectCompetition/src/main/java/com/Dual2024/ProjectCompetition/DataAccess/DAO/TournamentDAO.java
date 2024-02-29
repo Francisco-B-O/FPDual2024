@@ -16,7 +16,7 @@ public interface TournamentDAO {
 
 	List<Tournament> findAll() throws DataException;
 
-	void delete(Tournament tournament) throws DataException;
+	void delete(Long id) throws DataException;
 
 	List<Tournament> findByName(String name) throws DataException;
 

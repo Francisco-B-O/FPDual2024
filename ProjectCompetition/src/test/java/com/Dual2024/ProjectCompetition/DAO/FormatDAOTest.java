@@ -152,7 +152,7 @@ public class FormatDAOTest {
 		}
 
 		try {
-			formatDAO.delete(format);
+			formatDAO.delete(format.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

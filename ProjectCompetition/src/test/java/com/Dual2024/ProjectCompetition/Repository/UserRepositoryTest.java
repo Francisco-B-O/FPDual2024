@@ -101,6 +101,18 @@ public class UserRepositoryTest {
 	}
 
 	@Test
+	@DisplayName("findByNickOrEmail operation")
+	public void givenUser_whenFindByEmailOrNick_theReturnUser() {
+
+		User savedUser = userRepository.save(user);
+
+		User foundUser = userRepository.findByNickOrEmail("test", "no").getFirst();
+
+		assertThat(foundUser).isNotNull();
+		assertThat(foundUser).isEqualTo(savedUser);
+	}
+
+	@Test
 	@DisplayName("update operation")
 	public void givenUser_whenUpdate_theReturnUpdatedUser() {
 
@@ -120,11 +132,11 @@ public class UserRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenUser_whenDelete_thenDeleteUser() {
+	public void givenUser_whenDeleteById_thenDeleteUser() {
 
 		userRepository.save(user);
 
-		userRepository.delete(user);
+		userRepository.deleteById(user.getId());
 
 		User deletedUser = userRepository.findByEmail("test@email.com");
 		assertThat(deletedUser).isNull();

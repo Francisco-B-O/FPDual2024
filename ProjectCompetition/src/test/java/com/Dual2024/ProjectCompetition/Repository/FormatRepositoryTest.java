@@ -94,11 +94,11 @@ public class FormatRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenFormat_whenDelete_thenDeletedFormat() {
+	public void givenFormat_whenDeleteById_thenDeletedFormat() {
 
 		formatRepository.save(format);
 
-		formatRepository.delete(format);
+		formatRepository.deleteById(format.getId());
 		Format deletedFormat = formatRepository.findByName("torneo");
 
 		assertThat(deletedFormat).isNull();

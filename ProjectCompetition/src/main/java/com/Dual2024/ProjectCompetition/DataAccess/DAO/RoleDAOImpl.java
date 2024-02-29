@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.RoleRepository;
 
@@ -40,10 +41,10 @@ public class RoleDAOImpl implements RoleDAO {
 			if (role.isPresent()) {
 				return role.get();
 			} else {
-				throw new DataException("Role not found");
+				throw new NotFoundException("Role not found");
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Role not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -53,24 +54,20 @@ public class RoleDAOImpl implements RoleDAO {
 		try {
 			List<Role> roles = roleRepository.findAll();
 			if (roles.isEmpty()) {
-				throw new DataException("Roles not found");
+				throw new NotFoundException("Roles not found");
 			} else {
 				return roles;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Roles not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(Role role) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (role.equals(null)) {
-				throw new DataException("Role not deleted");
-			} else {
-				roleRepository.delete(role);
-			}
+			roleRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Role not deleted", nre);
 		}
@@ -82,12 +79,12 @@ public class RoleDAOImpl implements RoleDAO {
 		try {
 			Role role = roleRepository.findByName(name);
 			if (role == null) {
-				throw new DataException("Role not found");
+				throw new NotFoundException("Role not found");
 			} else {
 				return role;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Role not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 }

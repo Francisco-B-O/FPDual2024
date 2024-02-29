@@ -375,7 +375,7 @@ public class TournamentDAOTest {
 			e.printStackTrace();
 		}
 		try {
-			tournamentDAO.delete(tournament);
+			tournamentDAO.delete(tournament.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

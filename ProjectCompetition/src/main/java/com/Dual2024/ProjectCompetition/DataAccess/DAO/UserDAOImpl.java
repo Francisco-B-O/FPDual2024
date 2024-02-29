@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedRuntimeException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
@@ -24,14 +24,11 @@ public class UserDAOImpl implements UserDAO {
 	public User save(User user) throws DataException {
 		try {
 			return userRepository.save(user);
-		} catch (DataIntegrityViolationException dive) {
-			throw new DataException("User not saved", dive);
+		} catch (ConstraintViolationException e) {
+			throw new DataException("User not saved", e);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not saved", nre);
-		} catch (ConstraintViolationException cve) {
-			throw new DataException("User not saved", cve);
 		}
-
 	}
 
 	@Override
@@ -41,10 +38,10 @@ public class UserDAOImpl implements UserDAO {
 			if (user.isPresent()) {
 				return user.get();
 			} else {
-				throw new DataException("User not found");
+				throw new NotFoundException("User not found");
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("User not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -55,25 +52,20 @@ public class UserDAOImpl implements UserDAO {
 
 			List<User> users = userRepository.findAll();
 			if (users.isEmpty()) {
-				throw new DataException("Users not found");
+				throw new NotFoundException("Users not found");
 			} else {
 				return users;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Users not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(User user) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (user.equals(null)) {
-				throw new DataException("User not deleted");
-			} else {
-				userRepository.delete(user);
-			}
-			userRepository.delete(user);
+			userRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("User not deleted", nre);
 		}
@@ -85,12 +77,12 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			User user = userRepository.findByNick(nick);
 			if (user == null) {
-				throw new DataException("User not found");
+				throw new NotFoundException("User not found");
 			} else {
 				return user;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("User not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 
@@ -99,12 +91,12 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			User user = userRepository.findByEmail(email);
 			if (user == null) {
-				throw new DataException("User not found");
+				throw new NotFoundException("User not found");
 			} else {
 				return user;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("User not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -115,13 +107,28 @@ public class UserDAOImpl implements UserDAO {
 		try {
 			List<User> users = userRepository.findByState(state);
 			if (users.isEmpty()) {
-				throw new DataException("Users not found");
+				throw new NotFoundException("Users not found");
 			} else {
 				return users;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Users not found", nre);
+			throw new DataException("Data access error", nre);
 		}
+	}
+
+	@Override
+	public List<User> findByNickOrEmail(String nick, String email) throws DataException {
+		try {
+			List<User> users = userRepository.findByNickOrEmail(nick, email);
+			if (users.isEmpty()) {
+				throw new NotFoundException("Users not found");
+			} else {
+				return users;
+			}
+		} catch (NestedRuntimeException nre) {
+			throw new DataException("Data access error", nre);
+		}
+
 	}
 
 }

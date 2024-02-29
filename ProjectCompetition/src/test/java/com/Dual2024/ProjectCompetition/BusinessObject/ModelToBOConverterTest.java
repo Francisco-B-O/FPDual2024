@@ -59,7 +59,7 @@ public class ModelToBOConverterTest {
 
 		modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
 
-		team = Team.builder().id(1L).name("TestTeam").users(users).modality(modality).build();
+		team = Team.builder().id(1L).name("TestTeam").captain(user).users(users).modality(modality).build();
 		List<Team> teams = new ArrayList<Team>();
 		teams.add(team);
 		user.setTeams(teams);

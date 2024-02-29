@@ -151,6 +151,28 @@ public class UserDAOTest {
 	}
 
 	@Test
+	@DisplayName("findByNickOrEmail operation")
+	public void givenUser_whenFindByEmailOrNick_theReturnUser() {
+
+		User savedUser = null;
+		try {
+			savedUser = userDao.save(user);
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+
+		User foundUser = null;
+		try {
+			foundUser = userDao.findByNickOrEmail("test", "no").getFirst();
+		} catch (DataException e) {
+			e.printStackTrace();
+		}
+
+		assertThat(foundUser).isNotNull();
+		assertThat(foundUser).isEqualTo(savedUser);
+	}
+
+	@Test
 	@DisplayName("update operation")
 	public void givenUser_whenUpdate_theReturnUpdatedUser() {
 
@@ -188,7 +210,7 @@ public class UserDAOTest {
 		}
 
 		try {
-			userDao.delete(user);
+			userDao.delete(user.getId());
 		} catch (DataException e) {
 			e.printStackTrace();
 		}

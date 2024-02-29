@@ -12,7 +12,7 @@ public interface FormatDAO {
 
 	List<Format> findAll() throws DataException;
 
-	void delete(Format format) throws DataException;
+	void delete(Long id) throws DataException;
 
 	Format findByName(String name) throws DataException;
 }

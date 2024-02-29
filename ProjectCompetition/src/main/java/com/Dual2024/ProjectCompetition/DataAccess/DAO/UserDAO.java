@@ -13,12 +13,14 @@ public interface UserDAO {
 
 	List<User> findAll() throws DataException;
 
-	void delete(User user) throws DataException;
+	void delete(Long id) throws DataException;
 
 	User findByNick(String nick) throws DataException;
 
 	User findByEmail(String email) throws DataException;
 
 	List<User> findByState(UserState state) throws DataException;
+
+	List<User> findByNickOrEmail(String nick, String email) throws DataException;
 
 }

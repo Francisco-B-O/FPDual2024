@@ -153,10 +153,10 @@ public class TeamRepositoryTest {
 
 	@Test
 	@DisplayName("delete operation")
-	public void givenTeam_whenDelete_thenRemoveTeam() {
+	public void givenTeam_whenDeleteById_thenRemoveTeam() {
 
 		teamRepository.save(team);
-		teamRepository.delete(team);
+		teamRepository.deleteById(team.getId());
 
 		assertThat(teamRepository.findById(team.getId())).isNotPresent();
 

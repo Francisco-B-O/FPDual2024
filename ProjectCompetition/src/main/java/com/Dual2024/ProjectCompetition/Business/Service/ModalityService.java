@@ -14,7 +14,7 @@ public interface ModalityService {
 
 	ModalityBO getModalityByName(String name) throws BusinessException;
 
-	void deleteModality(ModalityBO modalityBO) throws BusinessException;
+	void deleteModality(Long id) throws BusinessException;
 
 	List<ModalityBO> getModalitiesByNumberPlayers(int numberPlayers) throws BusinessException;
 

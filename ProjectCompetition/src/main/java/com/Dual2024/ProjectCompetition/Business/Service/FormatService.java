@@ -12,7 +12,7 @@ public interface FormatService {
 
 	List<FormatBO> getAllFormats() throws BusinessException;
 
-	void deleteFormat(FormatBO formatBO) throws BusinessException;
+	void deleteFormat(Long id) throws BusinessException;
 
 	FormatBO getFormatByName(String name) throws BusinessException;
 

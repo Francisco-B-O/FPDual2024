@@ -26,6 +26,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverte
 import com.Dual2024.ProjectCompetition.Business.Service.ModalityServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 
 @ExtendWith(MockitoExtension.class)
@@ -128,7 +129,7 @@ public class ModalityServiceTest {
 	public void givenId_whenGetModalityById_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(modalityDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(modalityDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -161,7 +162,7 @@ public class ModalityServiceTest {
 	public void givenModalityName_whenGetModalityByName_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(DataException.class);
+			BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -195,7 +196,7 @@ public class ModalityServiceTest {
 	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(DataException.class);
+			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -230,7 +231,7 @@ public class ModalityServiceTest {
 	public void givenNothing_whenGetAllModalities_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(modalityDAO.findAll()).willThrow(DataException.class);
+			BDDMockito.given(modalityDAO.findAll()).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -243,37 +244,19 @@ public class ModalityServiceTest {
 	public void givenId_whenDeleteModality_thenDeleteModality() {
 
 		try {
-			BDDMockito.given(modalityDAO.findById(1L)).willReturn(modality);
-		} catch (DataException e) {
-		}
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.willDoNothing().given(modalityDAO).delete(modality);
+			BDDMockito.willDoNothing().given(modalityDAO).delete(1L);
 		} catch (DataException e) {
 		}
 
 		try {
-			modalityService.deleteModality(modalityBO);
+			modalityService.deleteModality(1L);
 		} catch (BusinessException e) {
 		}
 
 		try {
-			verify(modalityDAO, times(1)).delete(modality);
+			verify(modalityDAO, times(1)).delete(1L);
 		} catch (DataException e) {
 		}
 	}
 
-	@Test
-	@DisplayName("deleteModality operation : incorrect case -> notFound")
-	public void givenId_whenDeleteModality_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(modalityDAO.findById(1L)).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(BusinessException.class, () -> modalityService.deleteModality(modalityBO));
-
-	}
 }

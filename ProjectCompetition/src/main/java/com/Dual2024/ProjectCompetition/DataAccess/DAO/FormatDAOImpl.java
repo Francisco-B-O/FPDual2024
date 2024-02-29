@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
 
@@ -40,11 +41,11 @@ public class FormatDAOImpl implements FormatDAO {
 			if (format.isPresent()) {
 				return format.get();
 			} else {
-				throw new DataException("Format not found");
+				throw new NotFoundException("Format not found");
 			}
 
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Format not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
@@ -54,24 +55,20 @@ public class FormatDAOImpl implements FormatDAO {
 		try {
 			List<Format> formats = formatRepository.findAll();
 			if (formats.isEmpty()) {
-				throw new DataException("Formats not found");
+				throw new NotFoundException("Formats not found");
 			} else {
 				return formats;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Formats not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 
 	}
 
 	@Override
-	public void delete(Format format) throws DataException {
+	public void delete(Long id) throws DataException {
 		try {
-			if (format.equals(null)) {
-				throw new DataException("Format not deleted");
-			} else {
-				formatRepository.delete(format);
-			}
+			formatRepository.deleteById(id);
 		} catch (NestedRuntimeException nre) {
 			throw new DataException("Format not deleted", nre);
 		}
@@ -83,12 +80,12 @@ public class FormatDAOImpl implements FormatDAO {
 		try {
 			Format format = formatRepository.findByName(name);
 			if (format == null) {
-				throw new DataException("Format not found");
+				throw new NotFoundException("Format not found");
 			} else {
 				return format;
 			}
 		} catch (NestedRuntimeException nre) {
-			throw new DataException("Format not found", nre);
+			throw new DataException("Data access error", nre);
 		}
 	}
 
