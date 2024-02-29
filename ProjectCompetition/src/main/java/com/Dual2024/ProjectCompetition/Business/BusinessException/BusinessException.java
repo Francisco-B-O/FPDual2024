@@ -1,6 +1,6 @@
 package com.Dual2024.ProjectCompetition.Business.BusinessException;
 
-public class BusinessException extends Exception{
+public class BusinessException extends Exception {
 
 	private static final long serialVersionUID = -1618850050663333984L;
 
