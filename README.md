@@ -83,20 +83,19 @@ Ya con el tema de las excepciones pensado, implementé los casos de aceptación 
 
 ## Semana 7 (18 Febrero al 23 Febrero)
 Comienzo con los servicios restantes e implementando los diferentes casos de uso. Por ejemplo en el servicio de usuario implemento el siguiente caso de aceptación:
-* En primer lugar añado el metodo **isInActiveTournament** para comprobar que el usuario esta en un torneo activo:
+* En primer lugar añado el metodo **isInActiveTournament** al la clase **UserBO** para comprobar que el usuario esta en un torneo activo:
 ```java
-public class BusinessException extends Exception{
-
-	private static final long serialVersionUID = -1618850050663333984L;
-
-	public BusinessException(String message) {
-		super(message);
+	public boolean isInActiveTournament() {
+		boolean isInActiveTournament = false;
+		for (TeamBOAux team : this.teams) {
+			for (TournamentBOAux tournament : team.getTournaments()) {
+				if (tournament.getState().equals(TournamentState.EN_JUEGO)) {
+					isInActiveTournament = true;
+				}
+			}
+		}
+		return isInActiveTournament;
 	}
-
-	public BusinessException(String message, Exception e) {
-		super(message, e);
-	}
-}
 ```
 
 * Luego utilizo ese metodo para que al borrar un usuario me salte la excepción de **UserInActiveTournamentException** en caso de que el método anterior retornase true:
