@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
@@ -31,7 +31,6 @@ import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RegisterU
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RoleDTO;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.UpdateUserDTO;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.UserDTO;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.Body;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
 
@@ -47,12 +46,13 @@ public class UserController {
 	@Autowired
 	DTOToBOConverter dtoToBOConverter;
 
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/all")
 	public List<UserDTO> getAllUsers() throws PresentationException {
-		List<UserDTO> listUserBO = new ArrayList<UserDTO>();
+		List<UserDTO> listUserDTO = new ArrayList<UserDTO>();
 		try {
-			userService.getAllUsers().forEach((UserBO user) -> listUserBO.add(boToDTOConverter.userBOToDTO(user)));
-			return listUserBO;
+			userService.getAllUsers().forEach((UserBO user) -> listUserDTO.add(boToDTOConverter.userBOToDTO(user)));
+			return listUserDTO;
 		} catch (UserNotFoundException e) {
 			throw new NotFoundException(e.getMessage(), e);
 		} catch (BusinessException e) {
@@ -60,6 +60,7 @@ public class UserController {
 		}
 	}
 
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/{id}")
 	public UserDTO getUserById(@PathVariable("id") Long id) throws PresentationException {
 		try {
@@ -72,13 +73,14 @@ public class UserController {
 
 	}
 
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/state/{state}")
 	public List<UserDTO> getUserByState(@PathVariable("state") UserState state) throws PresentationException {
-		List<UserDTO> listUserBO = new ArrayList<UserDTO>();
+		List<UserDTO> listUserDTO = new ArrayList<UserDTO>();
 		try {
 			userService.getUsersByState(state)
-					.forEach((UserBO user) -> listUserBO.add(boToDTOConverter.userBOToDTO(user)));
-			return listUserBO;
+					.forEach((UserBO user) -> listUserDTO.add(boToDTOConverter.userBOToDTO(user)));
+			return listUserDTO;
 		} catch (UserNotFoundException e) {
 			throw new NotFoundException(e.getMessage(), e);
 		} catch (BusinessException e) {
@@ -87,6 +89,7 @@ public class UserController {
 
 	}
 
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/email/{email}")
 	public UserDTO getUserByEmail(@PathVariable("email") String email) throws PresentationException {
 		try {
@@ -99,6 +102,7 @@ public class UserController {
 
 	}
 
+	@ResponseStatus(code = HttpStatus.OK)
 	@GetMapping("/nick/{nick}")
 	public UserDTO getUserByNick(@PathVariable("nick") String nick) throws PresentationException {
 		try {
@@ -111,26 +115,26 @@ public class UserController {
 		}
 	}
 
+	@ResponseStatus(code = HttpStatus.CREATED)
 	@PostMapping("/register")
 	public UserDTO registerUser(@RequestBody @Valid RegisterUserDTO user) throws PresentationException {
 		try {
 			return boToDTOConverter.userBOToDTO(userService.registerUser(dtoToBOConverter.RegisterUserDTOToBO(user)));
 		} catch (DuplicatedEmailException e) {
-			throw new PresentationException("That email is already in use");
+			throw new PresentationException(e.getMessage());
 		} catch (DuplicatedNickException e) {
-			throw new PresentationException("That nick is already in use");
+			throw new PresentationException(e.getMessage());
 		} catch (BusinessException e) {
-			throw new PresentationException("Unregistered user, please check that the required fields are complete", e);
+			throw new PresentationException(e.getMessage(), e);
 		}
 
 	}
 
+	@ResponseStatus(code = HttpStatus.ACCEPTED)
 	@DeleteMapping("/delete")
-	public ResponseEntity<Body> deleteUser(@RequestParam Long id) {
+	public void deleteUser(@RequestParam Long id) {
 		try {
 			userService.deleteUser(id);
-			Body msg = new Body(HttpStatus.ACCEPTED, "user deleted");
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(msg);
 		} catch (UserNotFoundException e) {
 			throw new NotFoundException(e.getMessage(), e);
 		} catch (UserInActiveTournamentException e) {
@@ -140,6 +144,7 @@ public class UserController {
 		}
 	}
 
+	@ResponseStatus(code = HttpStatus.CREATED)
 	@PutMapping("/update")
 	public UserDTO updateUser(@RequestParam long id, @RequestBody @Valid UpdateUserDTO user)
 			throws PresentationException {
@@ -152,6 +157,7 @@ public class UserController {
 		}
 	}
 
+	@ResponseStatus(code = HttpStatus.CREATED)
 	@PutMapping("/admin/update")
 	public UserDTO updateUserRole(@RequestParam long id, @RequestBody @Valid UpdateUserDTO user)
 			throws PresentationException {
