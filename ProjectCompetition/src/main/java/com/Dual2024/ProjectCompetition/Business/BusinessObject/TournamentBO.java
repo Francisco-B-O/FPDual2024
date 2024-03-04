@@ -36,5 +36,5 @@ public class TournamentBO {
 
 	private ModalityBO modality;
 
-	private List<TeamBOAux> teams;
+	private List<TeamBO> teams;
 }

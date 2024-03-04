@@ -30,17 +30,11 @@ public class UserBO {
 
 	private List<RoleBO> roles;
 
-	private List<TeamBOAux> teams;
+	private List<TeamBO> teams;
 
 	public boolean isInActiveTournament() {
-		boolean isInActiveTournament = false;
-		for (TeamBOAux team : this.teams) {
-			for (TournamentBOAux tournament : team.getTournaments()) {
-				if (tournament.getState().equals(TournamentState.EN_JUEGO)) {
-					isInActiveTournament = true;
-				}
-			}
-		}
-		return isInActiveTournament;
+		return this.teams.stream().iterator().next().getTournaments().stream()
+				.anyMatch(c -> c.getState().equals(TournamentState.EN_JUEGO));
 	}
+
 }

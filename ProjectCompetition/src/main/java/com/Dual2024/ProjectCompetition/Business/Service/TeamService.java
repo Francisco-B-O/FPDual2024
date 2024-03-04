@@ -5,10 +5,9 @@ import java.util.List;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
 
 public interface TeamService {
-	TeamBO registerTeam(UserBOAux captain, TeamBO teamBO) throws BusinessException;
+	TeamBO registerTeam(Long captainId, TeamBO teamBO) throws BusinessException;
 
 	TeamBO getTeamById(Long id) throws BusinessException;
 
@@ -22,5 +21,5 @@ public interface TeamService {
 
 	TeamBO updateTeam(TeamBO teamBO) throws BusinessException;
 
-	TeamBO addPlayer(Long id, TeamBO teamBO) throws BusinessException;
+	TeamBO addPlayer(Long userId, Long teamId) throws BusinessException;
 }

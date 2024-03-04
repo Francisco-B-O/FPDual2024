@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class TournamentDTO {
+	@NotNull
 	private Long id;
 
 	private String name;

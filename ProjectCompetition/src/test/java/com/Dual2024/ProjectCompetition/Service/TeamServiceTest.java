@@ -89,6 +89,7 @@ public class TeamServiceTest {
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenReturnTeamBO() {
 
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
+		BDDMockito.given(modelToBOConverter.userModelToBOAux(user)).willReturn(userBOAux);
 		BDDMockito.given(boToModelConverter.teamBOToModel(teamBO)).willReturn(team);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
@@ -101,13 +102,17 @@ public class TeamServiceTest {
 		} catch (DataException e) {
 		}
 		try {
+			BDDMockito.given(userDAO.findById(user.getId())).willReturn(user);
+		} catch (DataException e) {
+		}
+		try {
 			BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
 		TeamBO savedTeam = null;
 		try {
-			savedTeam = teamService.registerTeam(userBOAux, teamBO);
+			savedTeam = teamService.registerTeam(userBOAux.getId(), teamBO);
 		} catch (BusinessException e) {
 		}
 
@@ -120,9 +125,14 @@ public class TeamServiceTest {
 	@DisplayName("teamRegister operation : incorrect case -> Duplicated name and modality")
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenThrowDuplicatedNameAndModalityException() {
 
+		BDDMockito.given(modelToBOConverter.userModelToBOAux(user)).willReturn(userBOAux);
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
 		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
 		BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
+		try {
+			BDDMockito.given(userDAO.findById(user.getId())).willReturn(user);
+		} catch (DataException e) {
+		}
 		try {
 			BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
@@ -132,7 +142,8 @@ public class TeamServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(DuplicatedNameAndModalityException.class, () -> teamService.registerTeam(userBOAux, teamBO));
+		assertThrows(DuplicatedNameAndModalityException.class,
+				() -> teamService.registerTeam(userBOAux.getId(), teamBO));
 	}
 
 	@Test
@@ -140,12 +151,17 @@ public class TeamServiceTest {
 	public void givenCaptainAndTeamBO_whenTeamRegister_thenThrowDuplicatedCaptainException() {
 
 		BDDMockito.given(boToModelConverter.userBOAuxToModel(userBOAux)).willReturn(user);
+		BDDMockito.given(modelToBOConverter.userModelToBOAux(user)).willReturn(userBOAux);
+		try {
+			BDDMockito.given(userDAO.findById(user.getId())).willReturn(user);
+		} catch (DataException e) {
+		}
 		try {
 			BDDMockito.given(teamDAO.findByCaptain(user)).willReturn(teams);
 		} catch (DataException e) {
 		}
 
-		assertThrows(DuplicatedCaptainException.class, () -> teamService.registerTeam(userBOAux, teamBO));
+		assertThrows(DuplicatedCaptainException.class, () -> teamService.registerTeam(userBOAux.getId(), teamBO));
 	}
 
 	@Test
@@ -350,7 +366,7 @@ public class TeamServiceTest {
 
 		}
 		try {
-			teamService.addPlayer(1L, teamBO);
+			teamService.addPlayer(1L, teamBO.getId());
 		} catch (BusinessException e) {
 		}
 		assertThat(teamBO.getUsers().getFirst()).isEqualTo(userBOAux);
@@ -378,7 +394,7 @@ public class TeamServiceTest {
 
 		}
 
-		assertThrows(BusinessException.class, () -> teamService.addPlayer(1L, teamBO));
+		assertThrows(BusinessException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
 	}
 
 	@Test
@@ -405,7 +421,7 @@ public class TeamServiceTest {
 
 		}
 
-		assertThrows(FullTeamException.class, () -> teamService.addPlayer(1L, teamBO));
+		assertThrows(FullTeamException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
 	}
 
 	@Test
@@ -413,11 +429,11 @@ public class TeamServiceTest {
 	public void givenIdThatNotExistsAndTeamBO_whenAddPlayer_thenThrowBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
-		assertThrows(UserNotFoundException.class, () -> teamService.addPlayer(1L, teamBO));
+		assertThrows(UserNotFoundException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
 	}
 
 	@Test
@@ -430,10 +446,10 @@ public class TeamServiceTest {
 		} catch (DataException e) {
 		}
 		try {
-			BDDMockito.given(teamDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
-		assertThrows(TeamNotFoundException.class, () -> teamService.addPlayer(1L, teamBO));
+		assertThrows(TeamNotFoundException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
 	}
 }

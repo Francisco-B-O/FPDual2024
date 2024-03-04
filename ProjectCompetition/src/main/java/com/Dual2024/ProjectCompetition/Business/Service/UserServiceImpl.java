@@ -24,7 +24,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 	@Autowired
 	UserDAO userDAO;
@@ -50,6 +49,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public UserBO registerUser(UserBO userBO) throws BusinessException {
 		try {
 			UserBO found = modelToBOConverter
@@ -60,9 +60,7 @@ public class UserServiceImpl implements UserService {
 			if (found.getNick().equals(userBO.getNick())) {
 				throw new DuplicatedNickException("This email is already registered");
 			}
-
 		} catch (NotFoundException e) {
-
 		} catch (DataException e) {
 
 		}
@@ -89,23 +87,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteUser(Long id) throws BusinessException {
-		UserBO userBO = null;
+
 		try {
-			userBO = modelToBOConverter.userModelToBO(userDAO.findById(id));
+			UserBO userBO = modelToBOConverter.userModelToBO(userDAO.findById(id));
+			if (userBO.isInActiveTournament()) {
+				throw new UserInActiveTournamentException("This user is in an active tournament");
+			} else {
+				userDAO.delete(id);
+			}
 		} catch (NotFoundException e) {
 			throw new UserNotFoundException("User not found", e);
 		} catch (DataException e) {
 			throw new BusinessException("User not deleted", e);
-		}
-		if (userBO.isInActiveTournament()) {
-			throw new UserInActiveTournamentException("This user is in an active tournament");
-		} else {
-			try {
-				userDAO.delete(id);
-			} catch (DataException e) {
-				throw new BusinessException("User not deleted", e);
-			}
 		}
 
 	}
@@ -149,20 +144,16 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public UserBO UpdateUser(Long id, String avatar, String password) throws BusinessException {
 		UserBO user = null;
 		try {
 			user = modelToBOConverter.userModelToBO(userDAO.findById(id));
 			user.setAvatar(avatar);
 			user.setPassword(password);
+			return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
 		} catch (NotFoundException e) {
 			throw new UserNotFoundException("This user not exists", e);
-		} catch (DataException e) {
-			throw new BusinessException("User could not be updated", e);
-		}
-		try {
-
-			return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
 		} catch (DataException e) {
 			throw new BusinessException("User could not be updated", e);
 		}
@@ -170,6 +161,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public UserBO UpdateRoleUser(Long id, List<RoleBO> roles) throws BusinessException {
 		UserBO user = null;
 		if (roles.isEmpty() || roles.equals(null) || roles.contains(null)) {
@@ -178,14 +170,9 @@ public class UserServiceImpl implements UserService {
 			try {
 				user = modelToBOConverter.userModelToBO(userDAO.findById(id));
 				user.setRoles(roles);
+				return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
 			} catch (NotFoundException e) {
 				throw new UserNotFoundException("This user not exists", e);
-			} catch (DataException e) {
-				throw new BusinessException("User could not be updated", e);
-			}
-			try {
-
-				return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
 			} catch (DataException e) {
 				throw new BusinessException("User could not be updated", e);
 			}

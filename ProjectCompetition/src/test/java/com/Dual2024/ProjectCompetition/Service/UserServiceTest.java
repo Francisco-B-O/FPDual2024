@@ -25,7 +25,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.UserNotFoundEx
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
 import com.Dual2024.ProjectCompetition.Business.Service.UserServiceImpl;
@@ -75,8 +75,8 @@ public class UserServiceTest {
 		TournamentBOAux tournamentBOAUX = TournamentBOAux.builder().state(TournamentState.NO_COMENZADO).build();
 		List<TournamentBOAux> tournamentsBO = new ArrayList<TournamentBOAux>();
 		tournamentsBO.add(tournamentBOAUX);
-		TeamBOAux teamBO = TeamBOAux.builder().tournaments(tournamentsBO).build();
-		List<TeamBOAux> teamsBO = new ArrayList<TeamBOAux>();
+		TeamBO teamBO = TeamBO.builder().tournaments(tournamentsBO).build();
+		List<TeamBO> teamsBO = new ArrayList<TeamBO>();
 		teamsBO.add(teamBO);
 		userBO.setTeams(teamsBO);
 		usersBOList = new ArrayList<UserBO>();
@@ -233,7 +233,7 @@ public class UserServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(UserNotFoundException.class, () -> userService.deleteUser(1L));
+		assertThrows(BusinessException.class, () -> userService.deleteUser(1L));
 
 	}
 
@@ -412,7 +412,7 @@ public class UserServiceTest {
 	public void givenIdThatNotExists_whenUpdateUser_thenThrowsBusinessException() {
 
 		try {
-			BDDMockito.given(userDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -476,7 +476,7 @@ public class UserServiceTest {
 		roles.add(role);
 
 		try {
-			BDDMockito.given(userDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 

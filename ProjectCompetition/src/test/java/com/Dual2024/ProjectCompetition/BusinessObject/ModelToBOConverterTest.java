@@ -18,7 +18,6 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
@@ -161,17 +160,6 @@ public class ModelToBOConverterTest {
 		assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
 		assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
-	}
-
-	@Test
-	@DisplayName("Team -> TeamBOAux")
-	public void givenTeam_whenTeamModelToBOAux_thenReturnTeamBOAux() {
-
-		TeamBOAux teamTest = modelToBOConverter.teamModelToBOAux(team);
-
-		assertThat(teamTest.getId()).isEqualTo(team.getId());
-		assertThat(teamTest.getName()).isEqualTo(team.getName());
-		assertThat(teamTest.getModality().getId()).isEqualTo(team.getModality().getId());
 	}
 
 	@Test

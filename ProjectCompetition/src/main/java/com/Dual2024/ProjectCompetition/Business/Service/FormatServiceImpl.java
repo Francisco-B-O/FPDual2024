@@ -19,7 +19,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundExceptio
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 
 @Service
-@Transactional
 public class FormatServiceImpl implements FormatService {
 	@Autowired
 	FormatDAO formatDAO;
@@ -31,6 +30,7 @@ public class FormatServiceImpl implements FormatService {
 	ModelToBOConverter modelToBOConverter;
 
 	@Override
+	@Transactional
 	public FormatBO addFormat(FormatBO formatBO) throws BusinessException {
 		try {
 			formatDAO.findByName(formatBO.getName());
@@ -81,15 +81,20 @@ public class FormatServiceImpl implements FormatService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteFormat(Long id) throws BusinessException {
 		try {
+			formatDAO.findById(id);
 			formatDAO.delete(id);
+		} catch (NotFoundException e) {
+			throw new FormatNotFoundException("Format not found", e);
 		} catch (DataException e) {
 			throw new FormatNotFoundException("Format not deleted", e);
 		}
 	}
 
 	@Override
+	@Transactional
 	public FormatBO updateFormat(FormatBO formatBO) throws BusinessException {
 		FormatBO format = null;
 		try {

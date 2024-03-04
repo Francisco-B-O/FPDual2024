@@ -28,7 +28,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
 import com.Dual2024.ProjectCompetition.Business.Service.TournamentServiceImpl;
@@ -54,8 +54,8 @@ public class TournamentServiceTest {
 	private UserBOAux userBOAux;
 	private ModalityBO modalityBO;
 	private FormatBO formatBO;
-	private TeamBOAux teamBOAux;
-	private List<TeamBOAux> teamsAux;
+	private TeamBO teamBOAux;
+	private List<TeamBO> teamsAux;
 	private List<UserBOAux> usersAux;
 	private User user;
 	private List<User> users;
@@ -86,8 +86,8 @@ public class TournamentServiceTest {
 		usersAux.add(userBOAux);
 		modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
 		formatBO = FormatBO.builder().id(1L).name("torneo").build();
-		teamBOAux = TeamBOAux.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO).build();
-		teamsAux = new ArrayList<TeamBOAux>();
+		teamBOAux = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO).build();
+		teamsAux = new ArrayList<TeamBO>();
 		teamsAux.add(teamBOAux);
 		tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
 				.format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
@@ -537,7 +537,7 @@ public class TournamentServiceTest {
 	public void givenIdThatNotExists_whenDeleteTournament_thenThrowBusinesException() {
 
 		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willThrow(DataException.class);
+			BDDMockito.given(tournamentDAO.findById(1L)).willThrow(NotFoundException.class);
 		} catch (DataException e) {
 		}
 
@@ -552,7 +552,7 @@ public class TournamentServiceTest {
 		tournamentBO.setTeams(null);
 		BDDMockito.given(boToModelConverter.tournamentBOToModel(tournamentBO)).willReturn(tournament);
 		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBOAux(team)).willReturn(teamBOAux);
+		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
 		try {
 			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
 		} catch (DataException e) {
@@ -567,7 +567,7 @@ public class TournamentServiceTest {
 		}
 		TournamentBO savedTournament = null;
 		try {
-			savedTournament = tournamentService.addTeam(1L, tournamentBO);
+			savedTournament = tournamentService.addTeam(1L, tournamentBO.getId());
 		} catch (BusinessException e) {
 		}
 		assertThat(savedTournament.getTeams().getFirst()).isEqualTo(teamBOAux);
@@ -578,7 +578,7 @@ public class TournamentServiceTest {
 	public void givenIdAndTournamentBO_whenAddTeam_thenThrowBusinessException() {
 
 		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBOAux(team)).willReturn(teamBOAux);
+		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
 		try {
 			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
 		} catch (DataException e) {
@@ -588,17 +588,16 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.addTeam(1L, tournamentBO));
+		assertThrows(BusinessException.class, () -> tournamentService.addTeam(1L, tournamentBO.getId()));
 	}
 
 	@Test
 	@DisplayName("addTeam operation : incorrect case -> A player on the team is already on another participating team ")
 	public void givenIdTeamWithUserAlredyExistsInTournament_AndTournamentBO_whenAddTeam_thenThrowBusinessException() {
-		TeamBOAux teamBOAux2 = TeamBOAux.builder().id(2L).name("TestTeam2").users(usersAux).modality(modalityBO)
-				.build();
+		TeamBO teamBOAux2 = TeamBO.builder().id(2L).name("TestTeam2").users(usersAux).modality(modalityBO).build();
 		Team team2 = Team.builder().id(2L).name("TestTeam2").captain(user).users(users).modality(modality).build();
 		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBOAux(team2)).willReturn(teamBOAux2);
+		BDDMockito.given(modelToBOConverter.teamModelToBO(team2)).willReturn(teamBOAux2);
 		try {
 			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
 		} catch (DataException e) {
@@ -608,6 +607,6 @@ public class TournamentServiceTest {
 		} catch (DataException e) {
 		}
 
-		assertThrows(BusinessException.class, () -> tournamentService.addTeam(2L, tournamentBO));
+		assertThrows(BusinessException.class, () -> tournamentService.addTeam(2L, tournamentBO.getId()));
 	}
 }

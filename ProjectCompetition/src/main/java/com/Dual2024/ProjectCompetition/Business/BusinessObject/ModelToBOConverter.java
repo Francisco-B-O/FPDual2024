@@ -51,11 +51,6 @@ public class ModelToBOConverter {
 		return userBOAux;
 	}
 
-	public TeamBOAux teamModelToBOAux(Team team) {
-		TeamBOAux teamBOAux = modelMapper.map(team, TeamBOAux.class);
-		return teamBOAux;
-	}
-
 	public TournamentBOAux tournamentModelToBOAux(Tournament tournament) {
 		TournamentBOAux tournamentBOAux = modelMapper.map(tournament, TournamentBOAux.class);
 		return tournamentBOAux;

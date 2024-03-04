@@ -31,6 +31,7 @@ public class ModalityServiceImpl implements ModalityService {
 	ModelToBOConverter modelToBOConverter;
 
 	@Override
+	@Transactional
 	public ModalityBO addModality(ModalityBO modalityBO) throws BusinessException {
 		try {
 			modalityDAO.findByName(modalityBO.getName());
@@ -96,9 +97,13 @@ public class ModalityServiceImpl implements ModalityService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteModality(Long id) throws BusinessException {
 		try {
+			modalityDAO.findById(id);
 			modalityDAO.delete(id);
+		} catch (NotFoundException e) {
+			throw new ModalityNotFoundException("Modality not found", e);
 		} catch (DataException e) {
 			throw new BusinessException("Modality not deleted", e);
 		}
@@ -106,6 +111,7 @@ public class ModalityServiceImpl implements ModalityService {
 	}
 
 	@Override
+	@Transactional
 	public ModalityBO updateModality(ModalityBO modalityBO) throws BusinessException {
 		ModalityBO modality = null;
 		try {

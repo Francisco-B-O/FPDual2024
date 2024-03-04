@@ -2,6 +2,7 @@ package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
 import java.util.List;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Builder
 public class TeamDTO {
-
+	@NotNull
 	private Long id;
 
 	private String name;

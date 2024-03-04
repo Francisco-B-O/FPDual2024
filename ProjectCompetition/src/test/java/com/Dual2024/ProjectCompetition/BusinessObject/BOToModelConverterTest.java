@@ -18,7 +18,6 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
@@ -42,7 +41,6 @@ public class BOToModelConverterTest {
 	private static TeamBO teamBO;
 	private static TournamentBO tournamentBO;
 	private static UserBOAux userBOAux;
-	private static TeamBOAux teamBOAux;
 	private static TournamentBOAux tournamentBOAux;
 
 	@Autowired
@@ -64,10 +62,6 @@ public class BOToModelConverterTest {
 
 		formatBO = FormatBO.builder().id(1L).name("torneo").build();
 
-		teamBOAux = TeamBOAux.builder().id(1L).name("TestTeam").modality(modalityBO).build();
-		List<TeamBOAux> teamsAux = new ArrayList<TeamBOAux>();
-		teamsAux.add(teamBOAux);
-
 		tournamentBOAux = TournamentBOAux.builder().id(1L).name("Torneo de futbol").size(2)
 				.description("El mejor futbol").format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
 				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
@@ -76,15 +70,17 @@ public class BOToModelConverterTest {
 		tournamentsAux.add(tournamentBOAux);
 
 		userBO = UserBO.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-				.state(UserState.CONECTADO).roles(roles).teams(teamsAux).build();
+				.state(UserState.CONECTADO).roles(roles).build();
 
 		teamBO = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO)
 				.tournaments(tournamentsAux).build();
+		List<TeamBO> teams = new ArrayList<TeamBO>();
+		teams.add(teamBO);
 
 		tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
 				.format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
 				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
-				.teams(teamsAux).build();
+				.teams(teams).build();
 
 	}
 
@@ -100,7 +96,6 @@ public class BOToModelConverterTest {
 		assertThat(userTest.getPassword()).isEqualTo(userBO.getPassword());
 		assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(userBO.getRoles().getFirst().getId());
-		assertThat(userTest.getTeams().getFirst().getId()).isEqualTo(userBO.getTeams().getFirst().getId());
 	}
 
 	@Test
@@ -177,17 +172,6 @@ public class BOToModelConverterTest {
 		assertThat(userTest.getPassword()).isEqualTo(userBOAux.getPassword());
 		assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
 		assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(userBOAux.getRoles().getFirst().getId());
-	}
-
-	@Test
-	@DisplayName("TeamBOAux -> Team")
-	public void givenTeamBOAux_whenTeamBOAuxToModel_thenReturnTeamModel() {
-
-		Team teamTest = boToModelConverter.teamBOAuxToModel(teamBOAux);
-
-		assertThat(teamTest.getId()).isEqualTo(teamBOAux.getId());
-		assertThat(teamTest.getName()).isEqualTo(teamBOAux.getName());
-		assertThat(teamTest.getModality().getId()).isEqualTo(teamBOAux.getModality().getId());
 	}
 
 	@Test

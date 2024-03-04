@@ -8,7 +8,6 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
@@ -52,11 +51,6 @@ public class DTOToBOConverter {
 	public UserBOAux userDTOAuxToBOAux(UserDTOAux userDTO) {
 		UserBOAux userBOAux = modelMapper.map(userDTO, UserBOAux.class);
 		return userBOAux;
-	}
-
-	public TeamBOAux teamDTOAuxToBOAux(TeamDTOAux teamDTO) {
-		TeamBOAux teamBOAux = modelMapper.map(teamDTO, TeamBOAux.class);
-		return teamBOAux;
 	}
 
 	public TournamentBOAux tournamentDTOAuxToBOAux(TournamentDTOAux tournamentDTO) {

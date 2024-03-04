@@ -34,5 +34,5 @@ public interface TournamentService {
 
 	TournamentBO updateTournament(TournamentBO tournamentBO) throws BusinessException;
 
-	TournamentBO addTeam(Long id, TournamentBO tournamentBO) throws BusinessException;
+	TournamentBO addTeam(Long teamId, Long tournamentId) throws BusinessException;
 }

@@ -18,7 +18,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverte
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBOAux;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
@@ -29,7 +29,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 
 @Service
-@Transactional
 public class TournamentServiceImpl implements TournamentService {
 	@Autowired
 	TournamentDAO tournamentDAO;
@@ -44,6 +43,7 @@ public class TournamentServiceImpl implements TournamentService {
 	ModelToBOConverter modelToBOConverter;
 
 	@Override
+	@Transactional
 	public TournamentBO registerTournament(TournamentBO tournamentBO) throws BusinessException {
 		List<TournamentBO> listTournamentsBO = new ArrayList<TournamentBO>();
 		try {
@@ -96,12 +96,15 @@ public class TournamentServiceImpl implements TournamentService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteTournament(Long id) throws BusinessException {
 		TournamentBO tournamentBO;
 		try {
 			tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TournamentNotFoundException("tournament not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Tournament not deleted", e);
 		}
 		if (tournamentBO.getState().equals(TournamentState.EN_JUEGO)) {
 			throw new ActiveTournamentException("This tournament is active");
@@ -215,13 +218,16 @@ public class TournamentServiceImpl implements TournamentService {
 	}
 
 	@Override
+	@Transactional
 	public TournamentBO updateTournament(TournamentBO tournamentBO) throws BusinessException {
 		TournamentBO tournament = null;
 		try {
 			tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
 			tournament = tournamentBO;
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TournamentNotFoundException("This tournament not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Tournament could not be updated", e);
 		}
 		try {
 
@@ -233,28 +239,33 @@ public class TournamentServiceImpl implements TournamentService {
 	}
 
 	@Override
-	public TournamentBO addTeam(Long id, TournamentBO tournamentBO) throws BusinessException {
-		TeamBOAux team = null;
+	@Transactional
+	public TournamentBO addTeam(Long teamId, Long tournamentId) throws BusinessException {
+		TeamBO team = null;
 
 		try {
-			team = modelToBOConverter.teamModelToBOAux(teamDAO.findById(id));
-		} catch (DataException e) {
+			team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamId));
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("This team not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Team could not be added", e);
 		}
 		TournamentBO tournament = null;
 		try {
-			tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
-			List<TeamBOAux> teams = new ArrayList<TeamBOAux>();
+			tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentId));
+			List<TeamBO> teams = new ArrayList<TeamBO>();
 			if (tournament.getTeams() == null) {
 				teams.add(team);
 				tournament.setTeams(teams);
-			} else if (tournament.getTeams().size() >= tournamentBO.getSize()) {
+			} else if (tournament.getTeams().size() >= tournament.getSize()) {
 				throw new BusinessException("Full tournament  ");
 			} else if (tournament.getTeams().contains(team)) {
 				throw new BusinessException("This team is already on the tournament ");
+			} else if (!(tournament.getModality().equals(team.getModality()))) {
+				throw new BusinessException("Modality is diferent");
 			} else {
 				teams = tournament.getTeams();
-				for (TeamBOAux t : teams) {
+				for (TeamBO t : teams) {
 					for (UserBOAux u : team.getUsers()) {
 						if (t.getUsers().contains(u)) {
 							throw new BusinessException(
@@ -266,8 +277,10 @@ public class TournamentServiceImpl implements TournamentService {
 				tournament.setTeams(teams);
 			}
 
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TournamentNotFoundException("This tournament not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Team could not be added", e);
 		}
 		try {
 

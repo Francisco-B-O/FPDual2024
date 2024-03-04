@@ -11,8 +11,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessExcept
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedCaptainException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameAndModalityException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.FullTeamException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.TeamInActiveTournamentException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.TeamNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.UserInActiveTournamentException;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.UserNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
@@ -26,7 +26,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundExceptio
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 
 @Service
-@Transactional
 public class TeamServiceImpl implements TeamService {
 	@Autowired
 	TeamDAO teamDAO;
@@ -41,8 +40,17 @@ public class TeamServiceImpl implements TeamService {
 	ModelToBOConverter modelToBOConverter;
 
 	@Override
-	public TeamBO registerTeam(UserBOAux captain, TeamBO teamBO) throws BusinessException {
+	@Transactional
+	public TeamBO registerTeam(Long captainId, TeamBO teamBO) throws BusinessException {
+		UserBOAux captain;
+		try {
+			captain = modelToBOConverter.userModelToBOAux(userDAO.findById(captainId));
 
+		} catch (NotFoundException e) {
+			throw new UserNotFoundException("Captain not found", e);
+		} catch (DataException e) {
+			throw new UserNotFoundException("Captain not found", e);
+		}
 		try {
 			teamDAO.findByCaptain(boToModelConverter.userBOAuxToModel(captain));
 			throw new DuplicatedCaptainException("This user is already captain of another team");
@@ -96,21 +104,20 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteTeam(Long id) throws BusinessException {
-		TeamBO teamBO;
+
 		try {
-			teamBO = modelToBOConverter.teamModelToBO(teamDAO.findById(id));
-		} catch (DataException e) {
-			throw new TeamNotFoundException("Team not found", e);
-		}
-		if (teamBO.isInActiveTournament()) {
-			throw new UserInActiveTournamentException("This team is in an active tournament");
-		} else {
-			try {
+			TeamBO teamBO = modelToBOConverter.teamModelToBO(teamDAO.findById(id));
+			if (teamBO.isInActiveTournament()) {
+				throw new TeamInActiveTournamentException("This team is in an active tournament");
+			} else {
 				teamDAO.delete(id);
-			} catch (DataException e) {
-				throw new BusinessException("Team not deleted", e);
 			}
+		} catch (NotFoundException e) {
+			throw new TeamNotFoundException("Team not found", e);
+		} catch (DataException e) {
+			throw new BusinessException("Team not deleted", null);
 		}
 
 	}
@@ -143,6 +150,7 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
+	@Transactional
 	public TeamBO updateTeam(TeamBO teamBO) throws BusinessException {
 		TeamBO team = null;
 		try {
@@ -151,8 +159,10 @@ public class TeamServiceImpl implements TeamService {
 			team.setName(teamBO.getName());
 			team.setUsers(teamBO.getUsers());
 			team.setTournaments(team.getTournaments());
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("This team not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Team could not be updated", e);
 		}
 		try {
 			return modelToBOConverter.teamModelToBO(teamDAO.save(boToModelConverter.teamBOToModel(team)));
@@ -162,17 +172,20 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public TeamBO addPlayer(Long id, TeamBO teamBO) throws BusinessException {
+	@Transactional
+	public TeamBO addPlayer(Long userId, Long teamId) throws BusinessException {
 		UserBOAux user = null;
-
 		try {
-			user = modelToBOConverter.userModelToBOAux(userDAO.findById(id));
-		} catch (DataException e) {
+			user = modelToBOConverter.userModelToBOAux(userDAO.findById(userId));
+		} catch (NotFoundException e) {
 			throw new UserNotFoundException("This user not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Player could not be added", e);
 		}
+
 		TeamBO team = null;
 		try {
-			team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamBO.getId()));
+			team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamId));
 			List<UserBOAux> players = new ArrayList<UserBOAux>();
 			if (team.getUsers() == null) {
 				players.add(user);
@@ -185,8 +198,10 @@ public class TeamServiceImpl implements TeamService {
 				players.add(user);
 			}
 			team.setUsers(players);
-		} catch (DataException e) {
+		} catch (NotFoundException e) {
 			throw new TeamNotFoundException("This team not exists", e);
+		} catch (DataException e) {
+			throw new BusinessException("Player could not be added", e);
 		}
 		try {
 			return modelToBOConverter.teamModelToBO(teamDAO.save(boToModelConverter.teamBOToModel(team)));

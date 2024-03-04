@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
@@ -16,7 +15,6 @@ import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 
 @Service
-@Transactional
 public class RoleServiceImpl implements RoleService {
 	@Autowired
 	RoleDAO roleDAO;
