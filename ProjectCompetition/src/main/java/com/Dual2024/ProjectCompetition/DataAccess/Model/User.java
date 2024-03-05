@@ -1,5 +1,7 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,8 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
@@ -19,9 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
-
 
 @Data
 @AllArgsConstructor
@@ -62,8 +61,7 @@ public class User {
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "users_roles_user_id"), inverseJoinColumns = @JoinColumn(name = "users_roles_role_id"))
 	private List<Role> roles;
 
-	@ManyToMany
-	@JoinTable(name = "users_teams", joinColumns = @JoinColumn(name = "users_teams_user_id"), inverseJoinColumns = @JoinColumn(name = "users_teams_team_id"))
+	@ManyToMany(mappedBy = "users")
 	private List<Team> teams;
 
 }

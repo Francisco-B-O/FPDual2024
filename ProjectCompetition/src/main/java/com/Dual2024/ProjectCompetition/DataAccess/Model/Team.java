@@ -50,10 +50,10 @@ public class Team {
 	@Column(name = "team_logo")
 	private String logo;
 
-	@ManyToMany(mappedBy = "teams")
+	@ManyToMany
+	@JoinTable(name = "users_teams", joinColumns = @JoinColumn(name = "users_teams_user_id"), inverseJoinColumns = @JoinColumn(name = "users_teams_team_id"))
 	private List<User> users;
 
-	@ManyToMany
-	@JoinTable(name = "tournaments_teams", joinColumns = @JoinColumn(name = "tournaments_teams_tournament_id"), inverseJoinColumns = @JoinColumn(name = "tournaments_teams_team_id"))
+	@ManyToMany(mappedBy = "teams")
 	private List<Tournament> tournaments;
 }
