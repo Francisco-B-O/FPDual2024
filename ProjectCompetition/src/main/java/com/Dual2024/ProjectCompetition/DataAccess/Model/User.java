@@ -18,6 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Users table entity class
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -25,7 +30,9 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
+    /**
+     * Entity fields
+     */
     @Serial
     private static final long serialVersionUID = -3851309459476535286L;
 

@@ -12,6 +12,11 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Tournaments table entity class
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -20,7 +25,9 @@ import java.util.List;
 @Table(name = "tournaments", uniqueConstraints = {@UniqueConstraint(name = "Tournament_name_modality", columnNames = {
         "tournament_name", "tournament_modality_id"})})
 public class Tournament {
-
+    /**
+     * Entity fields
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tournament_id")

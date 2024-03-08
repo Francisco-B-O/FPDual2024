@@ -1,17 +1,17 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Modalities table entity class
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
@@ -19,17 +19,19 @@ import lombok.RequiredArgsConstructor;
 @Entity
 @Table(name = "modalities")
 public class Modality {
+    /**
+     * Entity fields
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "modality_id")
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "modality_id")
-	private Long id;
+    @Column(name = "modality_number_players", nullable = false)
+    private int numberPlayers;
 
-	@Column(name = "modality_number_players", nullable = false)
-	private int numberPlayers;
-
-	@NotBlank
-	@Column(name = "modality_name", nullable = false, unique = true)
-	private String name;
+    @NotBlank
+    @Column(name = "modality_name", nullable = false, unique = true)
+    private String name;
 
 }

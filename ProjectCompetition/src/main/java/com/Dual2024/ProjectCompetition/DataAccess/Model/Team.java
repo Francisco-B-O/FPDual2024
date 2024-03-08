@@ -1,59 +1,55 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
-import java.util.List;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+/**
+ * Teams table entity class
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 @Entity
 @Table(name = "teams", uniqueConstraints = {
-		@UniqueConstraint(name = "Team_name_modality", columnNames = { "team_name", "team_modality_id" }) })
+        @UniqueConstraint(name = "Team_name_modality", columnNames = {"team_name", "team_modality_id"})})
 public class Team {
+    /**
+     * Entity fields
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "team_id")
+    private Long id;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "team_id")
-	private Long id;
+    @NotBlank
+    @Column(name = "team_name", nullable = false)
+    private String name;
 
-	@NotBlank
-	@Column(name = "team_name", nullable = false)
-	private String name;
+    @ManyToOne
+    @JoinColumn(name = "team_modality_id", nullable = false)
+    private Modality modality;
 
-	@ManyToOne
-	@JoinColumn(name = "team_modality_id", nullable = false)
-	private Modality modality;
+    @ManyToOne
+    @JoinColumn(name = "team_captain_id", nullable = false)
+    private User captain;
 
-	@ManyToOne
-	@JoinColumn(name = "team_captain_id", nullable = false)
-	private User captain;
+    @Lob
+    @Column(name = "team_logo")
+    private String logo;
 
-	@Lob
-	@Column(name = "team_logo")
-	private String logo;
+    @ManyToMany
+    @JoinTable(name = "users_teams", joinColumns = @JoinColumn(name = "users_teams_user_id"), inverseJoinColumns = @JoinColumn(name = "users_teams_team_id"))
+    private List<User> users;
 
-	@ManyToMany
-	@JoinTable(name = "users_teams", joinColumns = @JoinColumn(name = "users_teams_user_id"), inverseJoinColumns = @JoinColumn(name = "users_teams_team_id"))
-	private List<User> users;
-
-	@ManyToMany(mappedBy = "teams")
-	private List<Tournament> tournaments;
+    @ManyToMany(mappedBy = "teams")
+    private List<Tournament> tournaments;
 }
