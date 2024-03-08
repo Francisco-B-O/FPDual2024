@@ -1,10 +1,21 @@
 package com.Dual2024.ProjectCompetition.Business.Service;
 
-import java.util.List;
-
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 
+import java.util.List;
+
+/**
+ * Interface that contains the methods of the role service.
+ *
+ * @author Francisco Balonero Olivera
+ */
 public interface RoleService {
-	List<RoleBO> getAllRoles() throws BusinessException;
+    /**
+     * Gets all roles.
+     *
+     * @return All roles
+     * @throws BusinessException
+     */
+    List<RoleBO> getAllRoles() throws BusinessException;
 }

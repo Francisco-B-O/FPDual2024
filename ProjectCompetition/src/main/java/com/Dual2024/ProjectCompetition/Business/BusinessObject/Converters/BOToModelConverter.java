@@ -17,8 +17,8 @@ public class BOToModelConverter {
     /**
      * User bo to model user.
      *
-     * @param userBO the user bo
-     * @return the user
+     * @param userBO The user bo
+     * @return The user
      */
     public User userBOToModel(UserBO userBO) {
         return modelMapper.map(userBO, User.class);
@@ -27,8 +27,8 @@ public class BOToModelConverter {
     /**
      * Role bo to model role.
      *
-     * @param roleBO the role bo
-     * @return the role
+     * @param roleBO The role bo
+     * @return The role
      */
     public Role roleBOToModel(RoleBO roleBO) {
         return modelMapper.map(roleBO, Role.class);
@@ -37,8 +37,8 @@ public class BOToModelConverter {
     /**
      * Modality bo to model modality.
      *
-     * @param modalityBO the modality bo
-     * @return the modality
+     * @param modalityBO The modality bo
+     * @return The modality
      */
     public Modality modalityBOToModel(ModalityBO modalityBO) {
         return modelMapper.map(modalityBO, Modality.class);
@@ -47,8 +47,8 @@ public class BOToModelConverter {
     /**
      * Team bo to model team.
      *
-     * @param teamBO the team bo
-     * @return the team
+     * @param teamBO The team bo
+     * @return The team
      */
     public Team teamBOToModel(TeamBO teamBO) {
         return modelMapper.map(teamBO, Team.class);
@@ -57,8 +57,8 @@ public class BOToModelConverter {
     /**
      * Format bo to model format.
      *
-     * @param formatBO the format bo
-     * @return the format
+     * @param formatBO The format bo
+     * @return The format
      */
     public Format formatBOToModel(FormatBO formatBO) {
         return modelMapper.map(formatBO, Format.class);
@@ -67,8 +67,8 @@ public class BOToModelConverter {
     /**
      * Tournament bo to model tournament.
      *
-     * @param tournamentBO the tournament bo
-     * @return the tournament
+     * @param tournamentBO The tournament bo
+     * @return The tournament
      */
     public Tournament tournamentBOToModel(TournamentBO tournamentBO) {
         return modelMapper.map(tournamentBO, Tournament.class);
@@ -77,8 +77,8 @@ public class BOToModelConverter {
     /**
      * User bo aux to model user.
      *
-     * @param userBOAux the user bo aux
-     * @return the user
+     * @param userBOAux The user bo aux
+     * @return The user
      */
     public User userBOAuxToModel(UserBOAux userBOAux) {
         return modelMapper.map(userBOAux, User.class);
@@ -87,8 +87,8 @@ public class BOToModelConverter {
     /**
      * Tournament bo aux to model tournament.
      *
-     * @param tournamentBOAux the tournament bo aux
-     * @return the tournament
+     * @param tournamentBOAux The tournament bo aux
+     * @return The tournament
      */
     public Tournament tournamentBOAuxToModel(TournamentBOAux tournamentBOAux) {
         return modelMapper.map(tournamentBOAux, Tournament.class);

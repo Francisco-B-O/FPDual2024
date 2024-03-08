@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * The User aux business object
+ * The User aux business object.
  *
  * @author Francisco Balonero Olivera
  */

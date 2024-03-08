@@ -9,7 +9,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.Service.ModalityServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -101,7 +101,7 @@ public class ModalityServiceTest {
     @DisplayName("getModalityById operation : incorrect case -> Not found")
     public void givenId_whenGetModalityById_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(modalityDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(modalityDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityById(1L));
 
@@ -124,7 +124,7 @@ public class ModalityServiceTest {
     @DisplayName("getModalityByName operation : incorrect case -> Not found")
     public void givenModalityName_whenGetModalityByName_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(NotFoundException.class);
+        BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(EntityNotFoundException.class);
 
         assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityByName("modality1"));
     }
@@ -148,7 +148,7 @@ public class ModalityServiceTest {
     @DisplayName("getModalityByNumberPlayers operation : incorrect case -> not found")
     public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(NotFoundException.class);
+        BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(EntityNotFoundException.class);
 
         assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
 
@@ -173,7 +173,7 @@ public class ModalityServiceTest {
     @DisplayName("getAllModalities operation : incorrect case -> not found")
     public void givenNothing_whenGetAllModalities_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(modalityDAO.findAll()).willThrow(NotFoundException.class);
+        BDDMockito.given(modalityDAO.findAll()).willThrow(EntityNotFoundException.class);
 
         assertThrows(ModalityNotFoundException.class, () -> modalityService.getAllModalities());
 

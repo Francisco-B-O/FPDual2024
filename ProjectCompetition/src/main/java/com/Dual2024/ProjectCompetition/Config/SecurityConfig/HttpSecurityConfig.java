@@ -12,15 +12,28 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * The Http security config.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class HttpSecurityConfig {
     @Autowired
     private AuthenticationProvider authenticationProvider;
+    /**
+     * The Jwt authentication filter.
+     */
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    /**
+     * Security filter chain.
+     *
+     * @param http The http
+     * @return The security filter chain
+     * @throws Exception
+     */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrfConfig -> csrfConfig.disable())

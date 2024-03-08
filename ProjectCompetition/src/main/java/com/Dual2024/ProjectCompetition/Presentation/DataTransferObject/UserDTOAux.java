@@ -1,29 +1,33 @@
 package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
-import java.util.List;
-
 import com.Dual2024.ProjectCompetition.Utils.UserState;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
+/**
+ * The User dto aux.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class UserDTOAux {
-	private Long id;
+    private Long id;
 
-	private String nick;
+    private String nick;
 
-	private String email;
+    private String email;
 
-	private String avatar;
+    private String avatar;
 
-	private UserState state;
+    private UserState state;
 
-	private List<RoleDTO> roles;
+    private List<RoleDTO> roles;
 
 }

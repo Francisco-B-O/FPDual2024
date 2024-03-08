@@ -18,7 +18,7 @@ public interface TeamDAO {
      *
      * @param team Team to save
      * @return Saved team
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Team save(Team team) throws DataException;
 
@@ -27,7 +27,7 @@ public interface TeamDAO {
      *
      * @param id The id of the team you are looking for
      * @return The team found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Team findById(Long id) throws DataException;
 
@@ -35,7 +35,7 @@ public interface TeamDAO {
      * Method that returns a list with all the teams
      *
      * @return A list with all the teams
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Team> findAll() throws DataException;
 
@@ -43,7 +43,7 @@ public interface TeamDAO {
      * Method that deletes a team by id
      *
      * @param id The id of the team to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -52,7 +52,7 @@ public interface TeamDAO {
      *
      * @param name The name of the teams you are looking for
      * @return A list with found teams
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Team> findByName(String name) throws DataException;
 
@@ -61,7 +61,7 @@ public interface TeamDAO {
      *
      * @param modality The modality of the teams you are looking for
      * @return A list with found teams
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Team> findByModality(Modality modality) throws DataException;
 
@@ -70,7 +70,7 @@ public interface TeamDAO {
      *
      * @param captain The captain of the teams you are looking for
      * @return A list with found teams
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Team> findByCaptain(User captain) throws DataException;
 }

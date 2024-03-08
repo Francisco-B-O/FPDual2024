@@ -3,7 +3,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessException;
 import java.io.Serial;
 
 /**
- * Generic business layer exception
+ * Generic business layer exception.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -13,7 +13,7 @@ public class BusinessException extends Exception {
     private static final long serialVersionUID = -1618850050663333984L;
 
     /**
-     * Builder with message
+     * Builder with message.
      *
      * @param message Message of the exception
      */
@@ -22,7 +22,7 @@ public class BusinessException extends Exception {
     }
 
     /**
-     * Builder with message and exception
+     * Builder with message and exception.
      *
      * @param message Message of the exception
      * @param e       Cause

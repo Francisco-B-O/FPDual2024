@@ -6,8 +6,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
 import com.Dual2024.ProjectCompetition.Business.Service.ModalityService;
 import com.Dual2024.ProjectCompetition.Business.Service.Security.AuthenticationService;
 import com.Dual2024.ProjectCompetition.Business.Service.TeamService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.DTOToBOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RegisterTeamDTO;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.TeamDTO;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
@@ -21,20 +21,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Team controller.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @RequestMapping("team")
 @RestController
 public class TeamController {
+    /**
+     * The Bo to dto converter.
+     */
     @Autowired
     BOToDTOConverter boToDTOConverter;
+    /**
+     * The Dto to bo converter.
+     */
     @Autowired
     DTOToBOConverter dtoToBOConverter;
     @Autowired
     private TeamService teamService;
     @Autowired
     private ModalityService modalityService;
+    /**
+     * The Authentication service.
+     */
     @Autowired
     AuthenticationService authenticationService;
 
+    /**
+     * Gets allteams.
+     *
+     * @return the allteams
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -50,6 +70,13 @@ public class TeamController {
         }
     }
 
+    /**
+     * Gets team by id.
+     *
+     * @param id the id
+     * @return the team by id
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -64,6 +91,13 @@ public class TeamController {
 
     }
 
+    /**
+     * Gets teams by modality.
+     *
+     * @param modality the modality
+     * @return the teams by modality
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
@@ -81,6 +115,13 @@ public class TeamController {
         }
     }
 
+    /**
+     * Gets team by name.
+     *
+     * @param name the name
+     * @return the team by name
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -98,6 +139,13 @@ public class TeamController {
 
     }
 
+    /**
+     * Registerteam team dto.
+     *
+     * @param team the team
+     * @return the team dto
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
@@ -114,6 +162,12 @@ public class TeamController {
 
     }
 
+    /**
+     * Add player team dto.
+     *
+     * @param team the team
+     * @return the team dto
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addPlayer/{team}/")
@@ -128,6 +182,11 @@ public class TeamController {
         }
     }
 
+    /**
+     * Delete team.
+     *
+     * @param id the id
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -141,6 +200,11 @@ public class TeamController {
         }
     }
 
+    /**
+     * Update team.
+     *
+     * @param team the team
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")

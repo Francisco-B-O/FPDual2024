@@ -1,7 +1,7 @@
 package com.Dual2024.ProjectCompetition.DataAccess.DAO;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
 import jakarta.validation.ConstraintViolationException;
@@ -22,13 +22,6 @@ public class FormatDAOImpl implements FormatDAO {
     @Autowired
     private FormatRepository formatRepository;
 
-    /**
-     * Implementation of the save method
-     *
-     * @param format Format to save
-     * @return Saved format
-     * @throws DataException
-     */
     @Override
     public Format save(Format format) throws DataException {
         try {
@@ -39,13 +32,7 @@ public class FormatDAOImpl implements FormatDAO {
 
     }
 
-    /**
-     * Implementation of the findById method
-     *
-     * @param id The id of the format you are looking for
-     * @return The format found
-     * @throws DataException
-     */
+
     @Override
     public Format findById(Long id) throws DataException {
         try {
@@ -53,7 +40,7 @@ public class FormatDAOImpl implements FormatDAO {
             if (format.isPresent()) {
                 return format.get();
             } else {
-                throw new NotFoundException("Format not found");
+                throw new EntityNotFoundException("Format not found");
             }
 
         } catch (NestedRuntimeException nre) {
@@ -62,18 +49,12 @@ public class FormatDAOImpl implements FormatDAO {
 
     }
 
-    /**
-     * Implementation of the findAll method
-     *
-     * @return A list with all the formats
-     * @throws DataException
-     */
     @Override
     public List<Format> findAll() throws DataException {
         try {
             List<Format> formats = formatRepository.findAll();
             if (formats.isEmpty()) {
-                throw new NotFoundException("Formats not found");
+                throw new EntityNotFoundException("Formats not found");
             } else {
                 return formats;
             }
@@ -83,12 +64,6 @@ public class FormatDAOImpl implements FormatDAO {
 
     }
 
-    /**
-     * Implementation of the delete method
-     *
-     * @param id The id of the format to be deleted
-     * @throws DataException
-     */
     @Override
     public void delete(Long id) throws DataException {
         try {
@@ -99,19 +74,12 @@ public class FormatDAOImpl implements FormatDAO {
 
     }
 
-    /**
-     * Implementation of the findByName method
-     *
-     * @param name The name of the format you are looking for
-     * @return The format found
-     * @throws DataException
-     */
     @Override
     public Format findByName(String name) throws DataException {
         try {
             Format format = formatRepository.findByName(name);
             if (format == null) {
-                throw new NotFoundException("Format not found");
+                throw new EntityNotFoundException("Format not found");
             } else {
                 return format;
             }

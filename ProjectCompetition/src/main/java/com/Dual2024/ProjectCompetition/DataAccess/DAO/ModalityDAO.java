@@ -16,7 +16,7 @@ public interface ModalityDAO {
      *
      * @param modality Modality to save
      * @return Saved modality
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Modality save(Modality modality) throws DataException;
 
@@ -25,7 +25,7 @@ public interface ModalityDAO {
      *
      * @param id The id of the modality you are looking for
      * @return The modality found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Modality findById(Long id) throws DataException;
 
@@ -33,7 +33,7 @@ public interface ModalityDAO {
      * Method that returns a list with all the modalities
      *
      * @return A list with all the modalities
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Modality> findAll() throws DataException;
 
@@ -41,7 +41,7 @@ public interface ModalityDAO {
      * Method that deletes a modality by id
      *
      * @param id The id of the modality to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -50,7 +50,7 @@ public interface ModalityDAO {
      *
      * @param name The name of the modality you are looking for
      * @return The modality found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Modality findByName(String name) throws DataException;
 
@@ -59,7 +59,7 @@ public interface ModalityDAO {
      *
      * @param numberPlayers The number players of the modality you are looking for
      * @return A list with found modalities
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Modality> findByNumberPlayers(int numberPlayers) throws DataException;
 }

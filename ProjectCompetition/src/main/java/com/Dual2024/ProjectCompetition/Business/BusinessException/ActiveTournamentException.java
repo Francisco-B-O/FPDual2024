@@ -3,7 +3,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessException;
 import java.io.Serial;
 
 /**
- * Exception indicating that a tournament is active
+ * Exception indicating that a tournament is active.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -13,7 +13,7 @@ public class ActiveTournamentException extends BusinessException {
     private static final long serialVersionUID = -448578762742195642L;
 
     /**
-     * Builder with message
+     * Builder with message.
      *
      * @param message Message of the exception
      */
@@ -22,7 +22,7 @@ public class ActiveTournamentException extends BusinessException {
     }
 
     /**
-     * Builder with message and exception
+     * Builder with message and exception.
      *
      * @param message Message of the exception
      * @param e       Cause

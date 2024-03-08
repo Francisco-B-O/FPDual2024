@@ -3,7 +3,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessException;
 import java.io.Serial;
 
 /**
- * Exception indicating the nick already exists in a user
+ * Exception indicating the nick already exists in a user.
  */
 public class DuplicatedNickException extends BusinessException {
 
@@ -11,7 +11,7 @@ public class DuplicatedNickException extends BusinessException {
     private static final long serialVersionUID = 5235794232694134448L;
 
     /**
-     * Builder with message
+     * Builder with message.
      *
      * @param message Message of the exception
      */
@@ -20,7 +20,7 @@ public class DuplicatedNickException extends BusinessException {
     }
 
     /**
-     * Builder with message and exception
+     * Builder with message and exception.
      *
      * @param message Message of the exception
      * @param e       Cause

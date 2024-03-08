@@ -16,7 +16,7 @@ public interface RoleDAO {
      *
      * @param role Role to save
      * @return Saved role
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Role save(Role role) throws DataException;
 
@@ -25,7 +25,7 @@ public interface RoleDAO {
      *
      * @param id The id of the role you are looking for
      * @return The role found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Role findById(Long id) throws DataException;
 
@@ -33,7 +33,7 @@ public interface RoleDAO {
      * Method that returns a list with all the modalities
      *
      * @return A list with all the roles
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Role> findAll() throws DataException;
 
@@ -41,7 +41,7 @@ public interface RoleDAO {
      * Method that deletes a role by id
      *
      * @param id The id of the role to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -50,7 +50,7 @@ public interface RoleDAO {
      *
      * @param name The name of the role you are looking for
      * @return The role found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Role findByName(String name) throws DataException;
 }

@@ -1,5 +1,29 @@
 package com.Dual2024.ProjectCompetition.Utils;
 
+/**
+ * The enum Tournament state.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 public enum TournamentState {
-	NO_COMENZADO, EN_JUEGO, FINALIZADO, SUSPENDIDO, APLAZADO
+    /**
+     * No comenzado tournament state.
+     */
+    NO_COMENZADO,
+    /**
+     * En juego tournament state.
+     */
+    EN_JUEGO,
+    /**
+     * Finalizado tournament state.
+     */
+    FINALIZADO,
+    /**
+     * Suspendido tournament state.
+     */
+    SUSPENDIDO,
+    /**
+     * Aplazado tournament state.
+     */
+    APLAZADO
 }

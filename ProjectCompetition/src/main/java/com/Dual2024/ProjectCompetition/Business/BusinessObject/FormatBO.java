@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Format business object
+ * The Format business object.
  *
  * @author Francisco Balonero Olivera
  */

@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Role business object
+ * The Role business object.
  *
  * @author Francisco Balonero Olivera
  */

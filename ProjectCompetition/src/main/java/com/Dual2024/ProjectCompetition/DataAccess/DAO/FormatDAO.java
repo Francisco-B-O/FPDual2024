@@ -16,7 +16,7 @@ public interface FormatDAO {
      *
      * @param format Format to save
      * @return Saved format
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Format save(Format format) throws DataException;
 
@@ -25,7 +25,7 @@ public interface FormatDAO {
      *
      * @param id The id of the format you are looking for
      * @return The format found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Format findById(Long id) throws DataException;
 
@@ -33,7 +33,7 @@ public interface FormatDAO {
      * Method that returns a list with all the formats
      *
      * @return A list with all the formats
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Format> findAll() throws DataException;
 
@@ -41,7 +41,7 @@ public interface FormatDAO {
      * Method that deletes a format by id
      *
      * @param id The id of the format to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -50,7 +50,7 @@ public interface FormatDAO {
      *
      * @param name The name of the format you are looking for
      * @return The format found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Format findByName(String name) throws DataException;
 }

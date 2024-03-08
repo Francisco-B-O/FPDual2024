@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * The Tournament aux business object
+ * The Tournament aux business object.
  *
  * @author Francisco Balonero Olivera
  */

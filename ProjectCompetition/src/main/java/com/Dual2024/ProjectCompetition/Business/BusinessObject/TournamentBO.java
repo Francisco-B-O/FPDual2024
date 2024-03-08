@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * The Tournament business object
+ * The Tournament business object.
  *
  * @author Francisco Balonero Olivera
  */

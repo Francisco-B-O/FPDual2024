@@ -20,7 +20,7 @@ public interface TournamentDAO {
      *
      * @param tournament Tournament to save
      * @return Saved tournament
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Tournament save(Tournament tournament) throws DataException;
 
@@ -29,7 +29,7 @@ public interface TournamentDAO {
      *
      * @param id The id of the tournament you are looking for
      * @return The tournament found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     Tournament findById(Long id) throws DataException;
 
@@ -37,7 +37,7 @@ public interface TournamentDAO {
      * Method that returns a list with all the tournaments
      *
      * @return A list with all the tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findAll() throws DataException;
 
@@ -45,7 +45,7 @@ public interface TournamentDAO {
      * Method that deletes a tournament by id
      *
      * @param id The id of the tournament to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -54,7 +54,7 @@ public interface TournamentDAO {
      *
      * @param name The name of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByName(String name) throws DataException;
 
@@ -63,7 +63,7 @@ public interface TournamentDAO {
      *
      * @param format The format of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByFormat(Format format) throws DataException;
 
@@ -72,7 +72,7 @@ public interface TournamentDAO {
      *
      * @param size The size of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findBySize(int size) throws DataException;
 
@@ -81,7 +81,7 @@ public interface TournamentDAO {
      *
      * @param startDate The start date of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByStartDate(LocalDateTime startDate) throws DataException;
 
@@ -90,7 +90,7 @@ public interface TournamentDAO {
      *
      * @param endDate The end date of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByEndDate(LocalDateTime endDate) throws DataException;
 
@@ -99,7 +99,7 @@ public interface TournamentDAO {
      *
      * @param state The state of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByState(TournamentState state) throws DataException;
 
@@ -108,7 +108,7 @@ public interface TournamentDAO {
      *
      * @param modality The modality of the tournaments you are looking for
      * @return A list with found tournaments
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<Tournament> findByModality(Modality modality) throws DataException;
 

@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * The User business object
+ * The User business object.
  *
  * @author Francisco Balonero Olivera
  */
@@ -37,9 +37,9 @@ public class UserBO {
     private List<TeamBO> teams;
 
     /**
-     * Is in active tournament boolean.
+     * Method that returns false if you are not in an active tournament or true if you are.
      *
-     * @return the boolean
+     * @return The boolean
      */
     public boolean isInActiveTournament() {
         return this.teams.stream().iterator().next().getTournaments().stream()

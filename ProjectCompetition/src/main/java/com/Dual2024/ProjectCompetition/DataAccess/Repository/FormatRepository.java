@@ -15,7 +15,7 @@ public interface FormatRepository extends JpaRepository<Format, Long> {
      *
      * @param name the name of the role
      * @return the modality with the specified name
-     **/
+     */
     Format findByName(String name);
 
 }

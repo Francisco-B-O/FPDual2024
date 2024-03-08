@@ -17,10 +17,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * The Jwt authentication filter.
+ */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+    /**
+     * The User dao.
+     */
     @Autowired
     UserDAO userDAO;
+    /**
+     * The Jwt service.
+     */
     @Autowired
     JwtService jwtService;
 

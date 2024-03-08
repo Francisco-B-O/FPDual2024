@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Modality business object
+ * The Modality business object.
  *
  * @author Francisco Balonero Olivera
  */

@@ -11,7 +11,7 @@ import com.Dual2024.ProjectCompetition.Business.Service.TeamServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
@@ -85,9 +85,9 @@ public class TeamServiceTest {
         BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
         BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
         BDDMockito.given(teamDAO.save(team)).willReturn(team);
-        BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(EntityNotFoundException.class);
         BDDMockito.given(userDAO.findById(user.getId())).willReturn(user);
-        BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(EntityNotFoundException.class);
 
         TeamBO savedTeam = teamService.registerTeam(userBOAux.getId(), teamBO);
 
@@ -105,7 +105,7 @@ public class TeamServiceTest {
         BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
         BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
         BDDMockito.given(userDAO.findById(user.getId())).willReturn(user);
-        BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findByCaptain(user)).willThrow(EntityNotFoundException.class);
         BDDMockito.given(teamDAO.findByModality(team.getModality())).willReturn(teams);
 
         assertThrows(DuplicatedNameAndModalityException.class,
@@ -141,7 +141,7 @@ public class TeamServiceTest {
     @DisplayName("getTeamById operation : incorrect case -> Not found")
     public void givenId_whenGetTeamById_thenThrowsBusinessException() throws DataException {
 
-        BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.getTeamById(1L));
     }
@@ -164,7 +164,7 @@ public class TeamServiceTest {
     @DisplayName("getAllTeams operation : incorrect case -> not found")
     public void givenNothing_whenGetAllTeams_thenThrowsBusinessException() throws DataException {
 
-        BDDMockito.given(teamDAO.findAll()).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findAll()).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.getAllteams());
 
@@ -190,7 +190,7 @@ public class TeamServiceTest {
     public void givenModality_whenGetTeamsByModality_thenThrowsBusinessException() throws DataException {
 
         BDDMockito.given(boToModelConverter.modalityBOToModel(teamBO.getModality())).willReturn(team.getModality());
-        BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findByModality(team.getModality())).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.getTeamsByModality(teamBO.getModality()));
 
@@ -214,7 +214,7 @@ public class TeamServiceTest {
     @DisplayName("getTeamsByName operation : incorrect case -> Not found")
     public void givenModality_whenGetTeamsByName_thenThrowsBusinessException() throws DataException {
 
-        BDDMockito.given(teamDAO.findByName(team.getName())).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findByName(team.getName())).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.getTeamsByName(teamBO.getName()));
 
@@ -237,7 +237,7 @@ public class TeamServiceTest {
     @DisplayName("deleteTeam operation : incorrect case -> Not found")
     public void givenId_whenDeleteTeam_thenThrowsBusinessException() throws DataException {
 
-        BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.deleteTeam(1L));
     }
@@ -311,7 +311,7 @@ public class TeamServiceTest {
     @DisplayName("addPlayer operation : incorrect case -> Player not exists")
     public void givenIdThatNotExistsAndTeamBO_whenAddPlayer_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
     }
@@ -322,7 +322,7 @@ public class TeamServiceTest {
 
         BDDMockito.given(modelToBOConverter.userModelToBOAux(user)).willReturn(userBOAux);
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
-        BDDMockito.given(teamDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(teamDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(TeamNotFoundException.class, () -> teamService.addPlayer(1L, teamBO.getId()));
     }

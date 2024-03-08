@@ -8,7 +8,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelT
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.FormatDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the FormatService interface.
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Service
 public class FormatServiceImpl implements FormatService {
+    /**
+     * The Format dao.
+     */
     @Autowired
     FormatDAO formatDAO;
 
+    /**
+     * The Bo to model converter.
+     */
     @Autowired
     BOToModelConverter boToModelConverter;
 
+    /**
+     * The Model to bo converter.
+     */
     @Autowired
     ModelToBOConverter modelToBOConverter;
 
@@ -47,7 +61,7 @@ public class FormatServiceImpl implements FormatService {
     public FormatBO getFormatById(Long id) throws BusinessException {
         try {
             return modelToBOConverter.formatModelToBO(formatDAO.findById(id));
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find format", e);
@@ -61,7 +75,7 @@ public class FormatServiceImpl implements FormatService {
             formatDAO.findAll()
                     .forEach((Format format) -> listFormatsBO.add(modelToBOConverter.formatModelToBO(format)));
             return listFormatsBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new FormatNotFoundException("Formats not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find formats", e);
@@ -72,7 +86,7 @@ public class FormatServiceImpl implements FormatService {
     public FormatBO getFormatByName(String name) throws BusinessException {
         try {
             return modelToBOConverter.formatModelToBO(formatDAO.findByName(name));
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find format", e);
@@ -85,7 +99,7 @@ public class FormatServiceImpl implements FormatService {
         try {
             formatDAO.findById(id);
             formatDAO.delete(id);
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
             throw new FormatNotFoundException("Format not deleted", e);

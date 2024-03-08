@@ -17,7 +17,7 @@ public class ModelToBOConverter {
     /**
      * User model to bo user bo.
      *
-     * @param user the user
+     * @param user The user
      * @return the user bo
      */
     public UserBO userModelToBO(User user) {

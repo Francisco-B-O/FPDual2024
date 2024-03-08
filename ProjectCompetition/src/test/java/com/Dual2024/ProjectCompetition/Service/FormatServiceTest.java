@@ -9,7 +9,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.Service.FormatServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.FormatDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -54,7 +54,7 @@ public class FormatServiceTest {
 
         BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
         BDDMockito.given(modelToBOConverter.formatModelToBO(format)).willReturn(formatBO);
-        BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(NotFoundException.class);
+        BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(EntityNotFoundException.class);
         BDDMockito.given(FormatDAO.save(format)).willReturn(format);
 
         FormatBO savedFormat = FormatService.addFormat(formatBO);
@@ -77,7 +77,7 @@ public class FormatServiceTest {
     public void givenFormatBO_whenAddFormat_thenThrowBusinessException() throws DataException {
 
         BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
-        BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(NotFoundException.class);
+        BDDMockito.given(FormatDAO.findByName(formatBO.getName())).willThrow(EntityNotFoundException.class);
         BDDMockito.given(FormatDAO.save(format)).willThrow(DataException.class);
 
         assertThrows(BusinessException.class, () -> FormatService.addFormat(formatBO));
@@ -101,7 +101,7 @@ public class FormatServiceTest {
     @DisplayName("getFormatById operation : incorrect case -> Not found")
     public void givenId_whenGetFormatById_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(FormatDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(FormatDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(FormatNotFoundException.class, () -> FormatService.getFormatById(1L));
 
@@ -124,7 +124,7 @@ public class FormatServiceTest {
     @DisplayName("getFormatByName operation : incorrect case -> Not found")
     public void givenFormatName_whenGetFormatByName_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(FormatDAO.findByName("Format1")).willThrow(NotFoundException.class);
+        BDDMockito.given(FormatDAO.findByName("Format1")).willThrow(EntityNotFoundException.class);
 
         assertThrows(FormatNotFoundException.class, () -> FormatService.getFormatByName("Format1"));
     }
@@ -148,7 +148,7 @@ public class FormatServiceTest {
     @DisplayName("getAllFormatss operation : incorrect case -> not found")
     public void givenNothing_whenGetAllFormats_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(FormatDAO.findAll()).willThrow(NotFoundException.class);
+        BDDMockito.given(FormatDAO.findAll()).willThrow(EntityNotFoundException.class);
 
         assertThrows(FormatNotFoundException.class, () -> FormatService.getAllFormats());
 

@@ -18,14 +18,31 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implementation of the AuthenticationService interface.
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
+    /**
+     * The Authentication manager.
+     */
     @Autowired
     AuthenticationManager authenticationManager;
+    /**
+     * The User dao.
+     */
     @Autowired
     UserDAO userDAO;
+    /**
+     * The Model to bo converter.
+     */
     @Autowired
     ModelToBOConverter modelToBOConverter;
+    /**
+     * The Jwt service.
+     */
     @Autowired
     JwtService jwtService;
 

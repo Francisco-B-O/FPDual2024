@@ -3,8 +3,8 @@ package com.Dual2024.ProjectCompetition.Presentation.Controller;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 import com.Dual2024.ProjectCompetition.Business.Service.RoleService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.DTOToBOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RoleDTO;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Role controller.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @RequestMapping("role")
 @RestController
 public class RoleController {
@@ -28,6 +33,12 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    /**
+     * Gets all roles.
+     *
+     * @return the all roles
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")

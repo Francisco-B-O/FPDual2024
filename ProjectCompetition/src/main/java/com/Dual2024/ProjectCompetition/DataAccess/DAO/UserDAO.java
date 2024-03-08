@@ -17,7 +17,7 @@ public interface UserDAO {
      *
      * @param user User to save
      * @return Saved user
-     * @throws DataException
+     * @throws DataException the data exception
      */
     User save(User user) throws DataException;
 
@@ -26,7 +26,7 @@ public interface UserDAO {
      *
      * @param id The id of the user you are looking for
      * @return The user found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     User findById(Long id) throws DataException;
 
@@ -34,7 +34,7 @@ public interface UserDAO {
      * Method that returns a list with all the users
      *
      * @return A list with all the users
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<User> findAll() throws DataException;
 
@@ -42,7 +42,7 @@ public interface UserDAO {
      * Method that deletes a user by id
      *
      * @param id The id of the user to be deleted
-     * @throws DataException
+     * @throws DataException the data exception
      */
     void delete(Long id) throws DataException;
 
@@ -51,7 +51,7 @@ public interface UserDAO {
      *
      * @param nick The nick of the user you are looking for
      * @return The user found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     User findByNick(String nick) throws DataException;
 
@@ -60,7 +60,7 @@ public interface UserDAO {
      *
      * @param email The email of the user you are looking for
      * @return The user found
-     * @throws DataException
+     * @throws DataException the data exception
      */
     User findByEmail(String email) throws DataException;
 
@@ -69,7 +69,7 @@ public interface UserDAO {
      *
      * @param state The state of the users you are looking for
      * @return A list with found users
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<User> findByState(UserState state) throws DataException;
 
@@ -79,7 +79,7 @@ public interface UserDAO {
      * @param nick  The nick of the user you are looking for
      * @param email The email of the user you are looking for
      * @return A list with found users
-     * @throws DataException
+     * @throws DataException the data exception
      */
     List<User> findByNickOrEmail(String nick, String email) throws DataException;
 

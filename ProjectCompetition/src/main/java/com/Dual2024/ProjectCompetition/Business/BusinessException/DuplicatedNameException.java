@@ -3,7 +3,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessException;
 import java.io.Serial;
 
 /**
- * Exception indicating that that name is already in use
+ * Exception indicating that that name is already in use.
  */
 public class DuplicatedNameException extends BusinessException {
 
@@ -11,7 +11,7 @@ public class DuplicatedNameException extends BusinessException {
     private static final long serialVersionUID = -2232920202794886547L;
 
     /**
-     * Builder with message
+     * Builder with message.
      *
      * @param message Message of the exception
      */
@@ -20,7 +20,7 @@ public class DuplicatedNameException extends BusinessException {
     }
 
     /**
-     * Builder with message and exception
+     * Builder with message and exception.
      *
      * @param message Message of the exception
      * @param e       Cause

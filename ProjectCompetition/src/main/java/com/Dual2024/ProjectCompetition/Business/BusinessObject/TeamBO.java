@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * The Team business object
+ * The Team business object.
  *
  * @author Francisco Balonero Olivera
  */
@@ -34,18 +34,12 @@ public class TeamBO {
     private List<TournamentBOAux> tournaments;
 
     /**
-     * Is in active tournament boolean.
+     * Method that returns false if you are not in an active tournament or true if you are.
      *
-     * @return the boolean
+     * @return The boolean
      */
     public boolean isInActiveTournament() {
-        boolean isInActiveTournament = false;
-        for (TournamentBOAux tournament : this.tournaments) {
-            if (tournament.getState().equals(TournamentState.EN_JUEGO)) {
-                isInActiveTournament = true;
-            }
-        }
-        return isInActiveTournament;
+        return this.tournaments.stream().anyMatch(c -> c.getState().equals(TournamentState.EN_JUEGO));
     }
 
 }

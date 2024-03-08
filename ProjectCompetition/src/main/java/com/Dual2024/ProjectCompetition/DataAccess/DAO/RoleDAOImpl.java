@@ -1,7 +1,7 @@
 package com.Dual2024.ProjectCompetition.DataAccess.DAO;
 
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.RoleRepository;
 import jakarta.validation.ConstraintViolationException;
@@ -22,13 +22,7 @@ public class RoleDAOImpl implements RoleDAO {
     @Autowired
     private RoleRepository roleRepository;
 
-    /**
-     * Implementation of the save method
-     *
-     * @param role Role to save
-     * @return Saved role
-     * @throws DataException
-     */
+
     @Override
     public Role save(Role role) throws DataException {
         try {
@@ -39,13 +33,7 @@ public class RoleDAOImpl implements RoleDAO {
 
     }
 
-    /**
-     * Implementation of the findByIdMethod
-     *
-     * @param id The id of the role you are looking for
-     * @return The role found
-     * @throws DataException
-     */
+
     @Override
     public Role findById(Long id) throws DataException {
         try {
@@ -53,7 +41,7 @@ public class RoleDAOImpl implements RoleDAO {
             if (role.isPresent()) {
                 return role.get();
             } else {
-                throw new NotFoundException("Role not found");
+                throw new EntityNotFoundException("Role not found");
             }
         } catch (NestedRuntimeException nre) {
             throw new DataException("Data access error", nre);
@@ -61,18 +49,13 @@ public class RoleDAOImpl implements RoleDAO {
 
     }
 
-    /**
-     * Implementation of the findAll method
-     *
-     * @return A list with all the roles
-     * @throws DataException
-     */
+
     @Override
     public List<Role> findAll() throws DataException {
         try {
             List<Role> roles = roleRepository.findAll();
             if (roles.isEmpty()) {
-                throw new NotFoundException("Roles not found");
+                throw new EntityNotFoundException("Roles not found");
             } else {
                 return roles;
             }
@@ -82,12 +65,7 @@ public class RoleDAOImpl implements RoleDAO {
 
     }
 
-    /**
-     * Implementation of the delete method
-     *
-     * @param id The id of the role to be deleted
-     * @throws DataException
-     */
+
     @Override
     public void delete(Long id) throws DataException {
         try {
@@ -98,19 +76,13 @@ public class RoleDAOImpl implements RoleDAO {
 
     }
 
-    /**
-     * Implementation of the findByName method
-     *
-     * @param name The name of the role you are looking for
-     * @return The role found
-     * @throws DataException
-     */
+
     @Override
     public Role findByName(String name) throws DataException {
         try {
             Role role = roleRepository.findByName(name);
             if (role == null) {
-                throw new NotFoundException("Role not found");
+                throw new EntityNotFoundException("Role not found");
             } else {
                 return role;
             }

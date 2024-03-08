@@ -12,10 +12,21 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the RoleService interface.
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Service
 public class RoleServiceImpl implements RoleService {
+    /**
+     * The Role dao.
+     */
     @Autowired
     RoleDAO roleDAO;
+    /**
+     * The Model to bo converter.
+     */
     @Autowired
     ModelToBOConverter modelToBOConverter;
 

@@ -7,7 +7,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.TournamentDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
 import com.Dual2024.ProjectCompetition.Utils.TournamentState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +18,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of the TournamentService interface.
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Service
 public class TournamentServiceImpl implements TournamentService {
+    /**
+     * The Tournament dao.
+     */
     @Autowired
     TournamentDAO tournamentDAO;
 
+    /**
+     * The Team dao.
+     */
     @Autowired
     TeamDAO teamDAO;
 
+    /**
+     * The Bo to model converter.
+     */
     @Autowired
     BOToModelConverter boToModelConverter;
 
+    /**
+     * The Model to bo converter.
+     */
     @Autowired
     ModelToBOConverter modelToBOConverter;
 
@@ -63,7 +80,7 @@ public class TournamentServiceImpl implements TournamentService {
     public TournamentBO getTournamentById(Long id) throws BusinessException {
         try {
             return modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournament not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournament", null);
@@ -77,7 +94,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findAll().forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -90,7 +107,7 @@ public class TournamentServiceImpl implements TournamentService {
         TournamentBO tournamentBO;
         try {
             tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("tournament not found", e);
         } catch (DataException e) {
             throw new BusinessException("Tournament not deleted", e);
@@ -113,7 +130,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findByName(name).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -128,7 +145,7 @@ public class TournamentServiceImpl implements TournamentService {
                     .forEach((Tournament tournament) -> listTournamentBO
                             .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -142,7 +159,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findBySize(size).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -156,7 +173,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findByStartDate(startDate).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -170,7 +187,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findByEndDate(endDate).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -184,7 +201,7 @@ public class TournamentServiceImpl implements TournamentService {
             tournamentDAO.findByState(state).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -199,7 +216,7 @@ public class TournamentServiceImpl implements TournamentService {
                     .forEach((Tournament tournament) -> listTournamentBO
                             .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
             throw new BusinessException("Error when trying to find tournaments", null);
@@ -213,7 +230,7 @@ public class TournamentServiceImpl implements TournamentService {
         try {
             modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
             tournament = tournamentBO;
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("This tournament not exists", e);
         } catch (DataException e) {
             throw new BusinessException("Tournament could not be updated", e);
@@ -234,7 +251,7 @@ public class TournamentServiceImpl implements TournamentService {
 
         try {
             team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamId));
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TeamNotFoundException("This team not exists", e);
         } catch (DataException e) {
             throw new BusinessException("Team could not be added", e);
@@ -266,7 +283,7 @@ public class TournamentServiceImpl implements TournamentService {
                 tournament.setTeams(teams);
             }
 
-        } catch (NotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new TournamentNotFoundException("This tournament not exists", e);
         } catch (DataException e) {
             throw new BusinessException("Team could not be added", e);

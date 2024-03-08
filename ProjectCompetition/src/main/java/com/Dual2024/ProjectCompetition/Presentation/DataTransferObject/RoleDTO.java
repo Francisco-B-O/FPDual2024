@@ -5,14 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The Role dto.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class RoleDTO {
-	private Long id;
+    private Long id;
 
-	private String name;
+    private String name;
 
-	private String description;
+    private String description;
 }

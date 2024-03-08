@@ -5,12 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The Format dto.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class FormatDTO {
-	private Long id;
+    private Long id;
 
-	private String name;
+    private String name;
 }

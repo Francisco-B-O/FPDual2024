@@ -5,8 +5,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedName
 import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.Service.ModalityService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.DTOToBOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.ModalityDTO;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
@@ -19,6 +19,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Modality controller.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @RequestMapping("modality")
 @RestController
 public class ModalityController {
@@ -29,6 +34,12 @@ public class ModalityController {
     @Autowired
     private ModalityService modalityService;
 
+    /**
+     * Gets all modalities.
+     *
+     * @return the all modalities
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -45,6 +56,13 @@ public class ModalityController {
         }
     }
 
+    /**
+     * Gets modality by id.
+     *
+     * @param id the id
+     * @return the modality by id
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -59,6 +77,13 @@ public class ModalityController {
 
     }
 
+    /**
+     * Add modality modality dto.
+     *
+     * @param modality the modality
+     * @return the modality dto
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
@@ -75,6 +100,11 @@ public class ModalityController {
 
     }
 
+    /**
+     * Delete modality.
+     *
+     * @param id the id
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -88,6 +118,13 @@ public class ModalityController {
         }
     }
 
+    /**
+     * Gets modality by name.
+     *
+     * @param name the name
+     * @return the modality by name
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -102,6 +139,13 @@ public class ModalityController {
 
     }
 
+    /**
+     * Gets all modalities.
+     *
+     * @param players the players
+     * @return the all modalities
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/players/{players}")
@@ -118,6 +162,11 @@ public class ModalityController {
         }
     }
 
+    /**
+     * Update modality.
+     *
+     * @param modality the modality
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")

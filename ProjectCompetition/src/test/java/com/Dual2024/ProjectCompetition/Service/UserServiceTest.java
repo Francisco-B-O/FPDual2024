@@ -11,7 +11,7 @@ import com.Dual2024.ProjectCompetition.Business.Service.UserServiceImpl;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
@@ -87,7 +87,7 @@ public class UserServiceTest {
         BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
         BDDMockito.given(modelToBOConverter.roleModelToBO(role)).willReturn(roleBO);
         BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()))
-                .willThrow(NotFoundException.class);
+                .willThrow(EntityNotFoundException.class);
         BDDMockito.given(roleDAO.findByName("JUGADOR")).willReturn(role);
         BDDMockito.given(userDAO.save(user)).willReturn(user);
 
@@ -127,7 +127,7 @@ public class UserServiceTest {
         user.setPassword("p");
         BDDMockito.given(boToModelConverter.userBOToModel(userBO)).willReturn(user);
         BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()))
-                .willThrow(NotFoundException.class);
+                .willThrow(EntityNotFoundException.class);
         BDDMockito.given(userDAO.save(user)).willThrow(DataException.class);
 
         assertThrows(BusinessException.class, () -> userService.registerUser(userBO));
@@ -151,7 +151,7 @@ public class UserServiceTest {
     @DisplayName("getUser operation : incorrect case -> notFound")
     public void givenId_whenGetUser_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
 
         assertThrows(UserNotFoundException.class, () -> userService.getUser(1L));
@@ -210,7 +210,7 @@ public class UserServiceTest {
     @DisplayName("getAllUsers operation : incorrect case -> not found")
     public void givenNothing_whenGetAllUsers_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findAll()).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findAll()).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.getAllUsers());
     }
@@ -232,7 +232,7 @@ public class UserServiceTest {
     @DisplayName("getUserByNick operation : incorrect case -> not found")
     public void givenNick_whenGetUserByNick_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findByNick("test")).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findByNick("test")).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.getUserByNick("test"));
     }
@@ -254,7 +254,7 @@ public class UserServiceTest {
     @DisplayName("getUserByEmail operation : incorrect case -> not found")
     public void givenEmail_whenGetUserByEmail_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findByEmail("test@email.com")).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findByEmail("test@email.com")).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.getUserByEmail("test@email.com"));
     }
@@ -277,7 +277,7 @@ public class UserServiceTest {
     @DisplayName("getUsersByState operation : incorrect case -> not found")
     public void givenNothing_whenGetUsersByState_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.getUsersByState(UserState.CONECTADO));
     }
@@ -301,7 +301,7 @@ public class UserServiceTest {
     @DisplayName("updateUser operation : incorrect case -> user not found")
     public void givenIdThatNotExists_whenUpdateUser_thenThrowsBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.UpdateUser(1L, "prueba", "pass"));
 
@@ -345,7 +345,7 @@ public class UserServiceTest {
         RoleBO role = RoleBO.builder().id(1L).name("Jugador").description("Rol de jugador").build();
         List<RoleBO> roles = new ArrayList<RoleBO>();
         roles.add(role);
-        BDDMockito.given(userDAO.findById(1L)).willThrow(NotFoundException.class);
+        BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
         assertThrows(UserNotFoundException.class, () -> userService.UpdateRoleUser(1L, roles));
 

@@ -7,8 +7,8 @@ import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
 import com.Dual2024.ProjectCompetition.Business.Service.FormatService;
 import com.Dual2024.ProjectCompetition.Business.Service.ModalityService;
 import com.Dual2024.ProjectCompetition.Business.Service.TournamentService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.DTOToBOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
+import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RegisterTournamentDTO;
 import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.TournamentDTO;
 import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
@@ -24,6 +24,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Tournament controller.
+ *
+ * @author Franciosco Balonero Olivera
+ */
 @RequestMapping("tournament")
 @RestController
 public class TournamentController {
@@ -33,11 +38,23 @@ public class TournamentController {
     private ModalityService modalityService;
     @Autowired
     private FormatService formatService;
+    /**
+     * The Bo to dto converter.
+     */
     @Autowired
     BOToDTOConverter boToDTOConverter;
+    /**
+     * The Dto to bo converter.
+     */
     @Autowired
     DTOToBOConverter dtoToBOConverter;
 
+    /**
+     * Gets all tournaments.
+     *
+     * @return the all tournaments
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -54,6 +71,13 @@ public class TournamentController {
         }
     }
 
+    /**
+     * Gets tournament by id.
+     *
+     * @param id the id
+     * @return the tournament by id
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -68,6 +92,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Gets tournament by state.
+     *
+     * @param state the state
+     * @return the tournament by state
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
@@ -86,6 +117,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Gets tournaments by modality.
+     *
+     * @param modality the modality
+     * @return the tournaments by modality
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
@@ -104,6 +142,13 @@ public class TournamentController {
         }
     }
 
+    /**
+     * Gets tournaments by format.
+     *
+     * @param format the format
+     * @return the tournaments by format
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/format/{format}")
@@ -122,6 +167,13 @@ public class TournamentController {
         }
     }
 
+    /**
+     * Gets tournament by name.
+     *
+     * @param name the name
+     * @return the tournament by name
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -139,6 +191,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Gets tournament by size.
+     *
+     * @param size the size
+     * @return the tournament by size
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/size/{size}")
@@ -156,6 +215,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Gets tournament by start date.
+     *
+     * @param start the start
+     * @return the tournament by start date
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/start/{start}")
@@ -174,6 +240,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Gets tournament by end date.
+     *
+     * @param end the end
+     * @return the tournament by end date
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @GetMapping("/end/{end}")
     public List<TournamentDTO> getTournamentByEndDate(@PathVariable("end") LocalDateTime end)
@@ -191,6 +264,13 @@ public class TournamentController {
 
     }
 
+    /**
+     * Register tournament tournament dto.
+     *
+     * @param tournament the tournament
+     * @return the tournament dto
+     * @throws PresentationException the presentation exception
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
@@ -207,6 +287,11 @@ public class TournamentController {
 
     }
 
+    /**
+     * Delete tournament.
+     *
+     * @param id the id
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -220,6 +305,12 @@ public class TournamentController {
         }
     }
 
+    /**
+     * Add team.
+     *
+     * @param team       the team
+     * @param tournament the tournament
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addTeam/{tournament}/{team}")
@@ -233,6 +324,11 @@ public class TournamentController {
         }
     }
 
+    /**
+     * Update tournament.
+     *
+     * @param tournament the tournament
+     */
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
