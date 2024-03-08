@@ -5,16 +5,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * The Modality business object
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class ModalityBO {
 
-	private Long id;
+    private Long id;
 
-	private int numberPlayers;
+    private int numberPlayers;
 
-	private String name;
+    private String name;
 
 }

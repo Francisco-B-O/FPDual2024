@@ -1,40 +1,44 @@
 package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.Dual2024.ProjectCompetition.Utils.TournamentState;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+/**
+ * The Tournament business object
+ *
+ * @author Francisco Balonero Olivera
+ */
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class TournamentBO {
 
-	private Long id;
+    private Long id;
 
-	private String name;
+    private String name;
 
-	private int size;
+    private int size;
 
-	private FormatBO format;
+    private FormatBO format;
 
-	private LocalDateTime startDate;
+    private LocalDateTime startDate;
 
-	private LocalDateTime endDate;
+    private LocalDateTime endDate;
 
-	private TournamentState state;
+    private TournamentState state;
 
-	private String logo;
+    private String logo;
 
-	private String description;
+    private String description;
 
-	private ModalityBO modality;
+    private ModalityBO modality;
 
-	private List<TeamBO> teams;
+    private List<TeamBO> teams;
 }
