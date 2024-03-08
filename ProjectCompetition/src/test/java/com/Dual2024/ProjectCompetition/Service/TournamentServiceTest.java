@@ -1,14 +1,17 @@
 package com.Dual2024.ProjectCompetition.Service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.Dual2024.ProjectCompetition.Business.BusinessException.*;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.BOToModelConverter;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
+import com.Dual2024.ProjectCompetition.Business.Service.TournamentServiceImpl;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.TournamentDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.*;
+import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,595 +21,428 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.ActiveTournamentException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameAndModalityException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.InvalidDateException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.TournamentNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
-import com.Dual2024.ProjectCompetition.Business.Service.TournamentServiceImpl;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.TournamentDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class TournamentServiceTest {
-	private TournamentBO tournamentBO;
-	private Tournament tournament;
-	private List<TournamentBO> tournamentsBOList;
-	private List<Tournament> tournamentsList;
-	private UserBOAux userBOAux;
-	private ModalityBO modalityBO;
-	private FormatBO formatBO;
-	private TeamBO teamBOAux;
-	private List<TeamBO> teamsAux;
-	private List<UserBOAux> usersAux;
-	private User user;
-	private List<User> users;
-	private Team team;
-	private Modality modality;
-	private List<Team> teams;
-	private Format format;
-
-	@Mock
-	TeamDAO teamDAO;
-	@Mock
-	TournamentDAO tournamentDAO;
-	@Mock
-	ModelToBOConverter modelToBOConverter;
-	@Mock
-	BOToModelConverter boToModelConverter;
-	@InjectMocks
-	TournamentServiceImpl tournamentService;
-
-	@BeforeEach
-	public void setup() {
-		RoleBO roleBO = RoleBO.builder().id(1L).name("test").description("JUGADOR").build();
-		List<RoleBO> roles = new ArrayList<RoleBO>();
-		roles.add(roleBO);
-		userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-				.state(UserState.CONECTADO).roles(roles).build();
-		usersAux = new ArrayList<UserBOAux>();
-		usersAux.add(userBOAux);
-		modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
-		formatBO = FormatBO.builder().id(1L).name("torneo").build();
-		teamBOAux = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO).build();
-		teamsAux = new ArrayList<TeamBO>();
-		teamsAux.add(teamBOAux);
-		tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
-				.format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-				.endDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
-				.teams(teamsAux).build();
-		tournamentsList = new ArrayList<Tournament>();
-		tournamentsBOList = new ArrayList<TournamentBO>();
-		tournamentsBOList.add(tournamentBO);
-		Role role = Role.builder().id(1L).name("test").description("Test role").build();
-		List<Role> roles1 = new ArrayList<Role>();
-		roles1.add(role);
-		user = User.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-				.state(UserState.CONECTADO).roles(roles1).build();
-		users = new ArrayList<User>();
-		users.add(user);
-		modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
-		team = Team.builder().id(1L).name("TestTeam").captain(user).users(users).modality(modality).build();
-		teams = new ArrayList<Team>();
-		teams.add(team);
-		user.setTeams(teams);
-		format = Format.builder().id(1L).name("torneo").build();
-		tournament = Tournament.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
-				.format(format).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-				.endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modality)
-				.teams(teams).build();
-		tournamentsList.add(tournament);
-	}
-
-	@Test
-	@DisplayName("registerTournament operation : correct case")
-	public void givenTournamentBO_whenTeamRegister_thenReturnTournamentBO() {
-
-		BDDMockito.given(boToModelConverter.tournamentBOToModel(tournamentBO)).willReturn(tournament);
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		try {
-			BDDMockito.given(tournamentDAO.save(tournament)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		TournamentBO savedTournament = null;
-		try {
-			savedTournament = tournamentService.registerTournament(tournamentBO);
-		} catch (BusinessException e) {
-		}
-
-		assertThat(savedTournament).isNotNull();
-		assertThat(savedTournament).isEqualTo(tournamentBO);
-
-	}
-
-	@Test
-	@DisplayName("registerTournament operation : incorrect case -> duplicated name + modality")
-	public void givenTournamentBO_whenTeamRegister_thenThrowDuplicatedNameAndModalityException() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		try {
-			BDDMockito.given(tournamentDAO.findByModality(modality)).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
+    private TournamentBO tournamentBO;
+    private Tournament tournament;
+    private List<Tournament> tournamentsList;
+    private ModalityBO modalityBO;
+    private FormatBO formatBO;
+    private TeamBO teamBOAux;
+    private List<UserBOAux> usersAux;
+    private User user;
+    private List<User> users;
+    private Team team;
+    private Modality modality;
+    private Format format;
+
+    @Mock
+    TeamDAO teamDAO;
+    @Mock
+    TournamentDAO tournamentDAO;
+    @Mock
+    ModelToBOConverter modelToBOConverter;
+    @Mock
+    BOToModelConverter boToModelConverter;
+    @InjectMocks
+    TournamentServiceImpl tournamentService;
+
+    @BeforeEach
+    public void setup() {
+        RoleBO roleBO = RoleBO.builder().id(1L).name("test").description("JUGADOR").build();
+        List<RoleBO> roles = new ArrayList<RoleBO>();
+        roles.add(roleBO);
+        UserBOAux userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
+                .state(UserState.CONECTADO).roles(roles).build();
+        usersAux = new ArrayList<UserBOAux>();
+        usersAux.add(userBOAux);
+        modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
+        formatBO = FormatBO.builder().id(1L).name("torneo").build();
+        teamBOAux = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO).build();
+        List<TeamBO> teamsAux = new ArrayList<TeamBO>();
+        teamsAux.add(teamBOAux);
+        tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
+                .format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
+                .endDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
+                .teams(teamsAux).build();
+        tournamentsList = new ArrayList<Tournament>();
+        Role role = Role.builder().id(1L).name("test").description("Test role").build();
+        List<Role> roles1 = new ArrayList<Role>();
+        roles1.add(role);
+        user = User.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
+                .state(UserState.CONECTADO).roles(roles1).build();
+        users = new ArrayList<User>();
+        users.add(user);
+        modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
+        team = Team.builder().id(1L).name("TestTeam").captain(user).users(users).modality(modality).build();
+        List<Team> teams = new ArrayList<Team>();
+        teams.add(team);
+        user.setTeams(teams);
+        format = Format.builder().id(1L).name("torneo").build();
+        tournament = Tournament.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
+                .format(format).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
+                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modality)
+                .teams(teams).build();
+        tournamentsList.add(tournament);
+    }
+
+    @Test
+    @DisplayName("registerTournament operation : correct case")
+    public void givenTournamentBO_whenTeamRegister_thenReturnTournamentBO() throws DataException, BusinessException {
+
+        BDDMockito.given(boToModelConverter.tournamentBOToModel(tournamentBO)).willReturn(tournament);
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(tournamentDAO.save(tournament)).willReturn(tournament);
+        BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
+
+        TournamentBO savedTournament = tournamentService.registerTournament(tournamentBO);
+
+        assertThat(savedTournament).isNotNull();
+        assertThat(savedTournament).isEqualTo(tournamentBO);
+
+    }
+
+    @Test
+    @DisplayName("registerTournament operation : incorrect case -> duplicated name + modality")
+    public void givenTournamentBO_whenTeamRegister_thenThrowDuplicatedNameAndModalityException() throws DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(tournamentDAO.findByModality(modality)).willReturn(tournamentsList);
+
+        assertThrows(DuplicatedNameAndModalityException.class,
+                () -> tournamentService.registerTournament(tournamentBO));
+
+    }
+
+    @Test
+    @DisplayName("registerTournament operation : incorrect case -> invalid date")
+    public void givenTournamentBO_whenTeamRegister_thenThrowInvalidDateException() throws DataException {
+
+        tournamentBO.setEndDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+
+        BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
 
-		assertThrows(DuplicatedNameAndModalityException.class,
-				() -> tournamentService.registerTournament(tournamentBO));
+        assertThrows(InvalidDateException.class, () -> tournamentService.registerTournament(tournamentBO));
 
-	}
+    }
 
-	@Test
-	@DisplayName("registerTournament operation : incorrect case -> invalid date")
-	public void givenTournamentBO_whenTeamRegister_thenThrowInvalidDateException() {
+    @Test
+    @DisplayName("getTournamentByID operation : correct case")
+    public void givenId_whenGetTournamentByID_thenReturnTournamentBO() throws DataException, BusinessException {
 
-		tournamentBO.setEndDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
 
-		try {
-			BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
+        TournamentBO foundTournament = tournamentService.getTournamentById(1L);
 
-		assertThrows(InvalidDateException.class, () -> tournamentService.registerTournament(tournamentBO));
-
-	}
+        assertThat(foundTournament).isNotNull();
+        assertThat(foundTournament).isEqualTo(tournamentBO);
 
-	@Test
-	@DisplayName("getTournamentByID operation : correct case")
-	public void givenId_whenGetTournamentByID_thenReturnTournamentBO() {
+    }
 
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+    @Test
+    @DisplayName("getTournamentById operation : incorrect case -> not found")
+    public void givenId_whenGetTournamentByID_thenThrowsBusinessException() throws DataException {
 
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(tournamentDAO.findById(1L)).willThrow(NotFoundException.class);
 
-		TournamentBO foundTournament = null;
-		try {
-			foundTournament = tournamentService.getTournamentById(1L);
-		} catch (BusinessException e) {
-		}
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentById(1L));
 
-		assertThat(foundTournament).isNotNull();
-		assertThat(foundTournament).isEqualTo(tournamentBO);
-
-	}
-
-	@Test
-	@DisplayName("getTournamentById operation : incorrect case -> not found")
-	public void givenId_whenGetTournamentByID_thenThrowsBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentById(1L));
-
-	}
-
-	@Test
-	@DisplayName("getAllTournaments operation : correct case")
-	public void givenNothing_whenGetAllTournaments_thenReturnAllTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findAll()).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
+    }
 
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getAllTournaments();
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getAllTournaments operation : incorrect case -> not found")
-	public void givenNothing_whenGetAllTournaments_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findAll()).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getAllTournaments());
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByName operation : correct case")
-	public void givenNothing_whenGetTournamentsByName_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findByName("Torneo de futbol")).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByName("Torneo de futbol");
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByName operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByName_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findByName("Torneo de futbol")).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class,
-				() -> tournamentService.getTournamentsByName("Torneo de futbol"));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByFormat operation : correct case")
-	public void givenNothing_whenGetTournamentsByFormat_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
-		try {
-			BDDMockito.given(tournamentDAO.findByFormat(format)).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByFormat(formatBO);
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByFormat operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByFormat_thenThrowBusinessException() {
-
-		BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
-		try {
-			BDDMockito.given(tournamentDAO.findByFormat(format)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByFormat(formatBO));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByModality operation : correct case")
-	public void givenNothing_whenGetTournamentsByModality_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		try {
-			BDDMockito.given(tournamentDAO.findByModality(modality)).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByModality(modalityBO);
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByModality operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByModality_thenThrowBusinessException() {
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-
-		try {
-			BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByModality(modalityBO));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsBySize operation : correct case")
-	public void givenNothing_whenGetTournamentsBySize_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findBySize(2)).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsBySize(2);
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsBySize operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsBySize_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findBySize(2)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsBySize(2));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByState operation : correct case")
-	public void givenNothing_whenGetTournamentsByState_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByState(TournamentState.EN_JUEGO);
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByState operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByState_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class,
-				() -> tournamentService.getTournamentsByState(TournamentState.EN_JUEGO));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByEndDate operation : correct case")
-	public void givenNothing_whenGetTournamentsByEndDate_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)))
-					.willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0));
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByEndDate operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByEndDate_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)))
-					.willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class,
-				() -> tournamentService.getTournamentsByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)));
-
-	}
-
-	@Test
-	@DisplayName("getTournamentsByEndDate operation : correct case")
-	public void givenNothing_whenGetTournamentsByStartDate_thenReturnThisTournaments() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)))
-					.willReturn(tournamentsList);
-		} catch (DataException e) {
-		}
-
-		List<TournamentBO> foundTournaments = null;
-		try {
-			foundTournaments = tournamentService.getTournamentsByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
-		} catch (BusinessException e) {
-		}
-
-		assertThat(foundTournaments).isNotNull();
-		assertThat(foundTournaments).isNotEmpty();
-		assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
-	}
-
-	@Test
-	@DisplayName("getTournamentsByStartDate operation : incorrect case -> not found")
-	public void givenNothing_whenGetTournamentsByStartDate_thenThrowBusinessException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)))
-					.willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class,
-				() -> tournamentService.getTournamentsByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)));
-
-	}
-
-	@Test
-	@DisplayName("deleteTournament operation : correct case")
-	public void givenId_whenDeleteTournament_thenDeleteTournament() {
-
-		tournamentBO.setState(TournamentState.NO_COMENZADO);
-		tournament.setState(TournamentState.NO_COMENZADO);
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.willDoNothing().given(tournamentDAO).delete(1L);
-		} catch (DataException e) {
-		}
-		try {
-			tournamentService.deleteTournament(1L);
-		} catch (BusinessException e) {
-		}
-
-		try {
-			verify(tournamentDAO, times(1)).delete(1L);
-		} catch (DataException e) {
-		}
-	}
-
-	@Test
-	@DisplayName("deleteTournament operation : incorrect case -> active tournament")
-	public void givenId_whenDeleteTournament_thenThrowActiveTournamentException() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-
-		assertThrows(ActiveTournamentException.class, () -> tournamentService.deleteTournament(1L));
-	}
-
-	@Test
-	@DisplayName("deleteTournament operation : incorrect case -> not found")
-	public void givenIdThatNotExists_whenDeleteTournament_thenThrowBusinesException() {
-
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
-
-		assertThrows(TournamentNotFoundException.class, () -> tournamentService.deleteTournament(1L));
-	}
-
-	@Test
-	@DisplayName("addTeam operation : correct case")
-	public void givenIdAndTournamentBO_whenAddTeam_thenReturnTournamentWithTeam() {
-
-		tournament.setTeams(null);
-		tournamentBO.setTeams(null);
-		BDDMockito.given(boToModelConverter.tournamentBOToModel(tournamentBO)).willReturn(tournament);
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(tournamentDAO.save(tournament)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		TournamentBO savedTournament = null;
-		try {
-			savedTournament = tournamentService.addTeam(1L, tournamentBO.getId());
-		} catch (BusinessException e) {
-		}
-		assertThat(savedTournament.getTeams().getFirst()).isEqualTo(teamBOAux);
-	}
-
-	@Test
-	@DisplayName("addTeam operation : incorrect case -> This team is already on the tournament ")
-	public void givenIdAndTournamentBO_whenAddTeam_thenThrowBusinessException() {
-
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
-		} catch (DataException e) {
-		}
-
-		assertThrows(BusinessException.class, () -> tournamentService.addTeam(1L, tournamentBO.getId()));
-	}
-
-	@Test
-	@DisplayName("addTeam operation : incorrect case -> A player on the team is already on another participating team ")
-	public void givenIdTeamWithUserAlredyExistsInTournament_AndTournamentBO_whenAddTeam_thenThrowBusinessException() {
-		TeamBO teamBOAux2 = TeamBO.builder().id(2L).name("TestTeam2").users(usersAux).modality(modalityBO).build();
-		Team team2 = Team.builder().id(2L).name("TestTeam2").captain(user).users(users).modality(modality).build();
-		BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-		BDDMockito.given(modelToBOConverter.teamModelToBO(team2)).willReturn(teamBOAux2);
-		try {
-			BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(teamDAO.findById(2L)).willReturn(team2);
-		} catch (DataException e) {
-		}
-
-		assertThrows(BusinessException.class, () -> tournamentService.addTeam(2L, tournamentBO.getId()));
-	}
+    @Test
+    @DisplayName("getAllTournaments operation : correct case")
+    public void givenNothing_whenGetAllTournaments_thenReturnAllTournaments() throws DataException, BusinessException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findAll()).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getAllTournaments();
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getAllTournaments operation : incorrect case -> not found")
+    public void givenNothing_whenGetAllTournaments_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findAll()).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.getAllTournaments());
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByName operation : correct case")
+    public void givenNothing_whenGetTournamentsByName_thenReturnThisTournaments() throws BusinessException, DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findByName("Torneo de futbol")).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByName("Torneo de futbol");
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByName operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByName_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findByName("Torneo de futbol")).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class,
+                () -> tournamentService.getTournamentsByName("Torneo de futbol"));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByFormat operation : correct case")
+    public void givenNothing_whenGetTournamentsByFormat_thenReturnThisTournaments() throws BusinessException, DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
+        BDDMockito.given(tournamentDAO.findByFormat(format)).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByFormat(formatBO);
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByFormat operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByFormat_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(boToModelConverter.formatBOToModel(formatBO)).willReturn(format);
+        BDDMockito.given(tournamentDAO.findByFormat(format)).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByFormat(formatBO));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByModality operation : correct case")
+    public void givenNothing_whenGetTournamentsByModality_thenReturnThisTournaments() throws BusinessException, DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(tournamentDAO.findByModality(modality)).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByModality(modalityBO);
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByModality operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByModality_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(tournamentDAO.findByModality(modality)).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsByModality(modalityBO));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsBySize operation : correct case")
+    public void givenNothing_whenGetTournamentsBySize_thenReturnThisTournaments() throws DataException, BusinessException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findBySize(2)).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsBySize(2);
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsBySize operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsBySize_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findBySize(2)).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.getTournamentsBySize(2));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByState operation : correct case")
+    public void givenNothing_whenGetTournamentsByState_thenReturnThisTournaments() throws DataException, BusinessException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByState(TournamentState.EN_JUEGO);
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByState operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByState_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class,
+                () -> tournamentService.getTournamentsByState(TournamentState.EN_JUEGO));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByEndDate operation : correct case")
+    public void givenNothing_whenGetTournamentsByEndDate_thenReturnThisTournaments() throws BusinessException, DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)))
+                .willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0));
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByEndDate operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByEndDate_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)))
+                .willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class,
+                () -> tournamentService.getTournamentsByEndDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)));
+
+    }
+
+    @Test
+    @DisplayName("getTournamentsByEndDate operation : correct case")
+    public void givenNothing_whenGetTournamentsByStartDate_thenReturnThisTournaments() throws DataException, BusinessException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)))
+                .willReturn(tournamentsList);
+
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
+
+        assertThat(foundTournaments).isNotNull();
+        assertThat(foundTournaments).isNotEmpty();
+        assertThat(foundTournaments.getFirst()).isEqualTo(tournamentBO);
+    }
+
+    @Test
+    @DisplayName("getTournamentsByStartDate operation : incorrect case -> not found")
+    public void givenNothing_whenGetTournamentsByStartDate_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)))
+                .willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class,
+                () -> tournamentService.getTournamentsByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)));
+
+    }
+
+    @Test
+    @DisplayName("deleteTournament operation : correct case")
+    public void givenId_whenDeleteTournament_thenDeleteTournament() throws BusinessException, DataException {
+
+        tournamentBO.setState(TournamentState.NO_COMENZADO);
+        tournament.setState(TournamentState.NO_COMENZADO);
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
+        BDDMockito.willDoNothing().given(tournamentDAO).delete(1L);
+
+        tournamentService.deleteTournament(1L);
+
+        verify(tournamentDAO, times(1)).delete(1L);
+
+    }
+
+    @Test
+    @DisplayName("deleteTournament operation : incorrect case -> active tournament")
+    public void givenId_whenDeleteTournament_thenThrowActiveTournamentException() throws DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
+
+        assertThrows(ActiveTournamentException.class, () -> tournamentService.deleteTournament(1L));
+    }
+
+    @Test
+    @DisplayName("deleteTournament operation : incorrect case -> not found")
+    public void givenIdThatNotExists_whenDeleteTournament_thenThrowBusinesException() throws DataException {
+
+        BDDMockito.given(tournamentDAO.findById(1L)).willThrow(NotFoundException.class);
+
+        assertThrows(TournamentNotFoundException.class, () -> tournamentService.deleteTournament(1L));
+    }
+
+    @Test
+    @DisplayName("addTeam operation : correct case")
+    public void givenIdAndTournamentBO_whenAddTeam_thenReturnTournamentWithTeam() throws DataException, BusinessException {
+
+        tournament.setTeams(null);
+        tournamentBO.setTeams(null);
+        BDDMockito.given(boToModelConverter.tournamentBOToModel(tournamentBO)).willReturn(tournament);
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
+        BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
+        BDDMockito.given(tournamentDAO.save(tournament)).willReturn(tournament);
+
+        TournamentBO savedTournament = tournamentService.addTeam(1L, tournamentBO.getId());
+
+        assertThat(savedTournament.getTeams().getFirst()).isEqualTo(teamBOAux);
+    }
+
+    @Test
+    @DisplayName("addTeam operation : incorrect case -> This team is already on the tournament ")
+    public void givenIdAndTournamentBO_whenAddTeam_thenThrowBusinessException() throws DataException {
+
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBOAux);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
+        BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
+
+
+        assertThrows(BusinessException.class, () -> tournamentService.addTeam(1L, tournamentBO.getId()));
+    }
+
+    @Test
+    @DisplayName("addTeam operation : incorrect case -> A player on the team is already on another participating team ")
+    public void givenIdTeamWithUserAlredyExistsInTournament_AndTournamentBO_whenAddTeam_thenThrowBusinessException() throws DataException {
+
+        TeamBO teamBOAux2 = TeamBO.builder().id(2L).name("TestTeam2").users(usersAux).modality(modalityBO).build();
+        Team team2 = Team.builder().id(2L).name("TestTeam2").captain(user).users(users).modality(modality).build();
+        BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
+        BDDMockito.given(modelToBOConverter.teamModelToBO(team2)).willReturn(teamBOAux2);
+        BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
+        BDDMockito.given(teamDAO.findById(2L)).willReturn(team2);
+
+        assertThrows(BusinessException.class, () -> tournamentService.addTeam(2L, tournamentBO.getId()));
+    }
 }

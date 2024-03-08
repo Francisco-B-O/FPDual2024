@@ -18,14 +18,14 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TournamentRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
+import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 @DataJpaTest(showSql = false)
 public class TournamentRepositoryTest {

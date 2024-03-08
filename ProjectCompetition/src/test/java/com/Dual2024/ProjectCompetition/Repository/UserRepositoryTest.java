@@ -13,8 +13,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 import jakarta.validation.ConstraintViolationException;
 

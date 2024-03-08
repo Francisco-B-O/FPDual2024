@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Model;
+package com.Dual2024.ProjectCompetition.Utils;
 
 public enum UserState {
 	CONECTADO, DESACTIVADO, DESCONECTADO

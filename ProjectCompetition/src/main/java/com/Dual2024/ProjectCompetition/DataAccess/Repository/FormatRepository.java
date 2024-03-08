@@ -1,12 +1,10 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
+
 public interface FormatRepository extends JpaRepository<Format, Long> {
-	Format findByName(String name);
+    Format findByName(String name);
 
 }

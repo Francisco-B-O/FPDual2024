@@ -16,10 +16,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 @DataJpaTest(showSql = false)
 public class TeamRepositoryTest {

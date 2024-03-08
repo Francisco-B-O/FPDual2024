@@ -1,10 +1,8 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
-
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,178 +10,112 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest(showSql = false)
 @ComponentScan(basePackages = "com.Dual2024.ProjectCompetition.DataAccess.DAO")
 public class ModalityDAOTest {
-	@Autowired
-	private ModalityDAO modalityDAO;
-	private Modality modality, modality2, duplicatedNameModality;
+    @Autowired
+    private ModalityDAO modalityDAO;
+    private Modality modality, modality2, duplicatedNameModality;
 
-	@BeforeEach
-	public void setup() {
-		modality = Modality.builder().name("modality1").numberPlayers(2).build();
-		modality2 = Modality.builder().name("modality2").numberPlayers(2).build();
-		duplicatedNameModality = Modality.builder().name("modality1").numberPlayers(2).build();
+    @BeforeEach
+    public void setup() {
+        modality = Modality.builder().name("modality1").numberPlayers(2).build();
+        modality2 = Modality.builder().name("modality2").numberPlayers(2).build();
+        duplicatedNameModality = Modality.builder().name("modality1").numberPlayers(2).build();
 
-	}
+    }
 
-	@Test
-	@DisplayName("findById operation")
-	public void givenId_whenFindById_theReturnUser() {
+    @Test
+    @DisplayName("findById operation")
+    public void givenId_whenFindById_theReturnUser() throws DataException {
 
-		Modality savedModality = null;
-		try {
-			savedModality = modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Modality savedModality = modalityDAO.save(modality);
 
-		Modality foundModality = null;
-		try {
-			foundModality = modalityDAO.findById(modality.getId());
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Modality foundModality = modalityDAO.findById(modality.getId());
 
-		assertThat(foundModality).isNotNull();
-		assertThat(foundModality).isEqualTo(savedModality);
-	}
+        assertThat(foundModality).isNotNull();
+        assertThat(foundModality).isEqualTo(savedModality);
+    }
 
-	@Test
-	@DisplayName("save operation")
-	public void givenModalityObject_whenSave_theReturnSavedUser() {
+    @Test
+    @DisplayName("save operation")
+    public void givenModalityObject_whenSave_theReturnSavedUser() throws DataException {
 
-		Modality savedModality = null;
-		try {
-			savedModality = modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Modality savedModality = modalityDAO.save(modality);
 
-		assertThrows(DataException.class, () -> modalityDAO.save(duplicatedNameModality));
-		assertThat(savedModality).isNotNull();
-		assertThat(savedModality.getId()).isGreaterThan(0);
-	}
+        assertThrows(DataException.class, () -> modalityDAO.save(duplicatedNameModality));
+        assertThat(savedModality).isNotNull();
+        assertThat(savedModality.getId()).isGreaterThan(0);
+    }
 
-	@Test
-	@DisplayName("findAll operation")
-	public void givenModalitiesList_whenFindAll_theReturnModalitiesList() {
+    @Test
+    @DisplayName("findAll operation")
+    public void givenModalitiesList_whenFindAll_theReturnModalitiesList() throws DataException {
 
-		try {
-			modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		try {
-			modalityDAO.save(modality2);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        modalityDAO.save(modality);
+        modalityDAO.save(modality2);
 
-		List<Modality> modalities = null;
-		try {
-			modalities = modalityDAO.findAll();
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
 
-		assertThat(modalities).isNotNull();
-		assertThat(modalities.size()).isEqualTo(2);
-	}
+        List<Modality> modalities = modalityDAO.findAll();
 
-	@Test
-	@DisplayName("findByName operation")
-	public void givenModality_whenFindByName_theReturnModality() {
+        assertThat(modalities).isNotNull();
+        assertThat(modalities.size()).isEqualTo(2);
+    }
 
-		Modality savedModality = null;
-		try {
-			savedModality = modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+    @Test
+    @DisplayName("findByName operation")
+    public void givenModality_whenFindByName_theReturnModality() throws DataException {
 
-		Modality foundModality = null;
-		try {
-			foundModality = modalityDAO.findByName("modality1");
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Modality savedModality = modalityDAO.save(modality);
 
-		assertThat(foundModality).isNotNull();
-		assertThat(foundModality).isEqualTo(savedModality);
-	}
+        Modality foundModality = modalityDAO.findByName("modality1");
 
-	@Test
-	@DisplayName("findByNumberPlayers operation")
-	public void givenNumberPlayers_whenFindByNumberPlayers_theReturnModalitiesList() {
+        assertThat(foundModality).isNotNull();
+        assertThat(foundModality).isEqualTo(savedModality);
+    }
 
-		try {
-			modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		try {
-			modalityDAO.save(modality2);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+    @Test
+    @DisplayName("findByNumberPlayers operation")
+    public void givenNumberPlayers_whenFindByNumberPlayers_theReturnModalitiesList() throws DataException {
 
-		List<Modality> modalities = null;
-		try {
-			modalities = modalityDAO.findByNumberPlayers(2);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        modalityDAO.save(modality);
+        modalityDAO.save(modality2);
 
-		assertThat(modalities).isNotNull();
-		assertThat(modalities.size()).isEqualTo(2);
-	}
+        List<Modality> modalities = modalityDAO.findByNumberPlayers(2);
 
-	@Test
-	@DisplayName("update operation")
-	public void givenModality_whenUpdate_theReturnUpdatedModality() {
+        assertThat(modalities).isNotNull();
+        assertThat(modalities.size()).isEqualTo(2);
+    }
 
-		try {
-			modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		Modality updatedModality = new Modality();
-		updatedModality.setId(modality.getId());
-		updatedModality.setName("futbol");
-		updatedModality.setNumberPlayers(11);
+    @Test
+    @DisplayName("update operation")
+    public void givenModality_whenUpdate_theReturnUpdatedModality() throws DataException {
 
-		Modality savedUpdatedModality = null;
-		try {
-			savedUpdatedModality = modalityDAO.save(updatedModality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        modalityDAO.save(modality);
+        Modality updatedModality = new Modality();
+        updatedModality.setId(modality.getId());
+        updatedModality.setName("futbol");
+        updatedModality.setNumberPlayers(11);
 
-		assertThat(savedUpdatedModality).isNotNull();
-		assertThat(savedUpdatedModality).isEqualTo(updatedModality);
-	}
+        Modality savedUpdatedModality = modalityDAO.save(updatedModality);
 
-	@Test
-	@DisplayName("delete operation")
-	public void givenUser_whenDelete_thenDeleteUser() {
+        assertThat(savedUpdatedModality).isNotNull();
+        assertThat(savedUpdatedModality).isEqualTo(updatedModality);
+    }
 
-		try {
-			modalityDAO.save(modality);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+    @Test
+    @DisplayName("delete operation")
+    public void givenUser_whenDelete_thenDeleteUser() throws DataException {
 
-		try {
-			modalityDAO.delete(modality.getId());
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        modalityDAO.save(modality);
 
-		assertThrows(DataException.class, () -> modalityDAO.findByName("modality1"));
-	}
+        modalityDAO.delete(modality.getId());
+
+        assertThrows(DataException.class, () -> modalityDAO.findByName("modality1"));
+    }
 }

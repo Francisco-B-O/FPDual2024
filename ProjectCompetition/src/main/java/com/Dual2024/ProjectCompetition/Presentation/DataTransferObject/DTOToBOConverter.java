@@ -1,76 +1,57 @@
 package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
-
 @Component
 public class DTOToBOConverter {
-	@Autowired
-	private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
-	public UserBO userDTOToBO(UserDTO userDTO) {
-		UserBO userBO = modelMapper.map(userDTO, UserBO.class);
-		return userBO;
-	}
+    public UserBO userDTOToBO(UserDTO userDTO) {
+        return modelMapper.map(userDTO, UserBO.class);
+    }
 
-	public RoleBO roleDTOToBO(RoleDTO roleDTO) {
-		RoleBO roleBO = modelMapper.map(roleDTO, RoleBO.class);
-		return roleBO;
-	}
+    public RoleBO roleDTOToBO(RoleDTO roleDTO) {
+        return modelMapper.map(roleDTO, RoleBO.class);
+    }
 
-	public ModalityBO modalityDTOToBO(ModalityDTO modalityDTO) {
-		ModalityBO modalityBO = modelMapper.map(modalityDTO, ModalityBO.class);
-		return modalityBO;
-	}
+    public ModalityBO modalityDTOToBO(ModalityDTO modalityDTO) {
+        return modelMapper.map(modalityDTO, ModalityBO.class);
+    }
 
-	public TeamBO teamDTOToBO(TeamDTO teamDTO) {
-		TeamBO teamBO = modelMapper.map(teamDTO, TeamBO.class);
-		return teamBO;
-	}
+    public TeamBO teamDTOToBO(TeamDTO teamDTO) {
+        return modelMapper.map(teamDTO, TeamBO.class);
+    }
 
-	public FormatBO formatDTOToBO(FormatDTO formatDTO) {
-		FormatBO formatBO = modelMapper.map(formatDTO, FormatBO.class);
-		return formatBO;
-	}
+    public FormatBO formatDTOToBO(FormatDTO formatDTO) {
+        return modelMapper.map(formatDTO, FormatBO.class);
+    }
 
-	public TournamentBO tournamentDTOToBO(TournamentDTO tournamentDTO) {
-		TournamentBO tournamentBO = modelMapper.map(tournamentDTO, TournamentBO.class);
-		return tournamentBO;
-	}
+    public TournamentBO tournamentDTOToBO(TournamentDTO tournamentDTO) {
+        return modelMapper.map(tournamentDTO, TournamentBO.class);
+    }
 
-	public UserBOAux userDTOAuxToBOAux(UserDTOAux userDTO) {
-		UserBOAux userBOAux = modelMapper.map(userDTO, UserBOAux.class);
-		return userBOAux;
-	}
+    public UserBOAux userDTOAuxToBOAux(UserDTOAux userDTO) {
+        return modelMapper.map(userDTO, UserBOAux.class);
+    }
 
-	public TournamentBOAux tournamentDTOAuxToBOAux(TournamentDTOAux tournamentDTO) {
-		TournamentBOAux tournamentBOAux = modelMapper.map(tournamentDTO, TournamentBOAux.class);
-		return tournamentBOAux;
-	}
+    public TournamentBOAux tournamentDTOAuxToBOAux(TournamentDTOAux tournamentDTO) {
+        return modelMapper.map(tournamentDTO, TournamentBOAux.class);
+    }
 
-	public UserBO RegisterUserDTOToBO(RegisterUserDTO userDTO) {
-		UserBO userBO = modelMapper.map(userDTO, UserBO.class);
-		return userBO;
-	}
+    public UserBO RegisterUserDTOToBO(RegisterUserDTO userDTO) {
+        return modelMapper.map(userDTO, UserBO.class);
+    }
 
-	public TeamBO RegisterTeamDTOToBO(RegisterTeamDTO teamDTO) {
-		TeamBO teamBO = modelMapper.map(teamDTO, TeamBO.class);
-		return teamBO;
-	}
+    public TeamBO RegisterTeamDTOToBO(RegisterTeamDTO teamDTO) {
+        return modelMapper.map(teamDTO, TeamBO.class);
+    }
 
-	public TournamentBO RegisterTournamentDTOToBO(RegisterTournamentDTO tournamentDTO) {
-		TournamentBO tournamentBO = modelMapper.map(tournamentDTO, TournamentBO.class);
-		return tournamentBO;
-	}
+    public TournamentBO RegisterTournamentDTOToBO(RegisterTournamentDTO tournamentDTO) {
+        return modelMapper.map(tournamentDTO, TournamentBO.class);
+    }
 
 }

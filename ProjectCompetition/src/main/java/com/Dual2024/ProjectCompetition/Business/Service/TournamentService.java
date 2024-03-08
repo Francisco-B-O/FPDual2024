@@ -7,7 +7,7 @@ import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessExcept
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
+import com.Dual2024.ProjectCompetition.Utils.TournamentState;
 
 public interface TournamentService {
 	TournamentBO registerTournament(TournamentBO tournamentBO) throws BusinessException;

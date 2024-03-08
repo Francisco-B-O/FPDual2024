@@ -1,6 +1,6 @@
 package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

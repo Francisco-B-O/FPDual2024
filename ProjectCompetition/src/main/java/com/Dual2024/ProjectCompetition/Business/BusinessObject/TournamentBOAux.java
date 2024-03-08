@@ -2,7 +2,7 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import java.time.LocalDateTime;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
+import com.Dual2024.ProjectCompetition.Utils.TournamentState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

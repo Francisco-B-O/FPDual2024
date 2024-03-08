@@ -2,8 +2,8 @@ package com.Dual2024.ProjectCompetition.Business.BusinessObject;
 
 import java.util.List;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.TournamentState;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
+import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

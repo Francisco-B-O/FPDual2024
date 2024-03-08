@@ -2,7 +2,7 @@ package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
 import java.util.List;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

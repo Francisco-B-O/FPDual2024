@@ -1,10 +1,8 @@
 package com.Dual2024.ProjectCompetition.DAO;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.List;
-
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,155 +10,97 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest(showSql = false)
 @ComponentScan(basePackages = "com.Dual2024.ProjectCompetition.DataAccess.DAO")
 public class RoleDAOTest {
-	@Autowired
-	private RoleDAO roleDAO;
-	private Role role, role2, duplicatedNameRole;
+    @Autowired
+    private RoleDAO roleDAO;
+    private Role role, role2, duplicatedNameRole;
 
-	@BeforeEach
-	public void setup() {
-		role = Role.builder().name("test").description("Test role").build();
-		role2 = Role.builder().name("test2").description("Test role").build();
-		duplicatedNameRole = Role.builder().name("test").description("Test role").build();
-	}
+    @BeforeEach
+    public void setup() {
+        role = Role.builder().name("test").description("Test role").build();
+        role2 = Role.builder().name("test2").description("Test role").build();
+        duplicatedNameRole = Role.builder().name("test").description("Test role").build();
+    }
 
-	@Test
-	@DisplayName("findById operation")
-	public void givenId_whenFindById_theReturnRole() {
+    @Test
+    @DisplayName("findById operation")
+    public void givenId_whenFindById_theReturnRole() throws DataException {
 
-		Role savedRole = null;
-		try {
-			savedRole = roleDAO.save(role);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Role savedRole = roleDAO.save(role);
 
-		Role foundRole = null;
-		try {
-			foundRole = roleDAO.findById(role.getId());
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        Role foundRole = roleDAO.findById(role.getId());
 
-		assertThat(foundRole).isNotNull();
-		assertThat(foundRole).isEqualTo(savedRole);
-	}
+        assertThat(foundRole).isNotNull();
+        assertThat(foundRole).isEqualTo(savedRole);
+    }
 
-	@Test
-	@DisplayName("save operation")
-	public void givenRole_whenSave_thenSaveRole() {
+    @Test
+    @DisplayName("save operation")
+    public void givenRole_whenSave_thenSaveRole() throws DataException {
 
-		Role savedRole = null;
-		try {
-			savedRole = roleDAO.save(role);
-		} catch (DataException e) {
+        Role savedRole = roleDAO.save(role);
 
-			e.printStackTrace();
-		}
+        assertThrows(DataException.class, () -> roleDAO.save(duplicatedNameRole));
+        assertThat(savedRole).isNotNull();
+        assertThat(savedRole).isEqualTo(role);
+    }
 
-		assertThrows(DataException.class, () -> roleDAO.save(duplicatedNameRole));
-		assertThat(savedRole).isNotNull();
-		assertThat(savedRole).isEqualTo(role);
-	}
+    @Test
+    @DisplayName("findAll operation")
+    public void givenRolesList_whenFindAll_thenReturnRolesList() throws DataException {
 
-	@Test
-	@DisplayName("findAll operation")
-	public void givenRolesList_whenFindAll_thenReturnRolesList() {
+        roleDAO.save(role);
+        roleDAO.save(role2);
 
-		try {
-			roleDAO.save(role);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		try {
-			roleDAO.save(role2);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        List<Role> roles = roleDAO.findAll();
 
-		List<Role> roles = null;
-		try {
-			roles = roleDAO.findAll();
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        assertThat(roles).isNotNull();
+        assertThat(roles.size()).isEqualTo(2);
+    }
 
-		assertThat(roles).isNotNull();
-		assertThat(roles.size()).isEqualTo(2);
-	}
+    @Test
+    @DisplayName("findByName operation")
+    public void givenRole_whenFindByName_thenReturnRole() throws DataException {
 
-	@Test
-	@DisplayName("findByName operation")
-	public void givenRole_whenFindByName_thenReturnRole() {
+        Role savedRole = roleDAO.save(role);
 
-		Role savedRole = null;
-		try {
-			savedRole = roleDAO.save(role);
-		} catch (DataException e) {
+        Role foundRole = roleDAO.findByName("test");
 
-			e.printStackTrace();
-		}
+        assertThat(foundRole).isNotNull();
+        assertThat(foundRole).isEqualTo(savedRole);
+    }
 
-		Role foundRole = null;
-		try {
-			foundRole = roleDAO.findByName("test");
-		} catch (DataException e) {
+    @Test
+    @DisplayName("update operation")
+    public void givenRole_whenUpdate_thenUpdateRole() throws DataException {
 
-			e.printStackTrace();
-		}
+        roleDAO.save(role);
+        Role updatedRole = new Role();
+        updatedRole.setId(role.getId());
+        updatedRole.setName("updated");
+        updatedRole.setDescription("Updated role");
 
-		assertThat(foundRole).isNotNull();
-		assertThat(foundRole).isEqualTo(savedRole);
-	}
+        Role savedUpdatedRole = roleDAO.save(updatedRole);
 
-	@Test
-	@DisplayName("update operation")
-	public void givenRole_whenUpdate_thenUpdateRole() {
+        assertThat(savedUpdatedRole).isNotNull();
+        assertThat(savedUpdatedRole).isEqualTo(updatedRole);
+    }
 
-		try {
-			roleDAO.save(role);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-		Role updatedRole = new Role();
-		updatedRole.setId(role.getId());
-		updatedRole.setName("updated");
-		updatedRole.setDescription("Updated role");
+    @Test
+    @DisplayName("delete operation")
+    public void givenRole_whenDelete_thenDeleteRole() throws DataException {
 
-		Role savedUpdatedRole = null;
-		try {
-			savedUpdatedRole = roleDAO.save(updatedRole);
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
+        roleDAO.save(role);
 
-		assertThat(savedUpdatedRole).isNotNull();
-		assertThat(savedUpdatedRole).isEqualTo(updatedRole);
-	}
+        roleDAO.delete(role.getId());
 
-	@Test
-	@DisplayName("delete operation")
-	public void givenRole_whenDelete_thenDeleteRole() {
-
-		try {
-			roleDAO.save(role);
-		} catch (DataException e) {
-
-			e.printStackTrace();
-		}
-
-		try {
-			roleDAO.delete(role.getId());
-		} catch (DataException e) {
-			e.printStackTrace();
-		}
-
-		assertThrows(DataException.class, () -> roleDAO.findByName("test"));
-	}
+        assertThrows(DataException.class, () -> roleDAO.findByName("test"));
+    }
 }

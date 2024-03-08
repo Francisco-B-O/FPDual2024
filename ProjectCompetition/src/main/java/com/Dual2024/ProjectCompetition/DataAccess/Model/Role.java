@@ -1,12 +1,10 @@
 package com.Dual2024.ProjectCompetition.DataAccess.Model;
 
-import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -35,6 +33,4 @@ public class Role {
 	@Column(name = "role_description", nullable = false)
 	private String description;
 
-	@ManyToMany(mappedBy = "roles")
-	private List<User> users;
 }

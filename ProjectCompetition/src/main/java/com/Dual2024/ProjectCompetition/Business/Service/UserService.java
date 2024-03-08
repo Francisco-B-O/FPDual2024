@@ -5,7 +5,7 @@ import java.util.List;
 import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
 import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.UserState;
+import com.Dual2024.ProjectCompetition.Utils.UserState;
 
 public interface UserService {
 	List<UserBO> getAllUsers() throws BusinessException;

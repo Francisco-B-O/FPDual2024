@@ -4,13 +4,13 @@ INSERT INTO users (user_nick, user_email, user_password, user_avatar, user_state
 ('Nick01', 'user01@example.com',SHA2('asd123SA?¿', 256), '', 'Desconectado'),
 ('Nick02', 'user02@example.com',SHA2('Pasdfsd213¿?', 256), '', 'Desactivado'),
 ('Nick03', 'user03@example.com',SHA2('345dfSAW!@', 256), '', 'Conectado'),
-('Nick04', 'user04@example.com',SHA2('Password123@!', 256), '', 'Desconectado'),
+('Nick04', 'user04@example.com','Password123', '', 'Desconectado'),
 ('Nick05', 'user05@example.com',SHA2('dsad_234SB', 256), '', 'Conectado');
 
 INSERT INTO roles (role_name, role_description) VALUES
-('Administrador', 'Encargado de crear, eliminar y modificar torneos. Tiene permisos absolutos'),
-('Gestor', 'Puede gestionar torneos a menor nivel, no se le permite crear, modificar o eliminarlos. Tiene algunos permisos'),
-('Jugador', 'Usuario que solo se le permite entrar y salir de equipos y de torneos. Tiene los permisos básicos');
+('ADMIN', 'Encargado de crear, eliminar y modificar torneos. Tiene permisos absolutos'),
+('GESTOR', 'Puede gestionar torneos a menor nivel, no se le permite crear, modificar o eliminarlos. Tiene algunos permisos'),
+('JUGADOR', 'Usuario que solo se le permite entrar y salir de equipos y de torneos. Tiene los permisos básicos');
 
 
 INSERT INTO users_roles (users_roles_user_id, users_roles_role_id) VALUES

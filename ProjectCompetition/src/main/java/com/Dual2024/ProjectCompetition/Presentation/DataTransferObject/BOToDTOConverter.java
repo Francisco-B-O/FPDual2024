@@ -1,60 +1,44 @@
 package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
 
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBOAux;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBOAux;
-
 @Component
 public class BOToDTOConverter {
-	@Autowired
-	private ModelMapper modelMapper;
+    @Autowired
+    private ModelMapper modelMapper;
 
-	public UserDTO userBOToDTO(UserBO userBO) {
-		UserDTO user = modelMapper.map(userBO, UserDTO.class);
-		return user;
-	}
+    public UserDTO userBOToDTO(UserBO userBO) {
+        return modelMapper.map(userBO, UserDTO.class);
+    }
 
-	public RoleDTO roleBOToDTO(RoleBO roleBO) {
-		RoleDTO role = modelMapper.map(roleBO, RoleDTO.class);
-		return role;
-	}
+    public RoleDTO roleBOToDTO(RoleBO roleBO) {
+        return modelMapper.map(roleBO, RoleDTO.class);
+    }
 
-	public ModalityDTO modalityBOToDTO(ModalityBO modalityBO) {
-		ModalityDTO modality = modelMapper.map(modalityBO, ModalityDTO.class);
-		return modality;
-	}
+    public ModalityDTO modalityBOToDTO(ModalityBO modalityBO) {
+        return modelMapper.map(modalityBO, ModalityDTO.class);
+    }
 
-	public TeamDTO teamBOToDTO(TeamBO teamBO) {
-		TeamDTO team = modelMapper.map(teamBO, TeamDTO.class);
-		return team;
-	}
+    public TeamDTO teamBOToDTO(TeamBO teamBO) {
+        return modelMapper.map(teamBO, TeamDTO.class);
+    }
 
-	public FormatDTO formatBOToDTO(FormatBO formatBO) {
-		FormatDTO format = modelMapper.map(formatBO, FormatDTO.class);
-		return format;
-	}
+    public FormatDTO formatBOToDTO(FormatBO formatBO) {
+        return modelMapper.map(formatBO, FormatDTO.class);
+    }
 
-	public TournamentDTO tournamentBOToDTO(TournamentBO tournamentBO) {
-		TournamentDTO tournament = modelMapper.map(tournamentBO, TournamentDTO.class);
-		return tournament;
-	}
+    public TournamentDTO tournamentBOToDTO(TournamentBO tournamentBO) {
+        return modelMapper.map(tournamentBO, TournamentDTO.class);
+    }
 
-	public UserDTOAux userBOAuxToDTOAux(UserBOAux userBOAux) {
-		UserDTOAux user = modelMapper.map(userBOAux, UserDTOAux.class);
-		return user;
-	}
+    public UserDTOAux userBOAuxToDTOAux(UserBOAux userBOAux) {
+        return modelMapper.map(userBOAux, UserDTOAux.class);
+    }
 
-	public TournamentDTOAux tournamentBOAuxToDTOAux(TournamentBOAux tournamentBOAux) {
-		TournamentDTOAux tournament = modelMapper.map(tournamentBOAux, TournamentDTOAux.class);
-		return tournament;
-	}
+    public TournamentDTOAux tournamentBOAuxToDTOAux(TournamentBOAux tournamentBOAux) {
+        return modelMapper.map(tournamentBOAux, TournamentDTOAux.class);
+    }
 }

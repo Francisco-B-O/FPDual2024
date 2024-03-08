@@ -1,13 +1,16 @@
 package com.Dual2024.ProjectCompetition.Service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
+import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.BOToModelConverter;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
+import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
+import com.Dual2024.ProjectCompetition.Business.Service.ModalityServiceImpl;
+import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
+import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,246 +20,175 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.BOToModelConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.Service.ModalityServiceImpl;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.NotFoundException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class ModalityServiceTest {
-	private ModalityBO modalityBO;
-	private Modality modality;
+    private ModalityBO modalityBO;
+    private Modality modality;
 
-	@Mock
-	ModalityDAO modalityDAO;
-	@Mock
-	ModelToBOConverter modelToBOConverter;
-	@Mock
-	BOToModelConverter boToModelConverter;
-	@InjectMocks
-	ModalityServiceImpl modalityService;
+    @Mock
+    ModalityDAO modalityDAO;
+    @Mock
+    ModelToBOConverter modelToBOConverter;
+    @Mock
+    BOToModelConverter boToModelConverter;
+    @InjectMocks
+    ModalityServiceImpl modalityService;
 
-	@BeforeEach
-	public void setup() {
-		modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
-		modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
-	}
+    @BeforeEach
+    public void setup() {
+        modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
+        modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
+    }
 
-	@Test
-	@DisplayName("addModality operation : correct case")
-	public void givenModalityBO_whenAddModality_thenReturnModalityBO() {
+    @Test
+    @DisplayName("addModality operation : correct case")
+    public void givenModalityBO_whenAddModality_thenReturnModalityBO() throws DataException, BusinessException {
 
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(modalityDAO.save(modality)).willReturn(modality);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
+        BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
+        BDDMockito.given(modalityDAO.save(modality)).willReturn(modality);
 
-		ModalityBO savedModality = null;
-		try {
-			savedModality = modalityService.addModality(modalityBO);
-		} catch (BusinessException e) {
-		}
+        ModalityBO savedModality = modalityService.addModality(modalityBO);
 
-		assertThat(savedModality).isNotNull();
-		assertThat(savedModality).isEqualTo(modalityBO);
-	}
+        assertThat(savedModality).isNotNull();
+        assertThat(savedModality).isEqualTo(modalityBO);
+    }
 
-	@Test
-	@DisplayName("addModality operation : incorrect case -> Duplicated name")
-	public void givenModalityBO_whenAddModality_thenThrowDuplicatedNameException() {
+    @Test
+    @DisplayName("addModality operation : incorrect case -> Duplicated name")
+    public void givenModalityBO_whenAddModality_thenThrowDuplicatedNameException() throws DataException {
 
-		try {
-			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willReturn(modality);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willReturn(modality);
 
-		assertThrows(DuplicatedNameException.class, () -> modalityService.addModality(modalityBO));
-	}
+        assertThrows(DuplicatedNameException.class, () -> modalityService.addModality(modalityBO));
+    }
 
-	@Test
-	@DisplayName("addModality operation : incorrect case -> Modality not saved")
-	public void givenModalityBO_whenAddModality_thenThrowBusinessException() {
+    @Test
+    @DisplayName("addModality operation : incorrect case -> Modality not saved")
+    public void givenModalityBO_whenAddModality_thenThrowBusinessException() throws DataException {
 
-		BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
-		try {
-			BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
-		try {
-			BDDMockito.given(modalityDAO.save(modality)).willThrow(DataException.class);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(boToModelConverter.modalityBOToModel(modalityBO)).willReturn(modality);
+        BDDMockito.given(modalityDAO.findByName(modalityBO.getName())).willThrow(DataException.class);
+        BDDMockito.given(modalityDAO.save(modality)).willThrow(DataException.class);
 
-		assertThrows(BusinessException.class, () -> modalityService.addModality(modalityBO));
+        assertThrows(BusinessException.class, () -> modalityService.addModality(modalityBO));
 
-	}
+    }
 
-	@Test
-	@DisplayName("getModalityById operation : correct case")
-	public void givenId_whenGetModalityById_thenReturnModalityBO() {
+    @Test
+    @DisplayName("getModalityById operation : correct case")
+    public void givenId_whenGetModalityById_thenReturnModalityBO() throws DataException, BusinessException {
 
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.given(modalityDAO.findById(1L)).willReturn(modality);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
+        BDDMockito.given(modalityDAO.findById(1L)).willReturn(modality);
 
-		ModalityBO foundModality = null;
-		try {
-			foundModality = modalityService.getModalityById(1L);
-		} catch (BusinessException e) {
-		}
+        ModalityBO foundModality = modalityService.getModalityById(1L);
 
-		assertThat(foundModality).isNotNull();
-		assertThat(foundModality).isEqualTo(modalityBO);
-	}
+        assertThat(foundModality).isNotNull();
+        assertThat(foundModality).isEqualTo(modalityBO);
+    }
 
-	@Test
-	@DisplayName("getModalityById operation : incorrect case -> Not found")
-	public void givenId_whenGetModalityById_thenThrowBusinessException() {
+    @Test
+    @DisplayName("getModalityById operation : incorrect case -> Not found")
+    public void givenId_whenGetModalityById_thenThrowBusinessException() throws DataException {
 
-		try {
-			BDDMockito.given(modalityDAO.findById(1L)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modalityDAO.findById(1L)).willThrow(NotFoundException.class);
 
-		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityById(1L));
+        assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityById(1L));
 
-	}
+    }
 
-	@Test
-	@DisplayName("getModalityByName operation : correct case")
-	public void givenModalityName_whenGetModalityByName_thenReturnModalityBO() {
+    @Test
+    @DisplayName("getModalityByName operation : correct case")
+    public void givenModalityName_whenGetModalityByName_thenReturnModalityBO() throws DataException, BusinessException {
 
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.given(modalityDAO.findByName("modality1")).willReturn(modality);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
+        BDDMockito.given(modalityDAO.findByName("modality1")).willReturn(modality);
 
-		ModalityBO foundModality = null;
-		try {
-			foundModality = modalityService.getModalityByName("modality1");
-		} catch (BusinessException e) {
-		}
+        ModalityBO foundModality = modalityService.getModalityByName("modality1");
 
-		assertThat(foundModality).isNotNull();
-		assertThat(foundModality).isEqualTo(modalityBO);
-	}
+        assertThat(foundModality).isNotNull();
+        assertThat(foundModality).isEqualTo(modalityBO);
+    }
 
-	@Test
-	@DisplayName("getModalityByName operation : incorrect case -> Not found")
-	public void givenModalityName_whenGetModalityByName_thenThrowBusinessException() {
+    @Test
+    @DisplayName("getModalityByName operation : incorrect case -> Not found")
+    public void givenModalityName_whenGetModalityByName_thenThrowBusinessException() throws DataException {
 
-		try {
-			BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modalityDAO.findByName("modality1")).willThrow(NotFoundException.class);
 
-		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityByName("modality1"));
-	}
+        assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalityByName("modality1"));
+    }
 
-	@Test
-	@DisplayName("getModalityByNumberPlayers operation : correct case")
-	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenReturnListModalityBO() {
+    @Test
+    @DisplayName("getModalityByNumberPlayers operation : correct case")
+    public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenReturnListModalityBO() throws BusinessException, DataException {
 
-		List<Modality> modalities = new ArrayList<Modality>();
-		modalities.add(modality);
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willReturn(modalities);
-		} catch (DataException e) {
-		}
+        List<Modality> modalities = new ArrayList<Modality>();
+        modalities.add(modality);
+        BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
+        BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willReturn(modalities);
 
-		List<ModalityBO> modalitiesBO = null;
-		try {
-			modalitiesBO = modalityService.getModalitiesByNumberPlayers(2);
-		} catch (BusinessException e) {
-		}
+        List<ModalityBO> modalitiesBO = modalityService.getModalitiesByNumberPlayers(2);
 
-		assertThat(modalitiesBO).isNotNull();
-		assertThat(modalitiesBO.getFirst()).isEqualTo(modalityBO);
-	}
+        assertThat(modalitiesBO).isNotNull();
+        assertThat(modalitiesBO.getFirst()).isEqualTo(modalityBO);
+    }
 
-	@Test
-	@DisplayName("getModalityByNumberPlayers operation : incorrect case -> not found")
-	public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() {
+    @Test
+    @DisplayName("getModalityByNumberPlayers operation : incorrect case -> not found")
+    public void givenNumberPlayers_whenGetModalityByNumberPlayers_thenThrowBusinessException() throws DataException {
 
-		try {
-			BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modalityDAO.findByNumberPlayers(2)).willThrow(NotFoundException.class);
 
-		assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
+        assertThrows(ModalityNotFoundException.class, () -> modalityService.getModalitiesByNumberPlayers(2));
 
-	}
+    }
 
-	@Test
-	@DisplayName("getAllModalitiess operation : correct case")
-	public void givenNumberPlayers_whenGetAllModalities_thenReturnListModalityBO() {
+    @Test
+    @DisplayName("getAllModalitiess operation : correct case")
+    public void givenNumberPlayers_whenGetAllModalities_thenReturnListModalityBO() throws DataException, BusinessException {
 
-		List<Modality> modalities = new ArrayList<Modality>();
-		modalities.add(modality);
-		BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
-		try {
-			BDDMockito.given(modalityDAO.findAll()).willReturn(modalities);
-		} catch (DataException e) {
-		}
+        List<Modality> modalities = new ArrayList<Modality>();
+        modalities.add(modality);
+        BDDMockito.given(modelToBOConverter.modalityModelToBO(modality)).willReturn(modalityBO);
+        BDDMockito.given(modalityDAO.findAll()).willReturn(modalities);
 
-		List<ModalityBO> modalitiesBO = null;
-		try {
-			modalitiesBO = modalityService.getAllModalities();
-		} catch (BusinessException e) {
-		}
+        List<ModalityBO> modalitiesBO = modalityService.getAllModalities();
 
-		assertThat(modalitiesBO).isNotNull();
-		assertThat(modalitiesBO.getFirst()).isEqualTo(modalityBO);
-	}
+        assertThat(modalitiesBO).isNotNull();
+        assertThat(modalitiesBO.getFirst()).isEqualTo(modalityBO);
+    }
 
-	@Test
-	@DisplayName("getAllModalities operation : incorrect case -> not found")
-	public void givenNothing_whenGetAllModalities_thenThrowBusinessException() {
+    @Test
+    @DisplayName("getAllModalities operation : incorrect case -> not found")
+    public void givenNothing_whenGetAllModalities_thenThrowBusinessException() throws DataException {
 
-		try {
-			BDDMockito.given(modalityDAO.findAll()).willThrow(NotFoundException.class);
-		} catch (DataException e) {
-		}
+        BDDMockito.given(modalityDAO.findAll()).willThrow(NotFoundException.class);
 
-		assertThrows(ModalityNotFoundException.class, () -> modalityService.getAllModalities());
+        assertThrows(ModalityNotFoundException.class, () -> modalityService.getAllModalities());
 
-	}
+    }
 
-	@Test
-	@DisplayName("deleteModality operation : correct case")
-	public void givenId_whenDeleteModality_thenDeleteModality() {
+    @Test
+    @DisplayName("deleteModality operation : correct case")
+    public void givenId_whenDeleteModality_thenDeleteModality() throws BusinessException, DataException {
 
-		try {
-			BDDMockito.willDoNothing().given(modalityDAO).delete(1L);
-		} catch (DataException e) {
-		}
+        BDDMockito.willDoNothing().given(modalityDAO).delete(1L);
 
-		try {
-			modalityService.deleteModality(1L);
-		} catch (BusinessException e) {
-		}
+        modalityService.deleteModality(1L);
 
-		try {
-			verify(modalityDAO, times(1)).delete(1L);
-		} catch (DataException e) {
-		}
-	}
+        verify(modalityDAO, times(1)).delete(1L);
+
+    }
 
 }
