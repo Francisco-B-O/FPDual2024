@@ -13,7 +13,21 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
- * The Http security config.
+ * Configuration class for HTTP security settings.
+ *
+ * <p>This class configures various aspects of HTTP security, including CSRF protection, session management, and authentication providers.
+ * It also defines a {@link JwtAuthenticationFilter} to be applied before the {@link UsernamePasswordAuthenticationFilter} in the filter chain.</p>
+ * <p>Instances of this class are used as part of the overall Spring Security configuration to customize the security settings of your application.</p>
+ *
+ * @author Francisco Balonero Olivera
+ * @see org.springframework.security.config.annotation.web.builders.HttpSecurity
+ * @see org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+ * @see org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
+ * @see org.springframework.security.config.http.SessionCreationPolicy
+ * @see org.springframework.security.web.SecurityFilterChain
+ * @see org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+ * @see com.Dual2024.ProjectCompetition.Config.SecurityConfig.Filter.JwtAuthenticationFilter
+ * @see org.springframework.security.authentication.AuthenticationProvider
  */
 @Configuration
 @EnableWebSecurity
@@ -21,18 +35,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class HttpSecurityConfig {
     @Autowired
     private AuthenticationProvider authenticationProvider;
-    /**
-     * The Jwt authentication filter.
-     */
+
     @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /**
-     * Security filter chain.
+     * Creates a SecurityFilterChain bean for configuring HTTP security settings.
      *
-     * @param http The http
-     * @return The security filter chain
-     * @throws Exception
+     * @param http The HttpSecurity object
+     * @return The SecurityFilterChain bean
+     * @throws Exception If an exception occurs during security configuration
      */
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

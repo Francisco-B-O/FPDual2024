@@ -3,7 +3,29 @@ package com.Dual2024.ProjectCompetition.Business.BusinessException;
 import java.io.Serial;
 
 /**
- * Exception indicating that that name is already in use.
+ * Exception indicating that the name is already in use.
+ *
+ * <p>This exception is thrown to indicate that a business operation cannot be performed
+ * because there is an attempt to register a name that is already use.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * try {
+ *     // Business operation that may throw DuplicatedNameException
+ *     businessService.createTournament();
+ * } catch (DuplicatedNameException e) {
+ *     // Handle the exception appropriately
+ *     logger.error("Error creating tournament: " + e.getMessage(), e);
+ * }
+ * }
+ * </pre>
+ *
+ * <p>The exception includes a serial version UID for serialization purposes. It provides
+ * two constructors, one with a message and another with both a message and a cause.</p>
+ *
+ * @author Franciosco Balonero Olivera
+ * @see BusinessException
  */
 public class DuplicatedNameException extends BusinessException {
 
@@ -11,21 +33,21 @@ public class DuplicatedNameException extends BusinessException {
     private static final long serialVersionUID = -2232920202794886547L;
 
     /**
-     * Builder with message.
+     * Constructs a new DuplicatedNameException with the specified detail message.
      *
-     * @param message Message of the exception
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
      */
     public DuplicatedNameException(String message) {
         super(message);
     }
 
     /**
-     * Builder with message and exception.
+     * Constructs a new DuplicatedNameException with the specified detail message and cause.
      *
-     * @param message Message of the exception
-     * @param e       Cause
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
      */
-    public DuplicatedNameException(String message, Exception e) {
-        super(message, e);
+    public DuplicatedNameException(String message, Exception cause) {
+        super(message, cause);
     }
 }

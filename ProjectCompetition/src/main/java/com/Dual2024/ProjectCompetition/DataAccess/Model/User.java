@@ -14,12 +14,13 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Users table entity class
+ * Entity class representing the "users" table in the database.
+ * This class defines the structure and properties of user entities.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -72,9 +73,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        roles.forEach((Role role) -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
-        return authorities;
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -101,5 +102,4 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
-
 }

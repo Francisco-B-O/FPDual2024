@@ -6,6 +6,7 @@ import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ import java.util.Map;
  * Implementation of the JwtService interface.
  *
  * @author Francisco Balonero Olivera
+ * @see JwtService
  */
+@Slf4j
 @Service
 public class JwtServiceImpl implements JwtService {
     @Value("${security.jwt.expiration-minutes}")
@@ -27,12 +30,19 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserBO user, Map<String, Object> extraClaims) {
+        log.info("Generating JWT token for user with email: {}", user.getEmail());
         Date issuedAt = new Date(System.currentTimeMillis());
         Date expiration = new Date(issuedAt.getTime() + (60 * EXPIRATION_MINUTES * 1000));
-        return Jwts.builder().setClaims(extraClaims).setSubject(user.getEmail()).setIssuedAt(issuedAt)
-                .setExpiration(expiration).setHeaderParam(Header.TYPE, Header.JWT_TYPE)
-                .signWith(generateKey(), SignatureAlgorithm.HS256).compact();
-
+        String jwtToken = Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(user.getEmail())
+                .setIssuedAt(issuedAt)
+                .setExpiration(expiration)
+                .setHeaderParam(Header.TYPE, Header.JWT_TYPE)
+                .signWith(generateKey(), SignatureAlgorithm.HS256)
+                .compact();
+        log.info("JWT token generated successfully.");
+        return jwtToken;
     }
 
     private Key generateKey() {
@@ -41,13 +51,19 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String extractEmail(String jwt) {
-        return extractAllClaims(jwt).getSubject();
+        String email = extractAllClaims(jwt).getSubject();
+        log.info("Extracted email {} from JWT token.", email);
+        return email;
     }
 
     @Override
     public Claims extractAllClaims(String jwt) {
-        return Jwts.parserBuilder().setSigningKey(generateKey()).build().parseClaimsJws(jwt).getBody();
-
+        log.info("Extracting claims from JWT token.");
+        return Jwts.parserBuilder()
+                .setSigningKey(generateKey())
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
     }
 
 }

@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Tournaments table entity class
+ * Entity class representing the "tournaments" table in the database.
+ * This class defines the structure and properties of tournament entities.
  *
  * @author Franciosco Balonero Olivera
  */

@@ -10,6 +10,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,24 +22,29 @@ import java.util.List;
  * Implementation of the ModalityService interface.
  *
  * @author Francisco Balonero Olivera
+ * @see ModalityService
+ * @see ModalityDAO
+ * @see BOToModelConverter
+ * @see ModelToBOConverter
  */
+@Slf4j
 @Service
 @Transactional
 public class ModalityServiceImpl implements ModalityService {
     /**
-     * The Modality dao.
+     * The Modality DAO.
      */
     @Autowired
     ModalityDAO modalityDAO;
 
     /**
-     * The Bo to model converter.
+     * The BO to model converter.
      */
     @Autowired
     BOToModelConverter boToModelConverter;
 
     /**
-     * The Model to bo converter.
+     * The Model to BO converter.
      */
     @Autowired
     ModelToBOConverter modelToBOConverter;
@@ -48,6 +54,7 @@ public class ModalityServiceImpl implements ModalityService {
     public ModalityBO addModality(ModalityBO modalityBO) throws BusinessException {
         try {
             modalityDAO.findByName(modalityBO.getName());
+            log.error("This name is already registered: {}", modalityBO.getName());
             throw new DuplicatedNameException("This name is already registered");
         } catch (DataException ignored) {
         }
@@ -55,6 +62,7 @@ public class ModalityServiceImpl implements ModalityService {
             return modelToBOConverter
                     .modalityModelToBO(modalityDAO.save(boToModelConverter.modalityBOToModel(modalityBO)));
         } catch (DataException e) {
+            log.error("Error add modality", e);
             throw new BusinessException("Error add modality", e);
         }
     }
@@ -64,22 +72,26 @@ public class ModalityServiceImpl implements ModalityService {
         try {
             return modelToBOConverter.modalityModelToBO(modalityDAO.findById(id));
         } catch (EntityNotFoundException e) {
+            log.error("Modality not found", e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
+            log.error("Error when trying to find modality", e);
             throw new BusinessException("Error when trying to find modality", e);
         }
     }
 
     @Override
     public List<ModalityBO> getAllModalities() throws BusinessException {
-        List<ModalityBO> listModalitiesBO = new ArrayList<ModalityBO>();
+        List<ModalityBO> listModalitiesBO = new ArrayList<>();
         try {
             modalityDAO.findAll().forEach(
                     (Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
             return listModalitiesBO;
         } catch (EntityNotFoundException e) {
+            log.error("Modalities not found", e);
             throw new ModalityNotFoundException("Modalities not found", e);
         } catch (DataException e) {
+            log.error("Error when trying to find modalities", e);
             throw new BusinessException("Error when trying to find modalities", e);
         }
     }
@@ -89,22 +101,26 @@ public class ModalityServiceImpl implements ModalityService {
         try {
             return modelToBOConverter.modalityModelToBO(modalityDAO.findByName(name));
         } catch (EntityNotFoundException e) {
+            log.error("Modality not found", e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
+            log.error("Error when trying to find modality", e);
             throw new BusinessException("Error when trying to find modality", e);
         }
     }
 
     @Override
     public List<ModalityBO> getModalitiesByNumberPlayers(int numberPlayers) throws BusinessException {
-        List<ModalityBO> listModalitiesBO = new ArrayList<ModalityBO>();
+        List<ModalityBO> listModalitiesBO = new ArrayList<>();
         try {
             modalityDAO.findByNumberPlayers(numberPlayers).forEach(
                     (Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
             return listModalitiesBO;
         } catch (EntityNotFoundException e) {
+            log.error("Modalities not found", e);
             throw new ModalityNotFoundException("Modalities not found", e);
         } catch (DataException e) {
+            log.error("Error when trying to find modalities", e);
             throw new BusinessException("Error when trying to find modalities", e);
         }
     }
@@ -116,11 +132,12 @@ public class ModalityServiceImpl implements ModalityService {
             modalityDAO.findById(id);
             modalityDAO.delete(id);
         } catch (EntityNotFoundException e) {
+            log.error("Modality not found", e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
+            log.error("Modality not deleted", e);
             throw new BusinessException("Modality not deleted", e);
         }
-
     }
 
     @Override
@@ -128,17 +145,17 @@ public class ModalityServiceImpl implements ModalityService {
     public ModalityBO updateModality(ModalityBO modalityBO) throws BusinessException {
         ModalityBO modality;
         try {
-            modelToBOConverter.modalityModelToBO(modalityDAO.findById(modalityBO.getId()));
+            modalityDAO.findById(modalityBO.getId());
             modality = modalityBO;
-
         } catch (DataException e) {
+            log.error("This modality not exists", e);
             throw new ModalityNotFoundException("This modality not exists", e);
         }
         try {
-
             return modelToBOConverter
                     .modalityModelToBO(modalityDAO.save(boToModelConverter.modalityBOToModel(modality)));
         } catch (DataException e) {
+            log.error("Modality could not be updated", e);
             throw new BusinessException("Modality could not be updated", e);
         }
     }

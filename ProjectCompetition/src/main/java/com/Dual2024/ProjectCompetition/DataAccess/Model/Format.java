@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Formats table entity class
+ * Entity class representing the "formats" table in the database.
+ * This class defines the structure and properties of format entities.
  *
  * @author Franciosco Balonero Olivera
  */

@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Roles table entity class
+ * Entity class representing the "roles" table in the database.
+ * This class defines the structure and properties of role entities.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -34,5 +35,4 @@ public class Role {
     @NotBlank
     @Column(name = "role_description", nullable = false)
     private String description;
-
 }

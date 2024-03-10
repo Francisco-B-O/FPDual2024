@@ -61,7 +61,7 @@ public class TeamController {
     public List<TeamDTO> getAllteams() throws PresentationException {
         List<TeamDTO> listTeamDTO = new ArrayList<TeamDTO>();
         try {
-            teamService.getAllteams().forEach((TeamBO team) -> listTeamDTO.add(boToDTOConverter.teamBOToDTO(team)));
+            teamService.getAllTeams().forEach((TeamBO team) -> listTeamDTO.add(boToDTOConverter.teamBOToDTO(team)));
             return listTeamDTO;
         } catch (TeamNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);

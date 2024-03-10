@@ -8,7 +8,8 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * Modalities table entity class
+ * Entity class representing the "modalities" table in the database.
+ * This class defines the structure and properties of modality entities.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -33,5 +34,4 @@ public class Modality {
     @NotBlank
     @Column(name = "modality_name", nullable = false, unique = true)
     private String name;
-
 }

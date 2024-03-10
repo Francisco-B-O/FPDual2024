@@ -7,7 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * The type Model to Business Object converter.
+ * Converter class for mapping data entities to business objects.
+ *
+ * <p>This class uses the ModelMapper library for automatic mapping of entity fields to
+ * corresponding fields in business objects. Each conversion method in this class is responsible
+ * for converting a specific type of entity to its corresponding business object.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * ModelToBOConverter converter = new ModelToBOConverter();
+ * UserBO userBO = converter.userModelToBO(userEntity);
+ * }
+ * </pre>
+ *
+ * <p>The conversion methods return instances of business objects with fields mapped from the
+ * provided entity.</p>
+ *
+ * @author Franciosco Balonero Olivera
  */
 @Component
 public class ModelToBOConverter {
@@ -15,80 +32,80 @@ public class ModelToBOConverter {
     private ModelMapper modelMapper;
 
     /**
-     * User model to bo user bo.
+     * Converts a User entity to a UserBO.
      *
-     * @param user The user
-     * @return the user bo
+     * @param user The user entity
+     * @return The corresponding UserBO
      */
     public UserBO userModelToBO(User user) {
         return modelMapper.map(user, UserBO.class);
     }
 
     /**
-     * Role model to bo role bo.
+     * Converts a Role entity to a RoleBO.
      *
-     * @param role the role
-     * @return the role bo
+     * @param role The role entity
+     * @return The corresponding RoleBO
      */
     public RoleBO roleModelToBO(Role role) {
         return modelMapper.map(role, RoleBO.class);
     }
 
     /**
-     * Modality model to bo modality bo.
+     * Converts a Modality entity to a ModalityBO.
      *
-     * @param modality the modality
-     * @return the modality bo
+     * @param modality The modality entity
+     * @return The corresponding ModalityBO
      */
     public ModalityBO modalityModelToBO(Modality modality) {
         return modelMapper.map(modality, ModalityBO.class);
     }
 
     /**
-     * Team model to bo team bo.
+     * Converts a Team entity to a TeamBO.
      *
-     * @param team the team
-     * @return the team bo
+     * @param team The team entity
+     * @return The corresponding TeamBO
      */
     public TeamBO teamModelToBO(Team team) {
         return modelMapper.map(team, TeamBO.class);
     }
 
     /**
-     * Format model to bo format bo.
+     * Converts a Format entity to a FormatBO.
      *
-     * @param format the format
-     * @return the format bo
+     * @param format The format entity
+     * @return The corresponding FormatBO
      */
     public FormatBO formatModelToBO(Format format) {
         return modelMapper.map(format, FormatBO.class);
     }
 
     /**
-     * Tournament model to bo tournament bo.
+     * Converts a Tournament entity to a TournamentBO.
      *
-     * @param tournament the tournament
-     * @return the tournament bo
+     * @param tournament The tournament entity
+     * @return The corresponding TournamentBO
      */
     public TournamentBO tournamentModelToBO(Tournament tournament) {
         return modelMapper.map(tournament, TournamentBO.class);
     }
 
     /**
-     * User model to bo aux user bo aux.
+     * Converts a User entity to a UserBOAux.
      *
-     * @param user the user
-     * @return the user bo aux
+     * @param user The user entity
+     * @return The corresponding UserBOAux
      */
     public UserBOAux userModelToBOAux(User user) {
         return modelMapper.map(user, UserBOAux.class);
     }
 
     /**
-     * Tournament model to bo aux tournament bo aux.
+     * Converts a Tournament entity to a TournamentBOAux.
      *
-     * @param tournament the tournament
-     * @return the tournament bo aux
+     * @param tournament The tournament entity
+     * @return The corresponding TournamentBOAux
      */
     public TournamentBOAux tournamentModelToBOAux(Tournament tournament) {
         return modelMapper.map(tournament, TournamentBOAux.class);

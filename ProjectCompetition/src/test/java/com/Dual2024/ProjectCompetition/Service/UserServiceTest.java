@@ -291,7 +291,7 @@ public class UserServiceTest {
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
         BDDMockito.given(userDAO.save(user)).willReturn(user);
 
-        UserBO updatedUser = userService.UpdateUser(1L, "prueba", "pass");
+        UserBO updatedUser = userService.updateUser(1L, "prueba", "pass");
 
         assertThat(updatedUser).isNotNull();
         assertThat(updatedUser.getAvatar()).isEqualTo("prueba", "pass");
@@ -303,7 +303,7 @@ public class UserServiceTest {
 
         BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
-        assertThrows(UserNotFoundException.class, () -> userService.UpdateUser(1L, "prueba", "pass"));
+        assertThrows(UserNotFoundException.class, () -> userService.updateUser(1L, "prueba", "pass"));
 
     }
 
@@ -316,7 +316,7 @@ public class UserServiceTest {
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
         BDDMockito.given(userDAO.save(user)).willThrow(DataException.class);
 
-        assertThrows(BusinessException.class, () -> userService.UpdateUser(1L, "prueba", "pass"));
+        assertThrows(BusinessException.class, () -> userService.updateUser(1L, "prueba", "pass"));
 
     }
 
@@ -332,7 +332,7 @@ public class UserServiceTest {
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
         BDDMockito.given(userDAO.save(user)).willReturn(user);
 
-        UserBO updatedUser = userService.UpdateRoleUser(1L, roles);
+        UserBO updatedUser = userService.updateRoleUser(1L, roles);
 
         assertThat(updatedUser).isNotNull();
         assertThat(updatedUser.getRoles().getFirst()).isEqualTo(role);
@@ -347,7 +347,7 @@ public class UserServiceTest {
         roles.add(role);
         BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
 
-        assertThrows(UserNotFoundException.class, () -> userService.UpdateRoleUser(1L, roles));
+        assertThrows(UserNotFoundException.class, () -> userService.updateRoleUser(1L, roles));
 
     }
 
@@ -364,7 +364,7 @@ public class UserServiceTest {
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
         BDDMockito.given(userDAO.save(user)).willThrow(DataException.class);
 
-        assertThrows(BusinessException.class, () -> userService.UpdateRoleUser(1L, roles));
+        assertThrows(BusinessException.class, () -> userService.updateRoleUser(1L, roles));
 
     }
 

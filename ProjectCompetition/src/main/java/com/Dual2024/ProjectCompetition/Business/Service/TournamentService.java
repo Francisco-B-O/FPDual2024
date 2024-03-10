@@ -10,124 +10,173 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Interface that contains the methods of the tournament service.
+ * Service interface containing methods for managing tournaments.
+ *
+ * <p>This interface declares methods for registering tournaments, retrieving tournaments by various criteria,
+ * updating tournaments, and adding teams to tournaments.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * // Obtain an instance of TournamentService
+ * TournamentService tournamentService = // instantiate or inject the implementation
+ *
+ * // Register a new tournament
+ * TournamentBO newTournament = // create a new tournament instance
+ * TournamentBO registeredTournament = tournamentService.registerTournament(newTournament);
+ *
+ * // Retrieve a tournament by ID
+ * Long tournamentId = // obtain the tournament's ID
+ * TournamentBO retrievedTournament = tournamentService.getTournamentById(tournamentId);
+ *
+ * // Retrieve all tournaments
+ * List<TournamentBO> allTournaments = tournamentService.getAllTournaments();
+ *
+ * // Delete a tournament
+ * Long tournamentToDeleteId = // obtain the ID of the tournament to delete
+ * tournamentService.deleteTournament(tournamentToDeleteId);
+ *
+ * // Retrieve tournaments by name
+ * String tournamentName = // obtain the tournament name
+ * List<TournamentBO> tournamentsByName = tournamentService.getTournamentsByName(tournamentName);
+ *
+ * // Retrieve tournaments by format
+ * FormatBO format = // obtain the format
+ * List<TournamentBO> tournamentsByFormat = tournamentService.getTournamentsByFormat(format);
+ *
+ * // Update a tournament
+ * TournamentBO tournamentToUpdate = // obtain the tournament to update
+ * TournamentBO updatedTournament = tournamentService.updateTournament(tournamentToUpdate);
+ *
+ * // Add a team to a tournament
+ * Long teamId = // obtain the team's ID
+ * Long tournamentIdToAddTeam = // obtain the tournament's ID
+ * TournamentBO tournamentWithAddedTeam = tournamentService.addTeam(teamId, tournamentIdToAddTeam);
+ * }
+ * </pre>
+ *
+ * <p>Implementing classes should handle {@link BusinessException} to appropriately manage exceptions
+ * related to business operations on tournaments.</p>
+ *
+ * <p>Instances of this interface are typically used in the business layer of the application to provide
+ * a clean separation between the business logic and data access logic.</p>
  *
  * @author Francisco Balonero Olivera
  */
 public interface TournamentService {
     /**
-     * Register tournament.
+     * Registers a new tournament.
      *
-     * @param tournamentBO The tournament bo
-     * @return The saved tournament bo
-     * @throws BusinessException
+     * @param tournamentBO The tournament BO to register
+     * @return The registered tournament BO
+     * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO registerTournament(TournamentBO tournamentBO) throws BusinessException;
 
     /**
-     * Gets tournament by id.
+     * Retrieves a tournament by ID.
      *
-     * @param id The id
-     * @return The tournament by id
-     * @throws BusinessException
+     * @param id The ID of the tournament to retrieve
+     * @return The tournament BO with the specified ID
+     * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO getTournamentById(Long id) throws BusinessException;
 
     /**
-     * Gets all tournaments.
+     * Retrieves all tournaments.
      *
-     * @return All tournaments
-     * @throws BusinessException
+     * @return A list of all tournaments
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getAllTournaments() throws BusinessException;
 
     /**
-     * Delete tournament.
+     * Deletes a tournament.
      *
-     * @param id The id
-     * @throws BusinessException
+     * @param id The ID of the tournament to delete
+     * @throws BusinessException If an error occurs during the operation
      */
     void deleteTournament(Long id) throws BusinessException;
 
     /**
-     * Gets tournaments by name.
+     * Retrieves tournaments by name.
      *
-     * @param name The name
-     * @return The tournaments by name
-     * @throws BusinessException
+     * @param name The name of the tournaments to retrieve
+     * @return A list of tournaments with the specified name
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByName(String name) throws BusinessException;
 
     /**
-     * Gets tournaments by format.
+     * Retrieves tournaments by format.
      *
-     * @param formatBO The format bo
-     * @return The tournaments by format
-     * @throws BusinessException
+     * @param formatBO The format of the tournaments to retrieve
+     * @return A list of tournaments with the specified format
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByFormat(FormatBO formatBO) throws BusinessException;
 
     /**
-     * Gets tournaments by size.
+     * Retrieves tournaments by size.
      *
-     * @param size The size
-     * @return The tournaments by size
-     * @throws BusinessException
+     * @param size The size of the tournaments to retrieve
+     * @return A list of tournaments with the specified size
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsBySize(int size) throws BusinessException;
 
     /**
-     * Gets tournaments by start date.
+     * Retrieves tournaments by start date.
      *
-     * @param startDate The start date
-     * @return The tournaments by start date
-     * @throws BusinessException
+     * @param startDate The start date of the tournaments to retrieve
+     * @return A list of tournaments with the specified start date
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByStartDate(LocalDateTime startDate) throws BusinessException;
 
     /**
-     * Gets tournaments by end date.
+     * Retrieves tournaments by end date.
      *
-     * @param endDate The end date
-     * @return The tournaments by end date
-     * @throws BusinessException
+     * @param endDate The end date of the tournaments to retrieve
+     * @return A list of tournaments with the specified end date
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByEndDate(LocalDateTime endDate) throws BusinessException;
 
     /**
-     * Gets tournaments by state.
+     * Retrieves tournaments by state.
      *
-     * @param state The state
-     * @return The tournaments by state
-     * @throws BusinessException
+     * @param state The state of the tournaments to retrieve
+     * @return A list of tournaments with the specified state
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByState(TournamentState state) throws BusinessException;
 
     /**
-     * Gets tournaments by modality.
+     * Retrieves tournaments by modality.
      *
-     * @param modalityBO The modality bo
-     * @return The tournaments by modality
-     * @throws BusinessException
+     * @param modalityBO The modality of the tournaments to retrieve
+     * @return A list of tournaments with the specified modality
+     * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByModality(ModalityBO modalityBO) throws BusinessException;
 
     /**
-     * Update tournament.
+     * Updates a tournament.
      *
-     * @param tournamentBO The tournament bo
-     * @return The updated tournament bo
-     * @throws BusinessException
+     * @param tournamentBO The tournament BO to update
+     * @return The updated tournament BO
+     * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO updateTournament(TournamentBO tournamentBO) throws BusinessException;
 
     /**
-     * Add team into a tournament.
+     * Adds a team to a tournament.
      *
-     * @param teamId       The team id
-     * @param tournamentId The tournament id
-     * @return The tournament bo with the addedTeam
-     * @throws BusinessException
+     * @param teamId       The ID of the team to add
+     * @param tournamentId The ID of the tournament to add the team to
+     * @return The tournament BO with the added team
+     * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO addTeam(Long teamId, Long tournamentId) throws BusinessException;
 }

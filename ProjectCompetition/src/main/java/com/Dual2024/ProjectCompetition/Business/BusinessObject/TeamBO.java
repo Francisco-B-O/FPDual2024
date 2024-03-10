@@ -34,7 +34,7 @@ public class TeamBO {
     private List<TournamentBOAux> tournaments;
 
     /**
-     * Method that returns false if you are not in an active tournament or true if you are.
+     * Method that returns {@code false} if the team is not in an active tournament or {@code true} if they are.
      *
      * @return The boolean
      */

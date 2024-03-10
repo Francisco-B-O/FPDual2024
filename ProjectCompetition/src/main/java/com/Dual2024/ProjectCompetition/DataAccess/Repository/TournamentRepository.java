@@ -12,6 +12,37 @@ import java.util.List;
 /**
  * Interface for performing CRUD operations on Tournament.
  *
+ * <p>This interface extends the JpaRepository interface, providing methods for performing CRUD (Create, Read, Update, Delete)
+ * operations on Tournament entities. The methods declared in this interface are automatically implemented by Spring Data JPA.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * // Data access operation to find all tournaments with the specified name
+ * List<Tournament> tournamentsByName = tournamentRepository.findByName("TournamentName");
+ *
+ * // Data access operation to find all tournaments with the specified format
+ * List<Tournament> tournamentsByFormat = tournamentRepository.findByFormat(format);
+ *
+ * // Data access operation to find all tournaments with the specified size
+ * List<Tournament> tournamentsBySize = tournamentRepository.findBySize(16);
+ *
+ * // Data access operation to find all tournaments with the specified start date
+ * List<Tournament> tournamentsByStartDate = tournamentRepository.findByStartDate(LocalDateTime.now());
+ *
+ * // Data access operation to find all tournaments with the specified end date
+ * List<Tournament> tournamentsByEndDate = tournamentRepository.findByEndDate(LocalDateTime.now().plusDays(7));
+ *
+ * // Data access operation to find all tournaments with the specified state
+ * List<Tournament> tournamentsByState = tournamentRepository.findByState(TournamentState.APLAZADO);
+ *
+ * // Data access operation to find all tournaments with the specified modality
+ * List<Tournament> tournamentsByModality = tournamentRepository.findByModality(modality);
+ * }
+ * </pre>
+ *
+ * <p>The interface includes methods to find tournaments by name, format, size, start date, end date, state, and modality.</p>
+ *
  * @author Francisco Balonero Olivera
  */
 public interface TournamentRepository extends JpaRepository<Tournament, Long> {

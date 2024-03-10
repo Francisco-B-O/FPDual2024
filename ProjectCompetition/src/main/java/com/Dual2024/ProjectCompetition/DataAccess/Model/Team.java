@@ -10,7 +10,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 /**
- * Teams table entity class
+ * Entity class representing the "teams" table in the database.
+ * This class defines the structure and properties of team entities.
  *
  * @author Franciosco Balonero Olivera
  */

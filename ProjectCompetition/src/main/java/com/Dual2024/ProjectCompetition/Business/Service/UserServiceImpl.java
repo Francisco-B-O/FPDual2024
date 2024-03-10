@@ -11,6 +11,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.Utils.UserState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,41 +23,49 @@ import java.util.List;
  * Implementation of the UserService interface.
  *
  * @author Francisco Balonero Olivera
+ * @see UserService
+ * @see RoleDAO
+ * @see UserDAO
+ * @see BOToModelConverter
+ * @see ModelToBOConverter
  */
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
     /**
-     * The User dao.
+     * The User DAO.
      */
     @Autowired
     UserDAO userDAO;
     /**
-     * The Role dao.
+     * The Role DAO.
      */
     @Autowired
     RoleDAO roleDAO;
     /**
-     * The Bo to model converter.
+     * The BO to Model converter.
      */
     @Autowired
     BOToModelConverter boToModelConverter;
 
     /**
-     * The Model to bo converter.
+     * The Model to BO converter.
      */
     @Autowired
     ModelToBOConverter modelToBOConverter;
 
     @Override
     public List<UserBO> getAllUsers() throws BusinessException {
-        List<UserBO> listUserBO = new ArrayList<UserBO>();
+        List<UserBO> listUserBO = new ArrayList<>();
         try {
             userDAO.findAll().forEach((User user) -> listUserBO.add(modelToBOConverter.userModelToBO(user)));
             return listUserBO;
         } catch (EntityNotFoundException e) {
+            log.error("Users not found", e);
             throw new UserNotFoundException("Users not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find users", null);
+            log.error("Error when trying to find users", e);
+            throw new BusinessException("Error when trying to find users", e);
         }
     }
 
@@ -67,21 +76,23 @@ public class UserServiceImpl implements UserService {
             UserBO found = modelToBOConverter
                     .userModelToBO(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()).getFirst());
             if (found.getEmail().equals(userBO.getEmail())) {
+                log.error("This email is already registered {}", userBO.getEmail());
                 throw new DuplicatedEmailException("This email is already registered");
             }
             if (found.getNick().equals(userBO.getNick())) {
-                throw new DuplicatedNickException("This email is already registered");
+                log.error("This nick is already registered: {}", userBO.getNick());
+                throw new DuplicatedNickException("This nick is already registered");
             }
         } catch (DataException ignored) {
 
         }
         try {
-            List<RoleBO> defaultRole = new ArrayList<RoleBO>();
+            List<RoleBO> defaultRole = new ArrayList<>();
             defaultRole.add(modelToBOConverter.roleModelToBO(roleDAO.findByName("JUGADOR")));
             userBO.setRoles(defaultRole);
             return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(userBO)));
-
         } catch (DataException e) {
+            log.error("Error registering user", e);
             throw new BusinessException("Error registering user", e);
         }
     }
@@ -91,72 +102,78 @@ public class UserServiceImpl implements UserService {
         try {
             return modelToBOConverter.userModelToBO(userDAO.findById(id));
         } catch (EntityNotFoundException e) {
+            log.error("User not found", e);
             throw new UserNotFoundException("User not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find user ", null);
+            log.error("Error when trying to find user", e);
+            throw new BusinessException("Error when trying to find user", e);
         }
     }
 
     @Override
     @Transactional
     public void deleteUser(Long id) throws BusinessException {
-
         try {
             UserBO userBO = modelToBOConverter.userModelToBO(userDAO.findById(id));
             if (userBO.isInActiveTournament()) {
+                log.error("This user is in an active tournament");
                 throw new UserInActiveTournamentException("This user is in an active tournament");
             } else {
                 userDAO.delete(id);
             }
         } catch (EntityNotFoundException e) {
+            log.error("User not found", e);
             throw new UserNotFoundException("User not found", e);
         } catch (DataException e) {
+            log.error("User not deleted", e);
             throw new BusinessException("User not deleted", e);
         }
-
     }
 
     @Override
     public UserBO getUserByNick(String nick) throws BusinessException {
-
         try {
             return modelToBOConverter.userModelToBO(userDAO.findByNick(nick));
         } catch (EntityNotFoundException e) {
+            log.error("User not found", e);
             throw new UserNotFoundException("User not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find user", null);
+            log.error("Error when trying to find user", e);
+            throw new BusinessException("Error when trying to find user", e);
         }
     }
 
     @Override
     public UserBO getUserByEmail(String email) throws BusinessException {
-
         try {
             return modelToBOConverter.userModelToBO(userDAO.findByEmail(email));
         } catch (EntityNotFoundException e) {
+            log.error("User not found", e);
             throw new UserNotFoundException("User not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find user", null);
+            log.error("Error when trying to find user", e);
+            throw new BusinessException("Error when trying to find user", e);
         }
     }
 
     @Override
     public List<UserBO> getUsersByState(UserState state) throws BusinessException {
-        List<UserBO> listUserBO = new ArrayList<UserBO>();
+        List<UserBO> listUserBO = new ArrayList<>();
         try {
             userDAO.findByState(state).forEach((User user) -> listUserBO.add(modelToBOConverter.userModelToBO(user)));
             return listUserBO;
         } catch (EntityNotFoundException e) {
+            log.error("Users not found", e);
             throw new UserNotFoundException("Users not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find users", null);
+            log.error("Error when trying to find users", e);
+            throw new BusinessException("Error when trying to find users", e);
         }
-
     }
 
     @Override
     @Transactional
-    public UserBO UpdateUser(Long id, String avatar, String password) throws BusinessException {
+    public UserBO updateUser(Long id, String avatar, String password) throws BusinessException {
         UserBO user;
         try {
             user = modelToBOConverter.userModelToBO(userDAO.findById(id));
@@ -164,16 +181,17 @@ public class UserServiceImpl implements UserService {
             user.setPassword(password);
             return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
         } catch (EntityNotFoundException e) {
+            log.error("This user not exists", e);
             throw new UserNotFoundException("This user not exists", e);
         } catch (DataException e) {
+            log.error("User could not be updated", e);
             throw new BusinessException("User could not be updated", e);
         }
-
     }
 
     @Override
     @Transactional
-    public UserBO UpdateRoleUser(Long id, List<RoleBO> roles) throws BusinessException {
+    public UserBO updateRoleUser(Long id, List<RoleBO> roles) throws BusinessException {
         UserBO user;
         if (roles.isEmpty() || roles.contains(null)) {
             throw new BusinessException("Roles cannot be null");
@@ -183,12 +201,13 @@ public class UserServiceImpl implements UserService {
                 user.setRoles(roles);
                 return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(user)));
             } catch (EntityNotFoundException e) {
+                log.error("This user not exists", e);
                 throw new UserNotFoundException("This user not exists", e);
             } catch (DataException e) {
+                log.error("User could not be updated", e);
                 throw new BusinessException("User could not be updated", e);
             }
         }
-
     }
 
 }

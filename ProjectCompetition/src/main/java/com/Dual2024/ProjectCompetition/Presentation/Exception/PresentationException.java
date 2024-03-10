@@ -3,31 +3,52 @@ package com.Dual2024.ProjectCompetition.Presentation.Exception;
 import java.io.Serial;
 
 /**
- * Generic presentation layer exception
+ * Generic exception in the presentation layer.
+ *
+ * <p>This exception is a runtime exception indicating an issue in the presentation layer of the application.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * try {
+ *     // Code that may throw PresentationException
+ *     presentationService.performOperation();
+ * } catch (PresentationException e) {
+ *     // Handle the exception appropriately
+ *     logger.error("Error performing the operation: " + e.getMessage(), e);
+ * }
+ * }
+ * </pre>
+ *
+ * <p>The exception includes a serial version UID for serialization purposes. It provides
+ * two constructors, one with a message and another with both a message and a cause.</p>
  *
  * @author Franciosco Balonero Olivera
  */
 public class PresentationException extends RuntimeException {
 
+    /**
+     * Serial version UID for serialization.
+     */
     @Serial
     private static final long serialVersionUID = -1641575469051626634L;
 
     /**
-     * Builder with message
+     * Constructs a new PresentationException with the specified detail message.
      *
-     * @param message Message of the exception
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
      */
     public PresentationException(String message) {
         super(message);
     }
 
     /**
-     * Builder with message and exception
+     * Constructs a new PresentationException with the specified detail message and cause.
      *
-     * @param message Message of the exception
-     * @param e       Cause
+     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
      */
-    public PresentationException(String message, Exception e) {
-        super(message, e);
+    public PresentationException(String message, Exception cause) {
+        super(message, cause);
     }
 }

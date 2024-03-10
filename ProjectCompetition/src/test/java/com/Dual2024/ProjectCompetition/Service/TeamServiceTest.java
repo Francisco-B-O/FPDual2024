@@ -153,7 +153,7 @@ public class TeamServiceTest {
         BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);
         BDDMockito.given(teamDAO.findAll()).willReturn(teams);
 
-        List<TeamBO> foundTeams = teamService.getAllteams();
+        List<TeamBO> foundTeams = teamService.getAllTeams();
 
         assertThat(foundTeams).isNotNull();
         assertThat(foundTeams).isNotEmpty();
@@ -166,7 +166,7 @@ public class TeamServiceTest {
 
         BDDMockito.given(teamDAO.findAll()).willThrow(EntityNotFoundException.class);
 
-        assertThrows(TeamNotFoundException.class, () -> teamService.getAllteams());
+        assertThrows(TeamNotFoundException.class, () -> teamService.getAllTeams());
 
     }
 

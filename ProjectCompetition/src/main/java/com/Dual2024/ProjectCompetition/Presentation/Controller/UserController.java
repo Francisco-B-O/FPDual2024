@@ -219,7 +219,7 @@ public class UserController {
     public UserDTO updateUser(@RequestBody @Valid UpdateUserDTO user) throws PresentationException {
         try {
             Long id = authenticationService.getUserAuthenticated();
-            return boToDTOConverter.userBOToDTO(userService.UpdateUser(id, user.getAvatar(), user.getPassword()));
+            return boToDTOConverter.userBOToDTO(userService.updateUser(id, user.getAvatar(), user.getPassword()));
         } catch (UserNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);
         } catch (BusinessException e) {
@@ -243,7 +243,7 @@ public class UserController {
         List<RoleBO> roles = new ArrayList<RoleBO>();
         user.getRoles().forEach((RoleDTO role) -> roles.add(dtoToBOConverter.roleDTOToBO(role)));
         try {
-            return boToDTOConverter.userBOToDTO(userService.UpdateRoleUser(id, roles));
+            return boToDTOConverter.userBOToDTO(userService.updateRoleUser(id, roles));
         } catch (UserNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);
         } catch (BusinessException e) {

@@ -7,18 +7,20 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.TeamRepository;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * TeamDAO interface implementation
  *
  * @author Francisco Balonero Olivera
+ * @see TeamDAO
  */
+@Slf4j
 @Repository
 public class TeamDAOImpl implements TeamDAO {
     @Autowired
@@ -28,27 +30,26 @@ public class TeamDAOImpl implements TeamDAO {
     @Override
     public Team save(Team team) throws DataException {
         try {
-            return teamRepository.save(team);
-        } catch (NestedRuntimeException | ConstraintViolationException nre) {
-            throw new DataException("Team not saved", nre);
+            Team savedTeam = teamRepository.save(team);
+            log.info("Team saved successfully with id: {}", savedTeam.getId());
+            return savedTeam;
+        } catch (NestedRuntimeException | ConstraintViolationException e) {
+            log.error("Error saving team", e);
+            throw new DataException("Team not saved", e);
         }
-
     }
-
 
     @Override
     public Team findById(Long id) throws DataException {
         try {
-            Optional<Team> team = teamRepository.findById(id);
-            if (team.isPresent()) {
-                return team.get();
-            } else {
-                throw new EntityNotFoundException("Team not found");
-            }
+            Team team = teamRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Team not found"));
+            log.info("Team found by id: {}", id);
+            return team;
         } catch (NestedRuntimeException nre) {
+            log.error("Error finding team by id: {}", id, nre);
             throw new DataException("Data access error", nre);
         }
-
     }
 
     @Override
@@ -56,68 +57,76 @@ public class TeamDAOImpl implements TeamDAO {
         try {
             List<Team> teams = teamRepository.findAll();
             if (teams.isEmpty()) {
+                log.warn("No teams found");
                 throw new EntityNotFoundException("Teams not found");
             } else {
+                log.info("Found {} teams", teams.size());
                 return teams;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error finding all teams", nre);
             throw new DataException("Data access error", nre);
         }
-
     }
-
 
     @Override
     public void delete(Long id) throws DataException {
         try {
             teamRepository.deleteById(id);
+            log.info("Team deleted successfully with id: {}", id);
         } catch (NestedRuntimeException nre) {
+            log.error("Error deleting team with id: {}", id, nre);
             throw new DataException("Team not deleted", nre);
         }
-
     }
-
 
     @Override
     public List<Team> findByName(String name) throws DataException {
         try {
             List<Team> teams = teamRepository.findByName(name);
             if (teams.isEmpty()) {
+                log.warn("No teams found with name: {}", name);
                 throw new EntityNotFoundException("Teams not found");
             } else {
+                log.info("Found {} teams with name: {}", teams.size(), name);
                 return teams;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error finding teams by name: {}", name, nre);
             throw new DataException("Data access error", nre);
         }
     }
-
 
     @Override
     public List<Team> findByModality(Modality modality) throws DataException {
         try {
             List<Team> teams = teamRepository.findByModality(modality);
             if (teams.isEmpty()) {
+                log.warn("No teams found with modality: {}", modality);
                 throw new EntityNotFoundException("Teams not found");
             } else {
+                log.info("Found {} teams with modality: {}", teams.size(), modality);
                 return teams;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error finding teams by modality: {}", modality, nre);
             throw new DataException("Data access error", nre);
         }
     }
-
 
     @Override
     public List<Team> findByCaptain(User captain) throws DataException {
         try {
             List<Team> teams = teamRepository.findByCaptain(captain);
             if (teams.isEmpty()) {
+                log.warn("No teams found with captain: {}", captain);
                 throw new EntityNotFoundException("Teams not found");
             } else {
+                log.info("Found {} teams with captain: {}", teams.size(), captain);
                 return teams;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error finding teams by captain: {}", captain, nre);
             throw new DataException("Data access error", nre);
         }
     }

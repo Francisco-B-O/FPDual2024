@@ -6,18 +6,20 @@ import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
 import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
 import com.Dual2024.ProjectCompetition.Utils.UserState;
 import jakarta.validation.ConstraintViolationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * UserDAO interface implementation
  *
  * @author Francisco Balonero Olivera
+ * @see UserDAO
  */
+@Slf4j
 @Repository
 public class UserDAOImpl implements UserDAO {
     @Autowired
@@ -26,117 +28,114 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User save(User user) throws DataException {
         try {
-            return userRepository.save(user);
+            User savedUser = userRepository.save(user);
+            log.info("User saved successfully: {}", savedUser.getId());
+            return savedUser;
         } catch (ConstraintViolationException | NestedRuntimeException e) {
+            log.error("Error saving user", e);
             throw new DataException("User not saved", e);
         }
     }
 
-
     @Override
     public User findById(Long id) throws DataException {
         try {
-            Optional<User> user = userRepository.findById(id);
-            if (user.isPresent()) {
-                return user.get();
-            } else {
-                throw new EntityNotFoundException("User not found");
-            }
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            log.info("User retrieved successfully: {}", id);
+            return user;
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find user: {}", id, nre);
             throw new DataException("Data access error", nre);
         }
-
     }
-
 
     @Override
     public List<User> findAll() throws DataException {
         try {
-
             List<User> users = userRepository.findAll();
             if (users.isEmpty()) {
+                log.warn("No users found");
                 throw new EntityNotFoundException("Users not found");
             } else {
+                log.info("Found {} users", users.size());
                 return users;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find all users", nre);
             throw new DataException("Data access error", nre);
         }
-
     }
-
 
     @Override
     public void delete(Long id) throws DataException {
         try {
             userRepository.deleteById(id);
+            log.info("User deleted successfully: {}", id);
         } catch (NestedRuntimeException nre) {
+            log.error("Error deleting user: {}", id, nre);
             throw new DataException("User not deleted", nre);
         }
-
     }
-
 
     @Override
     public User findByNick(String nick) throws DataException {
         try {
-            User user = userRepository.findByNick(nick);
-            if (user == null) {
-                throw new EntityNotFoundException("User not found");
-            } else {
-                return user;
-            }
+            User user = userRepository.findByNick(nick)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            log.info("User retrieved successfully by nick: {}", nick);
+            return user;
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find user by nick: {}", nick, nre);
             throw new DataException("Data access error", nre);
         }
     }
-
 
     @Override
     public User findByEmail(String email) throws DataException {
         try {
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                throw new EntityNotFoundException("User not found");
-            } else {
-                return user;
-            }
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new EntityNotFoundException("User not found"));
+            log.info("User retrieved successfully by email: {}", email);
+            return user;
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find user by email: {}", email, nre);
             throw new DataException("Data access error", nre);
         }
-
     }
-
 
     @Override
     public List<User> findByState(UserState state) throws DataException {
-
         try {
             List<User> users = userRepository.findByState(state);
             if (users.isEmpty()) {
+                log.warn("No users found with state: {}", state);
                 throw new EntityNotFoundException("Users not found");
             } else {
+                log.info("Found {} users with state: {}", users.size(), state);
                 return users;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find users by state: {}", state, nre);
             throw new DataException("Data access error", nre);
         }
     }
-
 
     @Override
     public List<User> findByNickOrEmail(String nick, String email) throws DataException {
         try {
             List<User> users = userRepository.findByNickOrEmail(nick, email);
             if (users.isEmpty()) {
+                log.warn("No users found with nick or email: {}, {}", nick, email);
                 throw new EntityNotFoundException("Users not found");
             } else {
+                log.info("Found {} users with nick or email: {}, {}", users.size(), nick, email);
                 return users;
             }
         } catch (NestedRuntimeException nre) {
+            log.error("Error when trying to find users by nick or email: {}, {}", nick, email, nre);
             throw new DataException("Data access error", nre);
         }
-
     }
 
 }

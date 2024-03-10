@@ -10,6 +10,7 @@ import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
 import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
 import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
 import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,29 +23,35 @@ import java.util.List;
  * Implementation of the TournamentService interface.
  *
  * @author Francisco Balonero Olivera
+ * @see TournamentService
+ * @see TeamDAO
+ * @see TournamentDAO
+ * @see BOToModelConverter
+ * @see ModelToBOConverter
  */
+@Slf4j
 @Service
 public class TournamentServiceImpl implements TournamentService {
     /**
-     * The Tournament dao.
+     * The Tournament DAO.
      */
     @Autowired
     TournamentDAO tournamentDAO;
 
     /**
-     * The Team dao.
+     * The Team DAO.
      */
     @Autowired
     TeamDAO teamDAO;
 
     /**
-     * The Bo to model converter.
+     * The BO to Model converter.
      */
     @Autowired
     BOToModelConverter boToModelConverter;
 
     /**
-     * The Model to bo converter.
+     * The Model to BO converter.
      */
     @Autowired
     ModelToBOConverter modelToBOConverter;
@@ -52,12 +59,13 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     @Transactional
     public TournamentBO registerTournament(TournamentBO tournamentBO) throws BusinessException {
-        List<TournamentBO> listTournamentsBO = new ArrayList<TournamentBO>();
         try {
+            List<TournamentBO> listTournamentsBO = new ArrayList<>();
             tournamentDAO.findByModality(boToModelConverter.modalityBOToModel(tournamentBO.getModality()))
                     .forEach((Tournament tournament) -> listTournamentsBO
                             .add(modelToBOConverter.tournamentModelToBO(tournament)));
             if (listTournamentsBO.stream().anyMatch(c -> c.getName().equals(tournamentBO.getName()))) {
+                log.error("The combination of name+modality already exists");
                 throw new DuplicatedNameAndModalityException("The combination of name+modality already exists");
             }
 
@@ -65,12 +73,14 @@ public class TournamentServiceImpl implements TournamentService {
         }
         if (tournamentBO.getStartDate().isEqual(tournamentBO.getEndDate())
                 || tournamentBO.getStartDate().isAfter(tournamentBO.getEndDate())) {
+            log.error("Invalid dates");
             throw new InvalidDateException("Invalid dates");
         } else {
             try {
                 return modelToBOConverter
                         .tournamentModelToBO(tournamentDAO.save(boToModelConverter.tournamentBOToModel(tournamentBO)));
             } catch (DataException e) {
+                log.error("Error registering tournament", e);
                 throw new BusinessException("Error registering tournament", e);
             }
         }
@@ -81,165 +91,176 @@ public class TournamentServiceImpl implements TournamentService {
         try {
             return modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
         } catch (EntityNotFoundException e) {
+            log.error("Tournament not found", e);
             throw new TournamentNotFoundException("Tournament not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournament", null);
+            log.error("Error when trying to find tournament", e);
+            throw new BusinessException("Error when trying to find tournament", e);
         }
     }
 
     @Override
     public List<TournamentBO> getAllTournaments() throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findAll().forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     @Transactional
     public void deleteTournament(Long id) throws BusinessException {
-        TournamentBO tournamentBO;
         try {
-            tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
-        } catch (EntityNotFoundException e) {
-            throw new TournamentNotFoundException("tournament not found", e);
-        } catch (DataException e) {
-            throw new BusinessException("Tournament not deleted", e);
-        }
-        if (tournamentBO.getState().equals(TournamentState.EN_JUEGO)) {
-            throw new ActiveTournamentException("This tournament is active");
-        } else {
-            try {
+            TournamentBO tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
+            if (tournamentBO.getState().equals(TournamentState.EN_JUEGO)) {
+                log.error("This tournament is active");
+                throw new ActiveTournamentException("This tournament is active");
+            } else {
                 tournamentDAO.delete(id);
-            } catch (DataException e) {
-                throw new BusinessException("Tournament not deleted", e);
             }
+        } catch (EntityNotFoundException e) {
+            log.error("Tournament not found", e);
+            throw new TournamentNotFoundException("Tournament not found", e);
+        } catch (DataException e) {
+            log.error("Tournament not deleted", e);
+            throw new BusinessException("Tournament not deleted", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByName(String name) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByName(name).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByFormat(FormatBO formatBO) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByFormat(boToModelConverter.formatBOToModel(formatBO))
                     .forEach((Tournament tournament) -> listTournamentBO
                             .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsBySize(int size) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findBySize(size).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByStartDate(LocalDateTime startDate) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByStartDate(startDate).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByEndDate(LocalDateTime endDate) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByEndDate(endDate).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByState(TournamentState state) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByState(state).forEach((Tournament tournament) -> listTournamentBO
                     .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     public List<TournamentBO> getTournamentsByModality(ModalityBO modalityBO) throws BusinessException {
-        List<TournamentBO> listTournamentBO = new ArrayList<TournamentBO>();
+        List<TournamentBO> listTournamentBO = new ArrayList<>();
         try {
             tournamentDAO.findByModality(boToModelConverter.modalityBOToModel(modalityBO))
                     .forEach((Tournament tournament) -> listTournamentBO
                             .add(modelToBOConverter.tournamentModelToBO(tournament)));
             return listTournamentBO;
         } catch (EntityNotFoundException e) {
+            log.error("Tournaments not found", e);
             throw new TournamentNotFoundException("Tournaments not found", e);
         } catch (DataException e) {
-            throw new BusinessException("Error when trying to find tournaments", null);
+            log.error("Error when trying to find tournaments", e);
+            throw new BusinessException("Error when trying to find tournaments", e);
         }
     }
 
     @Override
     @Transactional
     public TournamentBO updateTournament(TournamentBO tournamentBO) throws BusinessException {
-        TournamentBO tournament;
         try {
             modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentBO.getId()));
-            tournament = tournamentBO;
+            return modelToBOConverter
+                    .tournamentModelToBO(tournamentDAO.save(boToModelConverter.tournamentBOToModel(tournamentBO)));
         } catch (EntityNotFoundException e) {
+            log.error("This tournament not exists", e);
             throw new TournamentNotFoundException("This tournament not exists", e);
         } catch (DataException e) {
-            throw new BusinessException("Tournament could not be updated", e);
-        }
-        try {
-
-            return modelToBOConverter
-                    .tournamentModelToBO(tournamentDAO.save(boToModelConverter.tournamentBOToModel(tournament)));
-        } catch (DataException e) {
+            log.error("Tournament could not be updated", e);
             throw new BusinessException("Tournament could not be updated", e);
         }
     }
@@ -247,33 +268,28 @@ public class TournamentServiceImpl implements TournamentService {
     @Override
     @Transactional
     public TournamentBO addTeam(Long teamId, Long tournamentId) throws BusinessException {
-        TeamBO team;
-
         try {
-            team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamId));
-        } catch (EntityNotFoundException e) {
-            throw new TeamNotFoundException("This team not exists", e);
-        } catch (DataException e) {
-            throw new BusinessException("Team could not be added", e);
-        }
-        TournamentBO tournament;
-        try {
-            tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentId));
-            List<TeamBO> teams = new ArrayList<TeamBO>();
+            TeamBO team = modelToBOConverter.teamModelToBO(teamDAO.findById(teamId));
+            TournamentBO tournament = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(tournamentId));
+            List<TeamBO> teams = new ArrayList<>();
             if (tournament.getTeams() == null) {
                 teams.add(team);
                 tournament.setTeams(teams);
             } else if (tournament.getTeams().size() >= tournament.getSize()) {
-                throw new BusinessException("Full tournament  ");
+                log.error("Full tournament");
+                throw new BusinessException("Full tournament");
             } else if (tournament.getTeams().contains(team)) {
-                throw new BusinessException("This team is already on the tournament ");
+                log.error("This team is already on the tournament");
+                throw new BusinessException("This team is already on the tournament");
             } else if (!(tournament.getModality().equals(team.getModality()))) {
-                throw new BusinessException("Modality is diferent");
+                log.error("Modality is different");
+                throw new BusinessException("Modality is different");
             } else {
                 teams = tournament.getTeams();
                 for (TeamBO t : teams) {
                     for (UserBOAux u : team.getUsers()) {
                         if (t.getUsers().contains(u)) {
+                            log.error("A player on the team is already on another participating team ");
                             throw new BusinessException(
                                     "A player on the team is already on another participating team ");
                         }
@@ -283,16 +299,13 @@ public class TournamentServiceImpl implements TournamentService {
                 tournament.setTeams(teams);
             }
 
-        } catch (EntityNotFoundException e) {
-            throw new TournamentNotFoundException("This tournament not exists", e);
-        } catch (DataException e) {
-            throw new BusinessException("Team could not be added", e);
-        }
-        try {
-
             return modelToBOConverter
                     .tournamentModelToBO(tournamentDAO.save(boToModelConverter.tournamentBOToModel(tournament)));
+        } catch (EntityNotFoundException e) {
+            log.error("This tournament not exists", e);
+            throw new TournamentNotFoundException("This tournament not exists", e);
         } catch (DataException e) {
+            log.error("Team could not be added", e);
             throw new BusinessException("Team could not be added", e);
         }
     }

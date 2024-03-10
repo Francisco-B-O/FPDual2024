@@ -6,16 +6,37 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * The type App configuration.
+ * Configuration class for the application.
+ *
+ * <p>This class provides configuration settings for the application, including the creation of a {@link ModelMapper} bean.
+ * The {@link ModelMapper} bean is used for object mapping, facilitating the conversion between different object types.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * // In your application code or other configuration classes, you can autowire the ModelMapper bean
+ * \@Autowired
+ * private ModelMapper modelMapper;
+ *
+ * // Now you can use the modelMapper for object mapping in your components
+ * // For example:
+ * SomeDTO someDTO = modelMapper.map(someEntity, SomeDTO.class);
+ * }
+ * </pre>
+ *
+ * <p>Instances of this class are typically used as a configuration source for the Spring framework, defining beans and their dependencies.</p>
+ *
+ * @author Francisco Balonero Olivera
+ * @see org.modelmapper.ModelMapper
  */
 @Data
 @Configuration
 public class AppConfiguration {
 
     /**
-     * Model mapper.
+     * Creates a ModelMapper bean.
      *
-     * @return The model mapper
+     * @return The ModelMapper bean
      */
     @Bean
     ModelMapper modelMapper() {
