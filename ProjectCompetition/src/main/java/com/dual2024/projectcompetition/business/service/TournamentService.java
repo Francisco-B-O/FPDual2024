@@ -1,10 +1,10 @@
-package com.Dual2024.ProjectCompetition.Business.Service;
+package com.dual2024.projectcompetition.business.service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TournamentBO;
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.utils.TournamentState;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessobject.FormatBO;
+import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
+import com.dual2024.projectcompetition.business.businessobject.TournamentBO;
 
 import java.time.LocalDateTime;
 import java.util.List;

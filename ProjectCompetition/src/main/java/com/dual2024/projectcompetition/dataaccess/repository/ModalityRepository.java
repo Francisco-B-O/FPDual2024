@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Repository;
+package com.dual2024.projectcompetition.dataaccess.repository;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

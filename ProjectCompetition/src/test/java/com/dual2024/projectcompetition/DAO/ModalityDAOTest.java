@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.DAO;
+package com.dual2024.projectcompetition.DAO;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import com.dual2024.projectcompetition.dataaccess.dao.ModalityDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

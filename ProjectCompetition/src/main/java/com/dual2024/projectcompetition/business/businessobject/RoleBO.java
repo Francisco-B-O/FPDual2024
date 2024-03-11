@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.business.business_object;
+package com.dual2024.projectcompetition.business.businessobject;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

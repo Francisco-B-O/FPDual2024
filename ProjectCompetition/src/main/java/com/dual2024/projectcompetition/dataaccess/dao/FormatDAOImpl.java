@@ -1,9 +1,9 @@
-package com.Dual2024.ProjectCompetition.DataAccess.DAO;
+package com.dual2024.projectcompetition.dataaccess.dao;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.FormatRepository;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Format;
+import com.dual2024.projectcompetition.dataaccess.repository.FormatRepository;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.Config.SecurityConfig;
+package com.dual2024.projectcompetition.config.securityconfig;
 
-import com.Dual2024.ProjectCompetition.Config.SecurityConfig.Filter.JwtAuthenticationFilter;
+import com.dual2024.projectcompetition.config.securityconfig.filter.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @see org.springframework.security.config.http.SessionCreationPolicy
  * @see org.springframework.security.web.SecurityFilterChain
  * @see org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
- * @see com.Dual2024.ProjectCompetition.Config.SecurityConfig.Filter.JwtAuthenticationFilter
+ * @see com.dual2024.projectcompetition.config.securityconfig.filter.JwtAuthenticationFilter
  * @see org.springframework.security.authentication.AuthenticationProvider
  */
 @Configuration

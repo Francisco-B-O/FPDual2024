@@ -1,13 +1,13 @@
-package com.Dual2024.ProjectCompetition.DAO;
+package com.dual2024.projectcompetition.DAO;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Team;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.dataaccess.dao.ModalityDAO;
+import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
+import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
+import com.dual2024.projectcompetition.dataaccess.model.Team;
+import com.dual2024.projectcompetition.dataaccess.model.User;
+import com.dual2024.projectcompetition.utils.UserState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

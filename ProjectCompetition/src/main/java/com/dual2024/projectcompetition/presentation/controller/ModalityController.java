@@ -1,15 +1,16 @@
-package com.Dual2024.ProjectCompetition.Presentation.Controller;
+package com.dual2024.projectcompetition.presentation.controller;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.Service.ModalityService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.ModalityDTO;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessexception.DuplicatedNameException;
+import com.dual2024.projectcompetition.business.businessexception.ModalityNotFoundException;
+import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
+import com.dual2024.projectcompetition.business.service.ModalityService;
+import com.dual2024.projectcompetition.presentation.dto.ModalityDTO;
+import com.dual2024.projectcompetition.presentation.dto.RegisterModalityDTO;
+import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConverter;
+import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
+import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
+import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,11 +88,11 @@ public class ModalityController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
-    public ModalityDTO addModality(@RequestBody @Valid ModalityDTO modality) throws PresentationException {
+    public ModalityDTO addModality(@RequestBody @Valid RegisterModalityDTO modality) throws PresentationException {
 
         try {
             return boToDTOConverter
-                    .modalityBOToDTO(modalityService.addModality(dtoToBOConverter.modalityDTOToBO(modality)));
+                    .modalityBOToDTO(modalityService.addModality(dtoToBOConverter.RegisterModalityDTOToBO(modality)));
         } catch (DuplicatedNameException e) {
             throw new PresentationException(e.getMessage());
         } catch (BusinessException e) {

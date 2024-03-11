@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.business.business_object;
+package com.dual2024.projectcompetition.business.businessobject;
 
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.utils.TournamentState;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

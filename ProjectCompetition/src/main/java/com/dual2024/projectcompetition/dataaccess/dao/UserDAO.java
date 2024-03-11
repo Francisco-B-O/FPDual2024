@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.DataAccess.DAO;
+package com.dual2024.projectcompetition.dataaccess.dao;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.User;
+import com.dual2024.projectcompetition.utils.UserState;
 
 import java.util.List;
 

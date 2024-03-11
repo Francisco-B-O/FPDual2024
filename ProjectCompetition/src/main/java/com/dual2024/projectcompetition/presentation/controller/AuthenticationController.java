@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Presentation.Controller;
+package com.dual2024.projectcompetition.presentation.controller;
 
-import com.Dual2024.ProjectCompetition.Business.Service.Security.AuthenticationService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.AuthenticationRequest;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.AuthenticationResponse;
+import com.dual2024.projectcompetition.business.service.security.AuthenticationService;
+import com.dual2024.projectcompetition.presentation.dto.AuthenticationRequest;
+import com.dual2024.projectcompetition.presentation.dto.AuthenticationResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

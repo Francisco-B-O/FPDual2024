@@ -1,7 +1,7 @@
-package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters;
+package com.dual2024.projectcompetition.presentation.dto.converters;
 
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.*;
-import com.Dual2024.ProjectCompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.presentation.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -124,6 +124,26 @@ public class DTOToBOConverter {
      */
     public TournamentBO RegisterTournamentDTOToBO(RegisterTournamentDTO tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBO.class);
+    }
+
+    /**
+     * Register modality dto to bo modality bo.
+     *
+     * @param modalityDTO The modality dto
+     * @return The modality bo
+     */
+    public ModalityBO RegisterModalityDTOToBO(RegisterModalityDTO modalityDTO) {
+        return modelMapper.map(modalityDTO, ModalityBO.class);
+    }
+
+    /**
+     * Register format dto to bo format bo.
+     *
+     * @param formatDTO The format dto
+     * @return The format bo
+     */
+    public FormatBO RegisterFormatDTOToBO(RegisterFormatDTO formatDTO) {
+        return modelMapper.map(formatDTO, FormatBO.class);
     }
 
 }

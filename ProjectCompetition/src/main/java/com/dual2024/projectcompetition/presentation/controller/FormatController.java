@@ -1,15 +1,16 @@
-package com.Dual2024.ProjectCompetition.Presentation.Controller;
+package com.dual2024.projectcompetition.presentation.controller;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.FormatNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.FormatBO;
-import com.Dual2024.ProjectCompetition.Business.Service.FormatService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.FormatDTO;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessexception.DuplicatedNameException;
+import com.dual2024.projectcompetition.business.businessexception.FormatNotFoundException;
+import com.dual2024.projectcompetition.business.businessobject.FormatBO;
+import com.dual2024.projectcompetition.business.service.FormatService;
+import com.dual2024.projectcompetition.presentation.dto.FormatDTO;
+import com.dual2024.projectcompetition.presentation.dto.RegisterFormatDTO;
+import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConverter;
+import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
+import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
+import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -91,10 +92,10 @@ public class FormatController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
-    public FormatDTO addformat(@RequestBody @Valid FormatDTO format) throws PresentationException {
+    public FormatDTO addFormat(@RequestBody @Valid RegisterFormatDTO format) throws PresentationException {
 
         try {
-            return boToDTOConverter.formatBOToDTO(formatService.addFormat(dtoToBOConverter.formatDTOToBO(format)));
+            return boToDTOConverter.formatBOToDTO(formatService.addFormat(dtoToBOConverter.RegisterFormatDTOToBO(format)));
         } catch (DuplicatedNameException e) {
             throw new PresentationException(e.getMessage());
         } catch (BusinessException e) {
@@ -111,7 +112,7 @@ public class FormatController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
-    public void deleteformat(@PathVariable Long id) {
+    public void deleteFormat(@PathVariable Long id) {
         try {
             formatService.deleteFormat(id);
         } catch (FormatNotFoundException e) {
@@ -131,7 +132,7 @@ public class FormatController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
-    public FormatDTO getformatByName(@PathVariable("name") String name) throws PresentationException {
+    public FormatDTO getFormatByName(@PathVariable("name") String name) throws PresentationException {
         try {
             return boToDTOConverter.formatBOToDTO(formatService.getFormatByName(name));
         } catch (FormatNotFoundException e) {
@@ -150,7 +151,7 @@ public class FormatController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/update")
-    public void updateformat(@RequestBody @Valid FormatDTO format) {
+    public void updateFormat(@RequestBody @Valid FormatDTO format) {
         try {
             formatService.updateFormat(dtoToBOConverter.formatDTOToBO(format));
         } catch (FormatNotFoundException e) {

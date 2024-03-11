@@ -1,10 +1,10 @@
-package com.Dual2024.ProjectCompetition.BusinessObject;
+package com.dual2024.projectcompetition.BusinessObject;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.*;
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.dataaccess.model.*;
+import com.dual2024.projectcompetition.utils.TournamentState;
+import com.dual2024.projectcompetition.utils.UserState;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

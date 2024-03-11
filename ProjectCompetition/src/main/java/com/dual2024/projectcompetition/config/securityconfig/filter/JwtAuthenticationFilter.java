@@ -1,9 +1,9 @@
-package com.Dual2024.ProjectCompetition.Config.SecurityConfig.Filter;
+package com.dual2024.projectcompetition.config.securityconfig.filter;
 
-import com.Dual2024.ProjectCompetition.Business.Service.Security.JwtService;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
+import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.User;
+import com.dual2024.projectcompetition.business.service.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

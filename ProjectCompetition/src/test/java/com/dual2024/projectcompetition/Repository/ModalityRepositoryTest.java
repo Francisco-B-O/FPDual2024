@@ -1,7 +1,7 @@
-package com.Dual2024.ProjectCompetition.Repository;
+package com.dual2024.projectcompetition.Repository;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.ModalityRepository;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
+import com.dual2024.projectcompetition.dataaccess.repository.ModalityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

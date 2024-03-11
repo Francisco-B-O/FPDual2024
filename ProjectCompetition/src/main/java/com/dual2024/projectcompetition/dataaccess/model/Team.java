@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Model;
+package com.dual2024.projectcompetition.dataaccess.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

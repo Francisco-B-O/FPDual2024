@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Business.Service;
+package com.dual2024.projectcompetition.business.service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.TeamBO;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
+import com.dual2024.projectcompetition.business.businessobject.TeamBO;
 
 import java.util.List;
 

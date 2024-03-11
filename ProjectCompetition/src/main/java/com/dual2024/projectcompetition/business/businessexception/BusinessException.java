@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.business.business_exception;
+package com.dual2024.projectcompetition.business.businessexception;
 
 import java.io.Serial;
 

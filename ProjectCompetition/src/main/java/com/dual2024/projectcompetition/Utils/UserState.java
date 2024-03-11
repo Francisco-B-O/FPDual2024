@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.Utils;
+package com.dual2024.projectcompetition.utils;
 
 /**
  * The enum User state.

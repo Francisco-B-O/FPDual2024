@@ -1,9 +1,9 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Repository;
+package com.dual2024.projectcompetition.dataaccess.repository;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.dataaccess.model.Format;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
+import com.dual2024.projectcompetition.dataaccess.model.Tournament;
+import com.dual2024.projectcompetition.utils.TournamentState;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

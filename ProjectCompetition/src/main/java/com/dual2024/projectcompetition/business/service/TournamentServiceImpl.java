@@ -1,15 +1,15 @@
-package com.Dual2024.ProjectCompetition.Business.Service;
+package com.dual2024.projectcompetition.business.service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.*;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.BOToModelConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.*;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.TeamDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.TournamentDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Tournament;
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
+import com.dual2024.projectcompetition.dataaccess.dao.TournamentDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Tournament;
+import com.dual2024.projectcompetition.utils.TournamentState;
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

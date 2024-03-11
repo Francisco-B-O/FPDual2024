@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Repository;
+package com.dual2024.projectcompetition.Repository;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.DataAccess.Repository.UserRepository;
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.dataaccess.model.User;
+import com.dual2024.projectcompetition.dataaccess.repository.UserRepository;
+import com.dual2024.projectcompetition.utils.UserState;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

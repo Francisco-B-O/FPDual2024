@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.DAO;
+package com.dual2024.projectcompetition.DAO;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.FormatDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Format;
+import com.dual2024.projectcompetition.dataaccess.dao.FormatDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.Format;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ public class FormatDAOTest {
         formatDAO.save(format2);
 
         List<Format> formats = formatDAO.findAll();
-		
+
         assertThat(formats).isNotNull();
         assertThat(formats.size()).isEqualTo(2);
     }

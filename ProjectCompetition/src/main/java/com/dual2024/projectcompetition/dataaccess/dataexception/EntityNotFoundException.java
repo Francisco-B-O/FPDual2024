@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.DataAccess.data_exception;
+package com.dual2024.projectcompetition.dataaccess.dataexception;
 
 import java.io.Serial;
 

@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
+package com.dual2024.projectcompetition.presentation.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

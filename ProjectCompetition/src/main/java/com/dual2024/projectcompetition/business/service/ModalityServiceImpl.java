@@ -1,15 +1,15 @@
-package com.Dual2024.ProjectCompetition.Business.Service;
+package com.dual2024.projectcompetition.business.service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.DuplicatedNameException;
-import com.Dual2024.ProjectCompetition.Business.BusinessException.ModalityNotFoundException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.BOToModelConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.ModalityBO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.ModalityDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.EntityNotFoundException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Modality;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessexception.DuplicatedNameException;
+import com.dual2024.projectcompetition.business.businessexception.ModalityNotFoundException;
+import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.dataaccess.dao.ModalityDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,6 @@ import java.util.List;
  */
 @Slf4j
 @Service
-@Transactional
 public class ModalityServiceImpl implements ModalityService {
     /**
      * The Modality DAO.

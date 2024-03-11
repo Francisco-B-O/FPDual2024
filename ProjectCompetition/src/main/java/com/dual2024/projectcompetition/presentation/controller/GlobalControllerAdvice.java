@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Presentation.Controller;
+package com.dual2024.projectcompetition.presentation.controller;
 
-import com.Dual2024.ProjectCompetition.Presentation.Exception.Body;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
+import com.dual2024.projectcompetition.presentation.exception.Body;
+import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
+import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;

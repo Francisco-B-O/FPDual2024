@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Model;
+package com.dual2024.projectcompetition.dataaccess.model;
 
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.utils.UserState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

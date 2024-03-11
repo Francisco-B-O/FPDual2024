@@ -1,10 +1,10 @@
-package com.Dual2024.ProjectCompetition.Business.Service;
+package com.dual2024.projectcompetition.business.service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
+import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessobject.RoleBO;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

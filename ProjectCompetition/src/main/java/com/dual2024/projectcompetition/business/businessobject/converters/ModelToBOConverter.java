@@ -1,7 +1,7 @@
-package com.Dual2024.ProjectCompetition.business.business_object.converters;
+package com.dual2024.projectcompetition.business.businessobject.converters;
 
-import com.Dual2024.ProjectCompetition.DataAccess.model.*;
-import com.Dual2024.ProjectCompetition.business.business_object.*;
+import com.dual2024.projectcompetition.dataaccess.model.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

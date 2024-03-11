@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Business.Service.Security;
+package com.dual2024.projectcompetition.business.service.security;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.AuthenticationRequest;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.AuthenticationResponse;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.presentation.dto.AuthenticationRequest;
+import com.dual2024.projectcompetition.presentation.dto.AuthenticationResponse;
 
 /**
  * Interface that contains the methods of the authentication service.

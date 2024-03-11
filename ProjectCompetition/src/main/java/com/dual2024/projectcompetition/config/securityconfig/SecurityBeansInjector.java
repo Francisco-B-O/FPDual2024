@@ -1,8 +1,8 @@
-package com.Dual2024.ProjectCompetition.Config.SecurityConfig;
+package com.dual2024.projectcompetition.config.securityconfig;
 
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.UserDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.NotFoundException;
+import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

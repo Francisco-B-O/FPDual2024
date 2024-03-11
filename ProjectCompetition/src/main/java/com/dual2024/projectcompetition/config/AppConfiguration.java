@@ -1,9 +1,10 @@
-package com.Dual2024.ProjectCompetition.Config;
+package com.dual2024.projectcompetition.config;
 
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 
 /**
  * Configuration class for the application.

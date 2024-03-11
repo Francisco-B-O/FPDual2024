@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Model;
+package com.dual2024.projectcompetition.dataaccess.model;
 
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.utils.TournamentState;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

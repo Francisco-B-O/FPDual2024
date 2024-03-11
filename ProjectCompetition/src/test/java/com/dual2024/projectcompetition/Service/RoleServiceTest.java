@@ -1,12 +1,12 @@
-package com.Dual2024.ProjectCompetition.Service;
+package com.dual2024.projectcompetition.Service;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.Converters.ModelToBOConverter;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.Service.RoleServiceImpl;
-import com.Dual2024.ProjectCompetition.DataAccess.DAO.RoleDAO;
-import com.Dual2024.ProjectCompetition.DataAccess.DataException.DataException;
-import com.Dual2024.ProjectCompetition.DataAccess.Model.Role;
+import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.Role;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessobject.RoleBO;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.business.service.RoleServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

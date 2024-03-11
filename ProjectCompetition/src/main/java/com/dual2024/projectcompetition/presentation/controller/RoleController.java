@@ -1,12 +1,12 @@
-package com.Dual2024.ProjectCompetition.Presentation.Controller;
+package com.dual2024.projectcompetition.presentation.controller;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessException.BusinessException;
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.RoleBO;
-import com.Dual2024.ProjectCompetition.Business.Service.RoleService;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.BOToDTOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters.DTOToBOConverter;
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.RoleDTO;
-import com.Dual2024.ProjectCompetition.Presentation.Exception.PresentationException;
+import com.dual2024.projectcompetition.business.businessexception.BusinessException;
+import com.dual2024.projectcompetition.business.businessobject.RoleBO;
+import com.dual2024.projectcompetition.business.service.RoleService;
+import com.dual2024.projectcompetition.presentation.dto.RoleDTO;
+import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConverter;
+import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
+import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;

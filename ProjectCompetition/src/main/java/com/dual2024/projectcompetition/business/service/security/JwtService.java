@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.Business.Service.Security;
+package com.dual2024.projectcompetition.business.service.security;
 
-import com.Dual2024.ProjectCompetition.Business.BusinessObject.UserBO;
+import com.dual2024.projectcompetition.business.businessobject.UserBO;
 import io.jsonwebtoken.Claims;
 
 import java.util.Map;

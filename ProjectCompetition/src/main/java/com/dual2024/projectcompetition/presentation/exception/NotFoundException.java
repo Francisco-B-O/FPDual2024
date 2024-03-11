@@ -1,4 +1,4 @@
-package com.Dual2024.ProjectCompetition.Presentation.Exception;
+package com.dual2024.projectcompetition.presentation.exception;
 
 import java.io.Serial;
 

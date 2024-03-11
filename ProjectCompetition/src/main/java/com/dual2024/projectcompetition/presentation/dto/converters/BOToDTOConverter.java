@@ -1,7 +1,7 @@
-package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.Converters;
+package com.dual2024.projectcompetition.presentation.dto.converters;
 
-import com.Dual2024.ProjectCompetition.Presentation.DataTransferObject.*;
-import com.Dual2024.ProjectCompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.presentation.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

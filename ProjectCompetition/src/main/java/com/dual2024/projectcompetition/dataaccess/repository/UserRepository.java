@@ -1,7 +1,7 @@
-package com.Dual2024.ProjectCompetition.DataAccess.Repository;
+package com.dual2024.projectcompetition.dataaccess.repository;
 
-import com.Dual2024.ProjectCompetition.DataAccess.Model.User;
-import com.Dual2024.ProjectCompetition.Utils.UserState;
+import com.dual2024.projectcompetition.dataaccess.model.User;
+import com.dual2024.projectcompetition.utils.UserState;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

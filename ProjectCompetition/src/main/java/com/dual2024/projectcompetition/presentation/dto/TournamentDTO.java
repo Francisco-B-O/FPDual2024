@@ -1,6 +1,6 @@
-package com.Dual2024.ProjectCompetition.Presentation.DataTransferObject;
+package com.dual2024.projectcompetition.presentation.dto;
 
-import com.Dual2024.ProjectCompetition.Utils.TournamentState;
+import com.dual2024.projectcompetition.utils.TournamentState;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
