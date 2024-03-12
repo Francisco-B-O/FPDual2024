@@ -19,7 +19,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-@ComponentScan(basePackages = "com.Dual2024.ProjectCompetition.Business.BusinessObject")
+@ComponentScan(basePackages = "com.dual2024.projectcompetition.business.businessobject.converters")
 public class BOToModelConverterTest {
     private static UserBO userBO;
     private static RoleBO roleBO;
