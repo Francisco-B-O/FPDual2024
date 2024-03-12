@@ -8,7 +8,7 @@ CREATE TABLE users (
     user_email VARCHAR(50) UNIQUE NOT NULL,
     user_password VARCHAR(256) NOT NULL,
     user_avatar LONGTEXT,
-    user_state ENUM('DESCONECTADO', 'DESACTIVADO', 'CONECTADO') NOT NULL
+    user_state ENUM('DISCONNECTED', 'DISABLED', 'CONNECTED') NOT NULL
 );
 
 CREATE TABLE roles (
@@ -73,7 +73,7 @@ CREATE TABLE tournaments (
     tournament_size INT NOT NULL,
     tournament_start_date DATETIME NOT NULL,
     tournament_end_date DATETIME NOT NULL,
-    tournament_state ENUM('NO_COMENZADO', 'EN_JUEGO', 'FINALIZADO', 'SUSPENDIDO', 'APLAZADO') NOT NULL,
+    tournament_state ENUM('NOT_STARTED', 'IN_GAME', 'FINALIZED', 'SUSPENDED', 'POSTPONED') NOT NULL,
     tournament_logo LONGTEXT,
     tournament_description VARCHAR(256) NOT NULL,
     tournament_modality_id INT UNSIGNED NOT NULL,

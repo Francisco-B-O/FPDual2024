@@ -1,12 +1,12 @@
 package com.dual2024.projectcompetition.Service;
 
-import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
-import com.dual2024.projectcompetition.dataaccess.model.Role;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessobject.RoleBO;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import com.dual2024.projectcompetition.business.service.RoleServiceImpl;
+import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.model.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,8 +34,8 @@ public class RoleServiceTest {
 
     @BeforeEach
     public void setup() {
-        roleBO = RoleBO.builder().id(1L).name("Jugador").description("Rol de jugador").build();
-        role = Role.builder().id(1L).name("Jugador").description("Rol de jugador").build();
+        roleBO = RoleBO.builder().id(1L).name("PLAYER").description("PLAYER role").build();
+        role = Role.builder().id(1L).name("PLAYER").description("PLAYER role").build();
     }
 
     @Test

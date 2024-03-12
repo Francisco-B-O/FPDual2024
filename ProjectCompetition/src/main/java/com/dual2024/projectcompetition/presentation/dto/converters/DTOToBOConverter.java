@@ -7,7 +7,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * The  Dto to bo converter.
+ * Converter class for mapping Data Transfer Objects (DTOs) to Business Objects.
+ *
+ * <p>This class uses the ModelMapper library for automatic mapping of DTOs fields to
+ * corresponding fields in business objects. Each conversion method in this class is responsible
+ * for converting a specific type of data transfer object to its corresponding business object.</p>
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * {@code
+ * DTOToBOConverter converter = new DTOToBOConverter();
+ * UserBO userBO = converter.userDTOToBO(userDTO);
+ * }
+ * </pre>
+ *
+ * <p>The conversion methods return instances of BOs with fields mapped from the provided DTO.</p>
  *
  * @author Franciosco Balonero Olivera
  */
@@ -17,130 +31,130 @@ public class DTOToBOConverter {
     private ModelMapper modelMapper;
 
     /**
-     * User dto to bo user bo.
+     * Converts a UserDTO to a UserBO.
      *
-     * @param userDTO The user dto
-     * @return The user bo
+     * @param userDTO The UserDTO
+     * @return The corresponding UserBO
      */
     public UserBO userDTOToBO(UserDTO userDTO) {
         return modelMapper.map(userDTO, UserBO.class);
     }
 
     /**
-     * Role dto to bo role bo.
+     * Converts a RoleDTO to a RoleBO.
      *
-     * @param roleDTO The role dto
-     * @return The role bo
+     * @param roleDTO The RoleDTO
+     * @return The corresponding RoleBO
      */
     public RoleBO roleDTOToBO(RoleDTO roleDTO) {
         return modelMapper.map(roleDTO, RoleBO.class);
     }
 
     /**
-     * Modality dto to bo modality bo.
+     * Converts a ModalityDTO to a ModalityBO.
      *
-     * @param modalityDTO The modality dto
-     * @return The modality bo
+     * @param modalityDTO The ModalityDTO
+     * @return The corresponding ModalityBO
      */
     public ModalityBO modalityDTOToBO(ModalityDTO modalityDTO) {
         return modelMapper.map(modalityDTO, ModalityBO.class);
     }
 
     /**
-     * Team dto to bo team bo.
+     * Converts a TeamDTO to a TeamBO.
      *
-     * @param teamDTO The team dto
-     * @return The team bo
+     * @param teamDTO The TeamDTO
+     * @return The corresponding TeamBO
      */
     public TeamBO teamDTOToBO(TeamDTO teamDTO) {
         return modelMapper.map(teamDTO, TeamBO.class);
     }
 
     /**
-     * Format dto to bo format bo.
+     * Converts a FormatDTO to a FormatBO.
      *
-     * @param formatDTO The format dto
-     * @return The format bo
+     * @param formatDTO The FormatDTO
+     * @return The corresponding FormatBO
      */
     public FormatBO formatDTOToBO(FormatDTO formatDTO) {
         return modelMapper.map(formatDTO, FormatBO.class);
     }
 
     /**
-     * Tournament dto to bo tournament bo.
+     * Converts a TournamentDTO to a TournamentBO.
      *
-     * @param tournamentDTO The tournament dto
-     * @return The tournament bo
+     * @param tournamentDTO The TournamentDTO
+     * @return The corresponding TournamentBO
      */
     public TournamentBO tournamentDTOToBO(TournamentDTO tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBO.class);
     }
 
     /**
-     * User dto aux to bo aux user bo aux.
+     * Converts a UserDTOAux to a UserBOAux.
      *
-     * @param userDTO The user dto
-     * @return The user bo aux
+     * @param userDTO The UserDTOAux
+     * @return The corresponding UserBOAux
      */
     public UserBOAux userDTOAuxToBOAux(UserDTOAux userDTO) {
         return modelMapper.map(userDTO, UserBOAux.class);
     }
 
     /**
-     * Tournament dto aux to bo aux tournament bo aux.
+     * Converts a TournamentDTOAux to a TournamentBOAux.
      *
-     * @param tournamentDTO The tournament dto
-     * @return The tournament bo aux
+     * @param tournamentDTO The TournamentDTOAux
+     * @return The corresponding TournamentBOAux
      */
     public TournamentBOAux tournamentDTOAuxToBOAux(TournamentDTOAux tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBOAux.class);
     }
 
     /**
-     * Register user dto to bo user bo.
+     * Converts a RegisterUserDTO to a UserBO.
      *
-     * @param userDTO The user dto
-     * @return The user bo
+     * @param userDTO The RegisterUserDTO
+     * @return The corresponding UserBO
      */
     public UserBO RegisterUserDTOToBO(RegisterUserDTO userDTO) {
         return modelMapper.map(userDTO, UserBO.class);
     }
 
     /**
-     * Register team dto to bo team bo.
+     * Converts a RegisterTeamDTO to a TeamBO.
      *
-     * @param teamDTO The team dto
-     * @return The team bo
+     * @param teamDTO The RegisterTeamDTO
+     * @return The corresponding TeamBO
      */
     public TeamBO RegisterTeamDTOToBO(RegisterTeamDTO teamDTO) {
         return modelMapper.map(teamDTO, TeamBO.class);
     }
 
     /**
-     * Register tournament dto to bo tournament bo.
+     * Converts a RegisterTournamentDTO to a TournamentBO.
      *
-     * @param tournamentDTO The tournament dto
-     * @return The tournament bo
+     * @param tournamentDTO The RegisterTournamentDTO
+     * @return The corresponding TournamentBO
      */
     public TournamentBO RegisterTournamentDTOToBO(RegisterTournamentDTO tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBO.class);
     }
 
     /**
-     * Register modality dto to bo modality bo.
+     * Converts a RegisterModalityDTO to a ModalityBO.
      *
-     * @param modalityDTO The modality dto
-     * @return The modality bo
+     * @param modalityDTO The RegisterModalityDTO
+     * @return The corresponding ModalityBO
      */
     public ModalityBO RegisterModalityDTOToBO(RegisterModalityDTO modalityDTO) {
         return modelMapper.map(modalityDTO, ModalityBO.class);
     }
 
     /**
-     * Register format dto to bo format bo.
+     * Converts a RegisterFormatDTO to a FormatBO.
      *
-     * @param formatDTO The format dto
-     * @return The format bo
+     * @param formatDTO The RegisterFormatDTO
+     * @return The corresponding FormatBO
      */
     public FormatBO RegisterFormatDTOToBO(RegisterFormatDTO formatDTO) {
         return modelMapper.map(formatDTO, FormatBO.class);

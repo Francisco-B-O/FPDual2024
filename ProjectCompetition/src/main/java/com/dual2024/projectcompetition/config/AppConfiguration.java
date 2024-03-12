@@ -1,5 +1,9 @@
 package com.dual2024.projectcompetition.config;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -44,4 +48,15 @@ public class AppConfiguration {
         return new ModelMapper();
     }
 
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .components(new Components())
+                .info(new Info().title("Project Competition API")
+                        .description("API for tournament management")
+                        .contact(new Contact()
+                                .name("Francisco Balonero Olivera")
+                                .url("https://github.com/Francisco-B-O"))
+                        .version("0.0.1"));
+    }
 }

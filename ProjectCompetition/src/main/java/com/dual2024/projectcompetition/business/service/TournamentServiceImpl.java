@@ -1,15 +1,15 @@
 package com.dual2024.projectcompetition.business.service;
 
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
 import com.dual2024.projectcompetition.dataaccess.dao.TournamentDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
 import com.dual2024.projectcompetition.dataaccess.model.Tournament;
 import com.dual2024.projectcompetition.utils.TournamentState;
-import com.dual2024.projectcompetition.business.businessexception.*;
-import com.dual2024.projectcompetition.business.businessobject.*;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -120,7 +120,7 @@ public class TournamentServiceImpl implements TournamentService {
     public void deleteTournament(Long id) throws BusinessException {
         try {
             TournamentBO tournamentBO = modelToBOConverter.tournamentModelToBO(tournamentDAO.findById(id));
-            if (tournamentBO.getState().equals(TournamentState.EN_JUEGO)) {
+            if (tournamentBO.getState().equals(TournamentState.IN_GAME)) {
                 log.error("This tournament is active");
                 throw new ActiveTournamentException("This tournament is active");
             } else {

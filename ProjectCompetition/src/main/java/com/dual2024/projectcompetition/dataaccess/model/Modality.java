@@ -1,6 +1,7 @@
 package com.dual2024.projectcompetition.dataaccess.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,11 +28,11 @@ public class Modality {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "modality_id")
     private Long id;
-
+    @Min(value = 1, message = "Number of players must be at least 1")
     @Column(name = "modality_number_players", nullable = false)
     private int numberPlayers;
 
-    @NotBlank
+    @NotBlank(message = "Name cannot be blank")
     @Column(name = "modality_name", nullable = false, unique = true)
     private String name;
 }

@@ -1,5 +1,13 @@
 package com.dual2024.projectcompetition.Service;
 
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
+import com.dual2024.projectcompetition.business.businessobject.TeamBO;
+import com.dual2024.projectcompetition.business.businessobject.TournamentBOAux;
+import com.dual2024.projectcompetition.business.businessobject.UserBOAux;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.business.service.TeamServiceImpl;
 import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
 import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
@@ -10,14 +18,6 @@ import com.dual2024.projectcompetition.dataaccess.model.Tournament;
 import com.dual2024.projectcompetition.dataaccess.model.User;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessexception.*;
-import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
-import com.dual2024.projectcompetition.business.businessobject.TeamBO;
-import com.dual2024.projectcompetition.business.businessobject.TournamentBOAux;
-import com.dual2024.projectcompetition.business.businessobject.UserBOAux;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
-import com.dual2024.projectcompetition.business.service.TeamServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,15 +56,15 @@ public class TeamServiceTest {
     @BeforeEach
     public void setup() {
         userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         user = User.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         ModalityBO modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
         Modality modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
-        Tournament tournament = Tournament.builder().state(TournamentState.NO_COMENZADO).build();
+        Tournament tournament = Tournament.builder().state(TournamentState.NOT_STARTED).build();
         List<Tournament> tournaments = new ArrayList<Tournament>();
         tournaments.add(tournament);
-        TournamentBOAux tournamentBOAUX = TournamentBOAux.builder().state(TournamentState.NO_COMENZADO).build();
+        TournamentBOAux tournamentBOAUX = TournamentBOAux.builder().state(TournamentState.NOT_STARTED).build();
         List<TournamentBOAux> tournamentsBO = new ArrayList<TournamentBOAux>();
         tournamentsBO.add(tournamentBOAUX);
         team = Team.builder().modality(modality).id(1L).name("team1").logo("logo").captain(user)
@@ -246,7 +246,7 @@ public class TeamServiceTest {
     @DisplayName("deleteTeam operation : incorrect case -> Team in active tournament")
     public void givenIdTeamBOThatIsInActiveTournament_whenDeleteTeam_thenThrowsBusinessException() throws DataException {
 
-        teamBO.getTournaments().getFirst().setState(TournamentState.EN_JUEGO);
+        teamBO.getTournaments().getFirst().setState(TournamentState.IN_GAME);
         BDDMockito.given(teamDAO.findById(1L)).willReturn(team);
 
         BDDMockito.given(modelToBOConverter.teamModelToBO(team)).willReturn(teamBO);

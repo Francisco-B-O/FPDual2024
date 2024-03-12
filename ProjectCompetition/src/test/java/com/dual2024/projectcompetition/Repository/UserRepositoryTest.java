@@ -25,16 +25,16 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONECTADO)
+        user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONNECTED)
                 .build();
         user2 = User.builder().email("test2@email.com").nick("test2").password("passwordTest2")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         duplicatedNickUser = User.builder().email("test2@email.com").nick("test").password("passwordTest2")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         duplicatedEmailUser = User.builder().email("test@email.com").nick("test2").password("passwordTest2")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         invalidPasswordUser = User.builder().email("test3@email.com").nick("test3").password("passw")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
     }
 
     @Test
@@ -121,7 +121,7 @@ public class UserRepositoryTest {
         updatedUser.setEmail("updated@email.com");
         updatedUser.setNick("updated");
         updatedUser.setPassword("updatedPassword");
-        updatedUser.setState(UserState.CONECTADO);
+        updatedUser.setState(UserState.CONNECTED);
 
         User savedUpdatedUser = userRepository.save(updatedUser);
 

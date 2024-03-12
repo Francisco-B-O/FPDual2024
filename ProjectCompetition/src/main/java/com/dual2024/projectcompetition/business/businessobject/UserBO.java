@@ -43,7 +43,7 @@ public class UserBO {
      */
     public boolean isInActiveTournament() {
         return this.teams.stream().iterator().next().getTournaments().stream()
-                .anyMatch(c -> c.getState().equals(TournamentState.EN_JUEGO));
+                .anyMatch(c -> c.getState().equals(TournamentState.IN_GAME));
     }
 
 }

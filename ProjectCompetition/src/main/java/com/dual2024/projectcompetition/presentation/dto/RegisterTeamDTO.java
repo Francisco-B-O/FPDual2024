@@ -1,5 +1,6 @@
 package com.dual2024.projectcompetition.presentation.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 /**
- * The Register team dto.
+ * DTO for registering a new team.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -16,12 +17,16 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@Schema(description = " DTO for registering a new team")
 public class RegisterTeamDTO {
-    @NotBlank
+    @Schema(description = "Name of the team", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "Name cannot be blank")
     private String name;
-    @NotNull
+
+    @Schema(description = "Modality of the team", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "Modality cannot be null")
     private ModalityDTO modality;
 
+    @Schema(description = "Path to the team's logo", example = "logo.png")
     private String logo;
-
 }

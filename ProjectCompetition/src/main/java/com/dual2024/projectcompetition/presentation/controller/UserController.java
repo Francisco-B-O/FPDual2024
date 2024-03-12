@@ -17,6 +17,8 @@ import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConver
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import com.dual2024.projectcompetition.utils.UserState;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,30 +30,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The User controller.
+ * Controller class for managing users.
+ *
+ * <p>This class defines RESTful endpoints for performing CRUD operations on users. It handles
+ * requests related to retrieving all users, retrieving a user by ID, retrieving users by state,
+ * retrieving a user by email or nick, registering new users, updating user details, deleting users,
+ * and updating user roles. The endpoints are secured, and only authorized users with specific roles
+ * can access them.</p>
  *
  * @author Franciosco Balonero Olivera
+ * @see UserService
+ * @see BOToDTOConverter
+ * @see DTOToBOConverter
+ * @see AuthenticationService
  */
 @RequestMapping("user")
 @RestController
+@Tag(name = "User", description = "Operations related to users management")
 public class UserController {
+
     @Autowired
     private UserService userService;
+
     /**
      * The Bo to dto converter.
      */
     @Autowired
     BOToDTOConverter boToDTOConverter;
+
     /**
      * The Dto to bo converter.
      */
     @Autowired
     DTOToBOConverter dtoToBOConverter;
+
     /**
      * The Password encoder.
      */
     @Autowired
     PasswordEncoder passwordEncoder;
+
     /**
      * The Authentication service.
      */
@@ -59,11 +77,12 @@ public class UserController {
     AuthenticationService authenticationService;
 
     /**
-     * Gets all users.
+     * Retrieves all users.
      *
-     * @return All users
-     * @throws PresentationException the presentation exception
+     * @return List of all users
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get all users")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -80,12 +99,14 @@ public class UserController {
     }
 
     /**
-     * Gets user by id.
+     * Gets user by ID.
      *
-     * @param id The id
-     * @return The user by id
-     * @throws PresentationException the presentation exception
+     * @param id The ID of the user
+     * @return The user with the specified ID
+     * @throws PresentationException if an error occurs during presentation
      */
+
+    @Operation(summary = "Get user by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -97,40 +118,39 @@ public class UserController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
      * Gets users by state.
      *
-     * @param state The state
-     * @return The users by state
-     * @throws PresentationException the presentation exception
+     * @param state The state of the users
+     * @return List of users with the specified state
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get users by state")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
     public List<UserDTO> getUsersByState(@PathVariable("state") UserState state) throws PresentationException {
         List<UserDTO> listUserDTO = new ArrayList<UserDTO>();
         try {
-            userService.getUsersByState(state)
-                    .forEach((UserBO user) -> listUserDTO.add(boToDTOConverter.userBOToDTO(user)));
+            userService.getUsersByState(state).forEach((UserBO user) -> listUserDTO.add(boToDTOConverter.userBOToDTO(user)));
             return listUserDTO;
         } catch (UserNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
      * Gets user by email.
      *
-     * @param email the email
-     * @return the user by email
-     * @throws PresentationException the presentation exception
+     * @param email The email of the user
+     * @return The user with the specified email
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get user by email")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/email/{email}")
@@ -142,22 +162,21 @@ public class UserController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
      * Gets user by nick.
      *
-     * @param nick the nick
-     * @return the user by nick
-     * @throws PresentationException the presentation exception
+     * @param nick The nickname of the user
+     * @return The user with the specified nickname
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get user by nickname")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/nick/{nick}")
     public UserDTO getUserByNick(@PathVariable("nick") String nick) throws PresentationException {
         try {
-
             return boToDTOConverter.userBOToDTO(userService.getUserByNick(nick));
         } catch (UserNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);
@@ -167,12 +186,13 @@ public class UserController {
     }
 
     /**
-     * Register user user dto.
+     * Register a new user.
      *
-     * @param user the user
-     * @return the user dto
-     * @throws PresentationException the presentation exception
+     * @param user The user to be registered
+     * @return The registered user
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Register a new user")
     @PreAuthorize("permitAll")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
@@ -185,14 +205,15 @@ public class UserController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Delete user.
+     * Deletes a user.
      *
-     * @param id the id
+     * @param id The ID of the user to be deleted
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Delete a user")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/deletePlayer/{id}")
@@ -207,12 +228,13 @@ public class UserController {
     }
 
     /**
-     * Update user.
+     * Updates a user.
      *
-     * @param user the user
-     * @return the user dto
-     * @throws PresentationException
+     * @param user The updated user information
+     * @return The updated user
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Update a user")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update/")
@@ -228,13 +250,14 @@ public class UserController {
     }
 
     /**
-     * Update user role.
+     * Updates the role of a user.
      *
-     * @param id   The id
-     * @param user The user
-     * @return The user dto
-     * @throws PresentationException
+     * @param id   The ID of the user
+     * @param user The updated user information
+     * @return The updated user with the new role
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Update a user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/admin/update/{id}")

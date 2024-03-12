@@ -1,6 +1,7 @@
 package com.dual2024.projectcompetition.presentation.dto;
 
 import com.dual2024.projectcompetition.utils.TournamentState;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * The Register tournament dto.
+ * DTO for registering a new tournament.
  *
  * @author Franciosco Balonero Olivera
  */
@@ -18,30 +19,40 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
+@Schema(description = "DTO for registering a new tournament")
 public class RegisterTournamentDTO {
-    @NotBlank
+    @Schema(description = "Name of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "Name cannot be blank")
     private String name;
 
-    @Min(2)
+    @Schema(description = "Size of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Min(value = 2, message = "Size must be at least 2")
     private int size;
 
-    @NotNull
+    @Schema(description = "Format of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "Format cannot be null")
     private FormatDTO format;
 
-    @FutureOrPresent
+    @Schema(description = "Start date of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @FutureOrPresent(message = "Start date must be in the present or future")
     private LocalDateTime startDate;
 
-    @Future
+    @Schema(description = "End date of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Future(message = "End date must be in the future")
     private LocalDateTime endDate;
 
-    @NotNull
+    @Schema(description = "State of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "State cannot be null")
     private TournamentState state;
 
+    @Schema(description = "Path to the tournament's logo", nullable = true)
     private String logo;
 
-    @NotBlank
+    @Schema(description = "Description of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "Description cannot be blank")
     private String description;
 
-    @NotNull
+    @Schema(description = "Modality of the tournament", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotNull(message = "Modality cannot be null")
     private ModalityDTO modality;
 }

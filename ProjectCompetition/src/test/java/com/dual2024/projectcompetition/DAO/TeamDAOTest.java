@@ -34,14 +34,14 @@ public class TeamDAOTest {
 
     @BeforeEach
     public void setup() throws DataException {
-        User user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONECTADO)
+        User user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONNECTED)
                 .build();
         User user2 = User.builder().email("test2@email.com").nick("test2").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         User user3 = User.builder().email("test3@email.com").nick("test3").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         User user4 = User.builder().email("test4@email.com").nick("test4").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         List<User> users1 = new ArrayList<User>();
         users1.add(userDAO.save(user));
         users1.add(userDAO.save(user2));

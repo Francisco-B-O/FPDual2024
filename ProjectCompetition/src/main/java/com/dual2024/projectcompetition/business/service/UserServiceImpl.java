@@ -1,16 +1,16 @@
 package com.dual2024.projectcompetition.business.service;
 
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.RoleBO;
+import com.dual2024.projectcompetition.business.businessobject.UserBO;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
 import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
 import com.dual2024.projectcompetition.dataaccess.model.User;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessexception.*;
-import com.dual2024.projectcompetition.business.businessobject.RoleBO;
-import com.dual2024.projectcompetition.business.businessobject.UserBO;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
         }
         try {
             List<RoleBO> defaultRole = new ArrayList<>();
-            defaultRole.add(modelToBOConverter.roleModelToBO(roleDAO.findByName("JUGADOR")));
+            defaultRole.add(modelToBOConverter.roleModelToBO(roleDAO.findByName("PLAYER")));
             userBO.setRoles(defaultRole);
             return modelToBOConverter.userModelToBO(userDAO.save(boToModelConverter.userBOToModel(userBO)));
         } catch (DataException e) {

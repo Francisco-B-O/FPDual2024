@@ -28,7 +28,7 @@ public class Format {
     @Column(name = "format_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name cannot be blank")
     @Column(name = "format_name", nullable = false, unique = true)
     private String name;
 }

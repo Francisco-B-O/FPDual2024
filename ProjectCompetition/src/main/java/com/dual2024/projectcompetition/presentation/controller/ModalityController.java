@@ -11,6 +11,8 @@ import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConver
 import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,12 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type Modality controller.
+ * Controller class for managing modalities.
+ *
+ * <p>This class defines RESTful endpoints for performing CRUD operations on modalities. It handles
+ * requests related to retrieving all modalities, retrieving a modality by ID, name, or number of players,
+ * adding, updating, and deleting modalities. The endpoints are secured, and only authorized users with
+ * specific roles can access them.</p>
  *
  * @author Franciosco Balonero Olivera
+ * @see ModalityService
+ * @see BOToDTOConverter
+ * @see DTOToBOConverter
  */
 @RequestMapping("modality")
 @RestController
+@Tag(name = "Modality", description = "Operations related to modalities management")
 public class ModalityController {
     @Autowired
     private BOToDTOConverter boToDTOConverter;
@@ -36,11 +47,12 @@ public class ModalityController {
     private ModalityService modalityService;
 
     /**
-     * Gets all modalities.
+     * Retrieves all modalities in the system.
      *
-     * @return the all modalities
-     * @throws PresentationException the presentation exception
+     * @return List of all modalities
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get all modalities")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -58,12 +70,13 @@ public class ModalityController {
     }
 
     /**
-     * Gets modality by id.
+     * Retrieves a modality by its ID.
      *
-     * @param id the id
-     * @return the modality by id
-     * @throws PresentationException the presentation exception
+     * @param id The ID of the modality
+     * @return The modality with the specified ID
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get modality by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -75,21 +88,20 @@ public class ModalityController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Add modality modality dto.
+     * Adds a new modality.
      *
-     * @param modality the modality
-     * @return the modality dto
-     * @throws PresentationException the presentation exception
+     * @param modality The modality to be added
+     * @return The added modality
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Add a new modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
     public ModalityDTO addModality(@RequestBody @Valid RegisterModalityDTO modality) throws PresentationException {
-
         try {
             return boToDTOConverter
                     .modalityBOToDTO(modalityService.addModality(dtoToBOConverter.RegisterModalityDTOToBO(modality)));
@@ -98,14 +110,15 @@ public class ModalityController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Delete modality.
+     * Deletes a modality.
      *
-     * @param id the id
+     * @param id The ID of the modality to be deleted
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Delete a modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -120,12 +133,13 @@ public class ModalityController {
     }
 
     /**
-     * Gets modality by name.
+     * Retrieves a modality by its name.
      *
-     * @param name the name
-     * @return the modality by name
-     * @throws PresentationException the presentation exception
+     * @param name The name of the modality
+     * @return The modality with the specified name
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get modality by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -137,16 +151,16 @@ public class ModalityController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets all modalities.
+     * Retrieves all modalities based on the number of players.
      *
-     * @param players the players
-     * @return the all modalities
-     * @throws PresentationException the presentation exception
+     * @param players The number of players
+     * @return List of modalities with the specified number of players
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get all modalities by number of players")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/players/{players}")
@@ -164,10 +178,12 @@ public class ModalityController {
     }
 
     /**
-     * Update modality.
+     * Updates an existing modality.
      *
-     * @param modality the modality
+     * @param modality The updated modality
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Update an existing modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")

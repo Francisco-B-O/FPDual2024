@@ -1,10 +1,10 @@
 package com.dual2024.projectcompetition.BusinessObject;
 
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
 import com.dual2024.projectcompetition.dataaccess.model.*;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessobject.*;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ public class BOToModelConverterTest {
         roles.add(roleBO);
 
         userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).roles(roles).build();
+                .state(UserState.CONNECTED).roles(roles).build();
         List<UserBOAux> usersAux = new ArrayList<UserBOAux>();
         usersAux.add(userBOAux);
 
@@ -51,13 +51,13 @@ public class BOToModelConverterTest {
 
         tournamentBOAux = TournamentBOAux.builder().id(1L).name("Torneo de futbol").size(2)
                 .description("El mejor futbol").format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
+                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME).modality(modalityBO)
                 .build();
         List<TournamentBOAux> tournamentsAux = new ArrayList<TournamentBOAux>();
         tournamentsAux.add(tournamentBOAux);
 
         userBO = UserBO.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).roles(roles).build();
+                .state(UserState.CONNECTED).roles(roles).build();
 
         teamBO = TeamBO.builder().id(1L).name("TestTeam").users(usersAux).modality(modalityBO)
                 .tournaments(tournamentsAux).build();
@@ -66,7 +66,7 @@ public class BOToModelConverterTest {
 
         tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
                 .format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
+                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME).modality(modalityBO)
                 .teams(teams).build();
 
     }
@@ -81,7 +81,7 @@ public class BOToModelConverterTest {
         assertThat(userTest.getEmail()).isEqualTo(userBO.getEmail());
         assertThat(userTest.getNick()).isEqualTo(userBO.getNick());
         assertThat(userTest.getPassword()).isEqualTo(userBO.getPassword());
-        assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
+        assertThat(userTest.getState()).isEqualTo(UserState.CONNECTED);
         assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(userBO.getRoles().getFirst().getId());
     }
 
@@ -127,7 +127,7 @@ public class BOToModelConverterTest {
         assertThat(tournamentTest.getName()).isEqualTo(tournamentBO.getName());
         assertThat(tournamentTest.getStartDate()).isEqualTo(tournamentBO.getStartDate());
         assertThat(tournamentTest.getEndDate()).isEqualTo(tournamentBO.getEndDate());
-        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
+        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.IN_GAME);
         assertThat(tournamentTest.getSize()).isEqualTo(tournamentBO.getSize());
         assertThat(tournamentTest.getModality().getId()).isEqualTo(tournamentBO.getModality().getId());
         assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournamentBO.getFormat().getId());
@@ -157,7 +157,7 @@ public class BOToModelConverterTest {
         assertThat(userTest.getEmail()).isEqualTo(userBOAux.getEmail());
         assertThat(userTest.getNick()).isEqualTo(userBOAux.getNick());
         assertThat(userTest.getPassword()).isEqualTo(userBOAux.getPassword());
-        assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
+        assertThat(userTest.getState()).isEqualTo(UserState.CONNECTED);
         assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(userBOAux.getRoles().getFirst().getId());
     }
 
@@ -172,7 +172,7 @@ public class BOToModelConverterTest {
         assertThat(tournamentTest.getName()).isEqualTo(tournamentBOAux.getName());
         assertThat(tournamentTest.getStartDate()).isEqualTo(tournamentBOAux.getStartDate());
         assertThat(tournamentTest.getEndDate()).isEqualTo(tournamentBOAux.getEndDate());
-        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
+        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.IN_GAME);
         assertThat(tournamentTest.getSize()).isEqualTo(tournamentBOAux.getSize());
         assertThat(tournamentTest.getModality().getId()).isEqualTo(tournamentBOAux.getModality().getId());
         assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournamentBOAux.getFormat().getId());

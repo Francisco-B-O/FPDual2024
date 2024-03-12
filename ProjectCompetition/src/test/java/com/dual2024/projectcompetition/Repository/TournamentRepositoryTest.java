@@ -38,14 +38,14 @@ public class TournamentRepositoryTest {
 
     @BeforeEach
     public void setup() {
-        user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONECTADO)
+        user = User.builder().email("test@email.com").nick("test").password("passwordTest").state(UserState.CONNECTED)
                 .build();
         user2 = User.builder().email("test2@email.com").nick("test2").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         user3 = User.builder().email("test3@email.com").nick("test3").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         user4 = User.builder().email("test4@email.com").nick("test4").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         List<User> users1 = new ArrayList<User>();
         users1.add(userRepository.save(user));
         users1.add(userRepository.save(user2));
@@ -67,17 +67,17 @@ public class TournamentRepositoryTest {
         savedFormat = formatRepository.save(format);
 
         tournament = Tournament.builder().name("Torneo de futbol").size(2).description("El mejor futbol")
-                .format(savedFormat).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO)
+                .format(savedFormat).startDate(LocalDateTime.of(2099, 6, 1, 10, 0, 0))
+                .endDate(LocalDateTime.of(2100, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME)
                 .modality(savedModality).teams(teams).build();
         tournament2 = Tournament.builder().name("Torneo de tenis").size(2).description("El mejor tenis")
-                .format(savedFormat).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO)
+                .format(savedFormat).startDate(LocalDateTime.of(2099, 6, 1, 10, 0, 0))
+                .endDate(LocalDateTime.of(2100, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME)
                 .modality(savedModality).teams(teams).build();
         duplicatedNameModalityTournament = Tournament.builder().name("Torneo de futbol").size(2)
                 .description("El mejor futbol del mundo").format(savedFormat)
-                .startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0)).endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0))
-                .state(TournamentState.EN_JUEGO).modality(savedModality).teams(teams).build();
+                .startDate(LocalDateTime.of(2099, 6, 1, 10, 0, 0)).endDate(LocalDateTime.of(2100, 6, 30, 18, 0, 0))
+                .state(TournamentState.IN_GAME).modality(savedModality).teams(teams).build();
     }
 
     @Test
@@ -161,7 +161,7 @@ public class TournamentRepositoryTest {
 
         tournamentRepository.save(tournament);
 
-        List<Tournament> tournaments = tournamentRepository.findByStartDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0));
+        List<Tournament> tournaments = tournamentRepository.findByStartDate(LocalDateTime.of(2099, 6, 1, 10, 0, 0));
 
         assertThat(tournaments).isNotNull();
         assertThat(tournaments.size()).isGreaterThan(0);
@@ -173,7 +173,7 @@ public class TournamentRepositoryTest {
 
         tournamentRepository.save(tournament);
 
-        List<Tournament> tournaments = tournamentRepository.findByEndDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0));
+        List<Tournament> tournaments = tournamentRepository.findByEndDate(LocalDateTime.of(2100, 6, 30, 18, 0, 0));
 
         assertThat(tournaments).isNotNull();
         assertThat(tournaments.size()).isGreaterThan(0);
@@ -185,7 +185,7 @@ public class TournamentRepositoryTest {
 
         tournamentRepository.save(tournament);
 
-        List<Tournament> tournaments = tournamentRepository.findByState(TournamentState.EN_JUEGO);
+        List<Tournament> tournaments = tournamentRepository.findByState(TournamentState.IN_GAME);
 
         assertThat(tournaments).isNotNull();
         assertThat(tournaments.size()).isGreaterThan(0);

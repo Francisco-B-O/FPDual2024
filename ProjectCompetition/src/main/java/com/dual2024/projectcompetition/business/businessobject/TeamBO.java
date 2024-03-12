@@ -39,7 +39,7 @@ public class TeamBO {
      * @return The boolean
      */
     public boolean isInActiveTournament() {
-        return this.tournaments.stream().anyMatch(c -> c.getState().equals(TournamentState.EN_JUEGO));
+        return this.tournaments.stream().anyMatch(c -> c.getState().equals(TournamentState.IN_GAME));
     }
 
 }

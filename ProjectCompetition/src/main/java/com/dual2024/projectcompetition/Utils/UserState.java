@@ -7,15 +7,15 @@ package com.dual2024.projectcompetition.utils;
  */
 public enum UserState {
     /**
-     * Conectado user state.
+     * CONNECTED user state.
      */
-    CONECTADO,
+    CONNECTED,
     /**
-     * Desactivado user state.
+     * DISABLED user state.
      */
-    DESACTIVADO,
+    DISABLED,
     /**
-     * Desconectado user state.
+     * DISCONNECTED user state.
      */
-    DESCONECTADO
+    DISCONNECTED
 }

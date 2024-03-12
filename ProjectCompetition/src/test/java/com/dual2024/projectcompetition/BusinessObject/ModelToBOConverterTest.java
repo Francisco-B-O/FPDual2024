@@ -1,10 +1,10 @@
 package com.dual2024.projectcompetition.BusinessObject;
 
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import com.dual2024.projectcompetition.dataaccess.model.*;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessobject.*;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ public class ModelToBOConverterTest {
         roles.add(role);
 
         user = User.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).roles(roles).build();
+                .state(UserState.CONNECTED).roles(roles).build();
         List<User> users = new ArrayList<User>();
         users.add(user);
 
@@ -54,7 +54,7 @@ public class ModelToBOConverterTest {
 
         tournament = Tournament.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
                 .format(format).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modality)
+                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME).modality(modality)
                 .teams(teams).build();
 
     }
@@ -68,7 +68,7 @@ public class ModelToBOConverterTest {
         assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
         assertThat(userTest.getNick()).isEqualTo(user.getNick());
         assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-        assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
+        assertThat(userTest.getState()).isEqualTo(UserState.CONNECTED);
         assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
         assertThat(userTest.getTeams().getFirst().getId()).isEqualTo(user.getTeams().getFirst().getId());
     }
@@ -115,7 +115,7 @@ public class ModelToBOConverterTest {
         assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
         assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
         assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
+        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.IN_GAME);
         assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
         assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
         assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());
@@ -145,7 +145,7 @@ public class ModelToBOConverterTest {
         assertThat(userTest.getEmail()).isEqualTo(user.getEmail());
         assertThat(userTest.getNick()).isEqualTo(user.getNick());
         assertThat(userTest.getPassword()).isEqualTo(user.getPassword());
-        assertThat(userTest.getState()).isEqualTo(UserState.CONECTADO);
+        assertThat(userTest.getState()).isEqualTo(UserState.CONNECTED);
         assertThat(userTest.getRoles().getFirst().getId()).isEqualTo(user.getRoles().getFirst().getId());
     }
 
@@ -160,7 +160,7 @@ public class ModelToBOConverterTest {
         assertThat(tournamentTest.getName()).isEqualTo(tournament.getName());
         assertThat(tournamentTest.getStartDate()).isEqualTo(tournament.getStartDate());
         assertThat(tournamentTest.getEndDate()).isEqualTo(tournament.getEndDate());
-        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.EN_JUEGO);
+        assertThat(tournamentTest.getState()).isEqualTo(TournamentState.IN_GAME);
         assertThat(tournamentTest.getSize()).isEqualTo(tournament.getSize());
         assertThat(tournamentTest.getModality().getId()).isEqualTo(tournament.getModality().getId());
         assertThat(tournamentTest.getFormat().getId()).isEqualTo(tournament.getFormat().getId());

@@ -12,6 +12,8 @@ import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConver
 import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Team controller.
+ * Controller class for managing teams in the system.
+ *
+ * <p>This class defines RESTful endpoints for various team-related operations.It handles
+ * requests related to retrieving all teams, retrieving a teams by ID or name, adding, updating,adding players,
+ * and deleting teams. The endpoints are secured, and only authorized users with specific roles
+ * can access them.</p>
  *
  * @author Franciosco Balonero Olivera
+ * @see TeamService
+ * @see ModalityService
+ * @see BOToDTOConverter
+ * @see DTOToBOConverter
  */
 @RequestMapping("team")
 @RestController
+@Tag(name = "Team", description = "Operations related to teams management")
 public class TeamController {
     /**
      * The Bo to dto converter.
@@ -50,15 +62,16 @@ public class TeamController {
     AuthenticationService authenticationService;
 
     /**
-     * Gets allteams.
+     * Retrieves all teams in the system.
      *
-     * @return the allteams
-     * @throws PresentationException the presentation exception
+     * @return List of all teams
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get all teams")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
-    public List<TeamDTO> getAllteams() throws PresentationException {
+    public List<TeamDTO> getAllTeams() throws PresentationException {
         List<TeamDTO> listTeamDTO = new ArrayList<TeamDTO>();
         try {
             teamService.getAllTeams().forEach((TeamBO team) -> listTeamDTO.add(boToDTOConverter.teamBOToDTO(team)));
@@ -71,12 +84,13 @@ public class TeamController {
     }
 
     /**
-     * Gets team by id.
+     * Retrieves a team by its unique identifier.
      *
-     * @param id the id
-     * @return the team by id
-     * @throws PresentationException the presentation exception
+     * @param id The identifier of the team
+     * @return TeamDTO representing the team with the specified ID
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get team by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -88,16 +102,16 @@ public class TeamController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets teams by modality.
+     * Retrieves teams by the specified modality.
      *
-     * @param modality the modality
-     * @return the teams by modality
-     * @throws PresentationException the presentation exception
+     * @param modality The name of the modality
+     * @return List of teams within the specified modality
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get teams by modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
@@ -116,12 +130,13 @@ public class TeamController {
     }
 
     /**
-     * Gets team by name.
+     * Retrieves teams by the specified name.
      *
-     * @param name the name
-     * @return the team by name
-     * @throws PresentationException the presentation exception
+     * @param name The name of the team
+     * @return List of teams with the specified name
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get team by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -136,45 +151,44 @@ public class TeamController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Registerteam team dto.
+     * Registers a new team.
      *
-     * @param team the team
-     * @return the team dto
-     * @throws PresentationException the presentation exception
+     * @param team The team information to register
+     * @return TeamDTO representing the newly registered team
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Register a new team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
-    public TeamDTO registerteam(@RequestBody @Valid RegisterTeamDTO team) throws PresentationException {
+    public TeamDTO registerTeam(@RequestBody @Valid RegisterTeamDTO team) throws PresentationException {
         try {
             Long captain = authenticationService.getUserAuthenticated();
-            return boToDTOConverter
-                    .teamBOToDTO(teamService.registerTeam(captain, dtoToBOConverter.RegisterTeamDTOToBO(team)));
+            return boToDTOConverter.teamBOToDTO(teamService.registerTeam(captain, dtoToBOConverter.RegisterTeamDTOToBO(team)));
         } catch (DuplicatedCaptainException | DuplicatedNameAndModalityException e) {
             throw new PresentationException(e.getMessage());
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Add player team dto.
+     * Adds a player to the specified team.
      *
-     * @param team the team
-     * @return the team dto
+     * @param team   The ID of the team to which the player will be added
+     * @param player The ID of the player
+     * @return TeamDTO representing the updated team
      */
+    @Operation(summary = "Add player to the team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
-    @PutMapping("/addPlayer/{team}/")
-    public TeamDTO addPlayer(@PathVariable Long team) {
+    @PutMapping("/addPlayer/{team}/{player}")
+    public TeamDTO addPlayer(@PathVariable Long team, @PathVariable Long player) {
         try {
-            Long user = authenticationService.getUserAuthenticated();
-            return boToDTOConverter.teamBOToDTO(teamService.addPlayer(user, team));
+            return boToDTOConverter.teamBOToDTO(teamService.addPlayer(player, team));
         } catch (UserNotFoundException | TeamNotFoundException e) {
             throw new NotFoundException(e.getMessage(), e);
         } catch (BusinessException e) {
@@ -183,10 +197,11 @@ public class TeamController {
     }
 
     /**
-     * Delete team.
+     * Deletes the specified team.
      *
-     * @param id the id
+     * @param id The ID of the team to be deleted
      */
+    @Operation(summary = "Delete team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -201,10 +216,11 @@ public class TeamController {
     }
 
     /**
-     * Update team.
+     * Updates information for the specified team.
      *
-     * @param team the team
+     * @param team The updated information for the team
      */
+    @Operation(summary = "Update team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")

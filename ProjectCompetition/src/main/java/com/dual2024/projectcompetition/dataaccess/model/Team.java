@@ -2,6 +2,7 @@ package com.dual2024.projectcompetition.dataaccess.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,11 +32,12 @@ public class Team {
     @Column(name = "team_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Name cannot be blank")
     @Column(name = "team_name", nullable = false)
     private String name;
 
     @ManyToOne
+    @NotNull(message = "Modality cannot be null")
     @JoinColumn(name = "team_modality_id", nullable = false)
     private Modality modality;
 

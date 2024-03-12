@@ -1,5 +1,13 @@
 package com.dual2024.projectcompetition.Service;
 
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.RoleBO;
+import com.dual2024.projectcompetition.business.businessobject.TeamBO;
+import com.dual2024.projectcompetition.business.businessobject.TournamentBOAux;
+import com.dual2024.projectcompetition.business.businessobject.UserBO;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.business.service.UserServiceImpl;
 import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
 import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
@@ -10,14 +18,6 @@ import com.dual2024.projectcompetition.dataaccess.model.Tournament;
 import com.dual2024.projectcompetition.dataaccess.model.User;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessexception.*;
-import com.dual2024.projectcompetition.business.businessobject.RoleBO;
-import com.dual2024.projectcompetition.business.businessobject.TeamBO;
-import com.dual2024.projectcompetition.business.businessobject.TournamentBOAux;
-import com.dual2024.projectcompetition.business.businessobject.UserBO;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
-import com.dual2024.projectcompetition.business.service.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -56,17 +56,17 @@ public class UserServiceTest {
     @BeforeEach
     public void setup() {
         user = User.builder().email("test@email.com").id(1L).nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         userBO = UserBO.builder().email("test@email.com").id(1L).nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).build();
-        Tournament tournament = Tournament.builder().state(TournamentState.NO_COMENZADO).build();
+                .state(UserState.CONNECTED).build();
+        Tournament tournament = Tournament.builder().state(TournamentState.NOT_STARTED).build();
         List<Tournament> tournaments = new ArrayList<Tournament>();
         tournaments.add(tournament);
         Team team = Team.builder().tournaments(tournaments).build();
         List<Team> teams = new ArrayList<Team>();
         teams.add(team);
         user.setTeams(teams);
-        TournamentBOAux tournamentBOAUX = TournamentBOAux.builder().state(TournamentState.NO_COMENZADO).build();
+        TournamentBOAux tournamentBOAUX = TournamentBOAux.builder().state(TournamentState.NOT_STARTED).build();
         List<TournamentBOAux> tournamentsBO = new ArrayList<TournamentBOAux>();
         tournamentsBO.add(tournamentBOAUX);
         TeamBO teamBO = TeamBO.builder().tournaments(tournamentsBO).build();
@@ -75,8 +75,8 @@ public class UserServiceTest {
         userBO.setTeams(teamsBO);
         usersList = new ArrayList<User>();
         usersList.add(user);
-        roleBO = RoleBO.builder().id(1L).name("JUGADOR").description("Rol de jugador").build();
-        role = Role.builder().id(1L).name("JUGADOR").description("Rol de jugador").build();
+        roleBO = RoleBO.builder().id(1L).name("PLAYER").description("PLAYER role").build();
+        role = Role.builder().id(1L).name("PLAYER").description("PLAYER role").build();
     }
 
     @Test
@@ -88,7 +88,7 @@ public class UserServiceTest {
         BDDMockito.given(modelToBOConverter.roleModelToBO(role)).willReturn(roleBO);
         BDDMockito.given(userDAO.findByNickOrEmail(userBO.getNick(), userBO.getEmail()))
                 .willThrow(EntityNotFoundException.class);
-        BDDMockito.given(roleDAO.findByName("JUGADOR")).willReturn(role);
+        BDDMockito.given(roleDAO.findByName("PLAYER")).willReturn(role);
         BDDMockito.given(userDAO.save(user)).willReturn(user);
 
         UserBO savedUser = userService.registerUser(userBO);
@@ -112,7 +112,7 @@ public class UserServiceTest {
     public void givenUserBO_whenUserRegister_thenThrowDuplicatedNickException() throws DataException {
 
         UserBO test = UserBO.builder().email("hola").id(1L).nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).build();
+                .state(UserState.CONNECTED).build();
         BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
         BDDMockito.given(userDAO.findByNickOrEmail(test.getNick(), test.getEmail())).willReturn(usersList);
 
@@ -184,7 +184,7 @@ public class UserServiceTest {
     @DisplayName("deleteUser operation : incorrect case -> user in active tournament")
     public void givenUserBOThatIsInActiveTournament_whenDeleteUser_thenThrowBusinessException() throws DataException {
 
-        userBO.getTeams().getFirst().getTournaments().getFirst().setState(TournamentState.EN_JUEGO);
+        userBO.getTeams().getFirst().getTournaments().getFirst().setState(TournamentState.IN_GAME);
         BDDMockito.given(userDAO.findById(1L)).willReturn(user);
         BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
 
@@ -264,9 +264,9 @@ public class UserServiceTest {
     public void givenNothing_whenGetUsersByState_thenReturnUsers() throws BusinessException, DataException {
 
         BDDMockito.given(modelToBOConverter.userModelToBO(user)).willReturn(userBO);
-        BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willReturn(usersList);
+        BDDMockito.given(userDAO.findByState(UserState.CONNECTED)).willReturn(usersList);
 
-        List<UserBO> users = userService.getUsersByState(UserState.CONECTADO);
+        List<UserBO> users = userService.getUsersByState(UserState.CONNECTED);
 
         assertThat(users).isNotNull();
         assertThat(users).isNotEmpty();
@@ -277,9 +277,9 @@ public class UserServiceTest {
     @DisplayName("getUsersByState operation : incorrect case -> not found")
     public void givenNothing_whenGetUsersByState_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(userDAO.findByState(UserState.CONECTADO)).willThrow(EntityNotFoundException.class);
+        BDDMockito.given(userDAO.findByState(UserState.CONNECTED)).willThrow(EntityNotFoundException.class);
 
-        assertThrows(UserNotFoundException.class, () -> userService.getUsersByState(UserState.CONECTADO));
+        assertThrows(UserNotFoundException.class, () -> userService.getUsersByState(UserState.CONNECTED));
     }
 
     @Test
@@ -324,7 +324,7 @@ public class UserServiceTest {
     @DisplayName("updateRoleUser operation : correct case")
     public void givenIdAndListRoles_whenUpdateUser_thenReturnUpdatedUserBO() throws BusinessException, DataException {
 
-        RoleBO role = RoleBO.builder().id(1L).name("Jugador").description("Rol de jugador").build();
+        RoleBO role = RoleBO.builder().id(1L).name("PLAYER").description("Rol de PLAYER").build();
         List<RoleBO> roles = new ArrayList<RoleBO>();
         roles.add(role);
         BDDMockito.given(boToModelConverter.userBOToModel(userBO)).willReturn(user);
@@ -342,7 +342,7 @@ public class UserServiceTest {
     @DisplayName("updateRoleUser operation : incorrect case -> user not found")
     public void givenIdThatNotExists_whenUpdateRoleUser_thenThrowsBusinessException() throws DataException {
 
-        RoleBO role = RoleBO.builder().id(1L).name("Jugador").description("Rol de jugador").build();
+        RoleBO role = RoleBO.builder().id(1L).name("PLAYER").description("Rol de PLAYER").build();
         List<RoleBO> roles = new ArrayList<RoleBO>();
         roles.add(role);
         BDDMockito.given(userDAO.findById(1L)).willThrow(EntityNotFoundException.class);
@@ -356,7 +356,7 @@ public class UserServiceTest {
     @DisplayName("updateRoleUser operation : incorrect case -> user not updated")
     public void givenIdAndListRoles_whenUpdateRoleUser_thenThrowsBusinessException() throws DataException {
 
-        RoleBO role = RoleBO.builder().id(1L).name("Jugador").description("Rol de jugador").build();
+        RoleBO role = RoleBO.builder().id(1L).name("PLAYER").description("Rol de PLAYER").build();
         List<RoleBO> roles = new ArrayList<RoleBO>();
         roles.add(role);
         BDDMockito.given(boToModelConverter.userBOToModel(userBO)).willReturn(user);

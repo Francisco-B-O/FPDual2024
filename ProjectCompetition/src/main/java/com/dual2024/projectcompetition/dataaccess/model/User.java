@@ -42,17 +42,17 @@ public class User implements UserDetails {
     @Column(name = "user_id")
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Nickname cannot be blank")
     @Column(name = "user_nick", unique = true, nullable = false)
     private String nick;
 
-    @Email
-    @NotBlank
+    @Email(message = "Invalid email format")
+    @NotBlank(message = "Email cannot be blank")
     @Column(name = "user_email", unique = true, nullable = false)
     private String email;
 
-    @NotBlank
-    @Size(min = 6)
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min = 6, message = "Password must be at least 6 characters long")
     @Column(name = "user_password", nullable = false)
     private String password;
 

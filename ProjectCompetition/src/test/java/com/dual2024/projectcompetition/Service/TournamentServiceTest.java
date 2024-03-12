@@ -1,5 +1,10 @@
 package com.dual2024.projectcompetition.Service;
 
+import com.dual2024.projectcompetition.business.businessexception.*;
+import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
+import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.business.service.TournamentServiceImpl;
 import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
 import com.dual2024.projectcompetition.dataaccess.dao.TournamentDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
@@ -7,11 +12,6 @@ import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundEx
 import com.dual2024.projectcompetition.dataaccess.model.*;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.utils.UserState;
-import com.dual2024.projectcompetition.business.businessexception.*;
-import com.dual2024.projectcompetition.business.businessobject.*;
-import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
-import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
-import com.dual2024.projectcompetition.business.service.TournamentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -62,7 +62,7 @@ public class TournamentServiceTest {
         List<RoleBO> roles = new ArrayList<RoleBO>();
         roles.add(roleBO);
         UserBOAux userBOAux = UserBOAux.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).roles(roles).build();
+                .state(UserState.CONNECTED).roles(roles).build();
         usersAux = new ArrayList<UserBOAux>();
         usersAux.add(userBOAux);
         modalityBO = ModalityBO.builder().id(1L).name("modality1").numberPlayers(2).build();
@@ -72,14 +72,14 @@ public class TournamentServiceTest {
         teamsAux.add(teamBOAux);
         tournamentBO = TournamentBO.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
                 .format(formatBO).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modalityBO)
+                .endDate(LocalDateTime.of(2023, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME).modality(modalityBO)
                 .teams(teamsAux).build();
         tournamentsList = new ArrayList<Tournament>();
         Role role = Role.builder().id(1L).name("test").description("Test role").build();
         List<Role> roles1 = new ArrayList<Role>();
         roles1.add(role);
         user = User.builder().id(1L).email("test@email.com").nick("test").password("passwordTest")
-                .state(UserState.CONECTADO).roles(roles1).build();
+                .state(UserState.CONNECTED).roles(roles1).build();
         users = new ArrayList<User>();
         users.add(user);
         modality = Modality.builder().id(1L).name("modality1").numberPlayers(2).build();
@@ -90,7 +90,7 @@ public class TournamentServiceTest {
         format = Format.builder().id(1L).name("torneo").build();
         tournament = Tournament.builder().id(1L).name("Torneo de futbol").size(2).description("El mejor futbol")
                 .format(format).startDate(LocalDateTime.of(2022, 6, 1, 10, 0, 0))
-                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.EN_JUEGO).modality(modality)
+                .endDate(LocalDateTime.of(2022, 6, 30, 18, 0, 0)).state(TournamentState.IN_GAME).modality(modality)
                 .teams(teams).build();
         tournamentsList.add(tournament);
     }
@@ -292,9 +292,9 @@ public class TournamentServiceTest {
     public void givenNothing_whenGetTournamentsByState_thenReturnThisTournaments() throws DataException, BusinessException {
 
         BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
-        BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willReturn(tournamentsList);
+        BDDMockito.given(tournamentDAO.findByState(TournamentState.IN_GAME)).willReturn(tournamentsList);
 
-        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByState(TournamentState.EN_JUEGO);
+        List<TournamentBO> foundTournaments = tournamentService.getTournamentsByState(TournamentState.IN_GAME);
 
         assertThat(foundTournaments).isNotNull();
         assertThat(foundTournaments).isNotEmpty();
@@ -305,10 +305,10 @@ public class TournamentServiceTest {
     @DisplayName("getTournamentsByState operation : incorrect case -> not found")
     public void givenNothing_whenGetTournamentsByState_thenThrowBusinessException() throws DataException {
 
-        BDDMockito.given(tournamentDAO.findByState(TournamentState.EN_JUEGO)).willThrow(EntityNotFoundException.class);
+        BDDMockito.given(tournamentDAO.findByState(TournamentState.IN_GAME)).willThrow(EntityNotFoundException.class);
 
         assertThrows(TournamentNotFoundException.class,
-                () -> tournamentService.getTournamentsByState(TournamentState.EN_JUEGO));
+                () -> tournamentService.getTournamentsByState(TournamentState.IN_GAME));
 
     }
 
@@ -370,8 +370,8 @@ public class TournamentServiceTest {
     @DisplayName("deleteTournament operation : correct case")
     public void givenId_whenDeleteTournament_thenDeleteTournament() throws BusinessException, DataException {
 
-        tournamentBO.setState(TournamentState.NO_COMENZADO);
-        tournament.setState(TournamentState.NO_COMENZADO);
+        tournamentBO.setState(TournamentState.NOT_STARTED);
+        tournament.setState(TournamentState.NOT_STARTED);
         BDDMockito.given(modelToBOConverter.tournamentModelToBO(tournament)).willReturn(tournamentBO);
         BDDMockito.given(tournamentDAO.findById(1L)).willReturn(tournament);
         BDDMockito.willDoNothing().given(tournamentDAO).delete(1L);

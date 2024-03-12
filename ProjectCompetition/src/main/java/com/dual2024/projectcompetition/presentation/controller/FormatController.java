@@ -11,6 +11,8 @@ import com.dual2024.projectcompetition.presentation.dto.converters.BOToDTOConver
 import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConverter;
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +23,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Format controller.
+ * Controller class for managing formats.
+ *
+ * <p>This class defines RESTful endpoints for performing CRUD operations on formats. It handles
+ * requests related to retrieving all formats, retrieving a format by ID or name, adding, updating,
+ * and deleting formats. The endpoints are secured, and only authorized users with specific roles
+ * can access them.</p>
+ *
+ * @author Franciosco Balonero Olivera
+ * @see FormatService
+ * @see BOToDTOConverter
+ * @see DTOToBOConverter
  */
 @RequestMapping("format")
 @RestController
+@Tag(name = "Format", description = "Operations related to formats management")
 public class FormatController {
     /**
      * The Bo to dto converter.
@@ -40,11 +53,12 @@ public class FormatController {
     private FormatService formatService;
 
     /**
-     * Gets all formats.
+     * Retrieves all formats.
      *
-     * @return All formats
-     * @throws PresentationException the presentation exception
+     * @return List of all formats
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get all formats")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -62,12 +76,13 @@ public class FormatController {
     }
 
     /**
-     * Gets format by id.
+     * Retrieves a format by its ID.
      *
-     * @param id The id
-     * @return The format by id
-     * @throws PresentationException the presentation exception
+     * @param id The ID of the format
+     * @return The format with the specified ID
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get format by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -79,21 +94,20 @@ public class FormatController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Add format.
+     * Adds a new format.
      *
-     * @param format The format
-     * @return The format dto
-     * @throws PresentationException the presentation exception
+     * @param format The format to be added
+     * @return The added format
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Add a new format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
     public FormatDTO addFormat(@RequestBody @Valid RegisterFormatDTO format) throws PresentationException {
-
         try {
             return boToDTOConverter.formatBOToDTO(formatService.addFormat(dtoToBOConverter.RegisterFormatDTOToBO(format)));
         } catch (DuplicatedNameException e) {
@@ -101,14 +115,15 @@ public class FormatController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Delete format.
+     * Deletes a format.
      *
-     * @param id The id
+     * @param id The ID of the format to be deleted
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Delete a format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -123,12 +138,13 @@ public class FormatController {
     }
 
     /**
-     * Gets format by name.
+     * Retrieves a format by its name.
      *
-     * @param name The name
-     * @return The format by name
-     * @throws PresentationException the presentation exception
+     * @param name The name of the format
+     * @return The format with the specified name
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Get format by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -140,14 +156,15 @@ public class FormatController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Update format.
+     * Updates a format.
      *
      * @param format The updated format
+     * @throws PresentationException if an error occurs during presentation
      */
+    @Operation(summary = "Update a format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/update")

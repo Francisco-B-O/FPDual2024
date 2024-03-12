@@ -7,23 +7,23 @@ package com.dual2024.projectcompetition.utils;
  */
 public enum TournamentState {
     /**
-     * No comenzado tournament state.
+     * NOT STARTED tournament state.
      */
-    NO_COMENZADO,
+    NOT_STARTED,
     /**
-     * En juego tournament state.
+     * IN GAME tournament state.
      */
-    EN_JUEGO,
+    IN_GAME,
     /**
-     * Finalizado tournament state.
+     * FINALIZED tournament state.
      */
-    FINALIZADO,
+    FINALIZED,
     /**
-     * Suspendido tournament state.
+     * SUSPENDED tournament state.
      */
-    SUSPENDIDO,
+    SUSPENDED,
     /**
-     * Aplazado tournament state.
+     * POSTPONED tournament state.
      */
-    APLAZADO
+    POSTPONED
 }

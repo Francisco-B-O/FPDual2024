@@ -14,6 +14,8 @@ import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConver
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import com.dual2024.projectcompetition.utils.TournamentState;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,10 +27,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The Tournament controller.
+ * Controller class for managing tournaments.
+ *
+ * <p>This class defines RESTful endpoints for various tournament-related operations.
+ * It handles requests related to retrieving all tournaments, retrieving a tournament by ID,
+ * retrieving tournaments by state, modality, format, name, size, start date, or end date,
+ * registering a new tournament, deleting a tournament, adding a team to a tournament,
+ * and updating tournament information. The endpoints are secured, and only authorized users
+ * with specific roles can access them.</p>
  *
  * @author Franciosco Balonero Olivera
+ * @see TournamentService
+ * @see ModalityService
+ * @see FormatService
+ * @see BOToDTOConverter
+ * @see DTOToBOConverter
  */
+@Tag(name = "Tournament", description = "Operations related to tournaments management")
 @RequestMapping("tournament")
 @RestController
 public class TournamentController {
@@ -52,9 +67,10 @@ public class TournamentController {
     /**
      * Gets all tournaments.
      *
-     * @return the all tournaments
-     * @throws PresentationException the presentation exception
+     * @return the list of all tournaments
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get all tournaments")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
@@ -74,10 +90,11 @@ public class TournamentController {
     /**
      * Gets tournament by id.
      *
-     * @param id the id
-     * @return the tournament by id
-     * @throws PresentationException the presentation exception
+     * @param id the id of the tournament
+     * @return the tournament with the specified id
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournament by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
@@ -89,16 +106,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets tournament by state.
+     * Gets tournaments by state.
      *
-     * @param state the state
-     * @return the tournament by state
-     * @throws PresentationException the presentation exception
+     * @param state the state of the tournaments to retrieve
+     * @return the list of tournaments with the specified state
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by state")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
@@ -114,16 +131,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
      * Gets tournaments by modality.
      *
-     * @param modality the modality
-     * @return the tournaments by modality
-     * @throws PresentationException the presentation exception
+     * @param modality the modality of the tournaments to retrieve
+     * @return the list of tournaments with the specified modality
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
@@ -145,10 +162,11 @@ public class TournamentController {
     /**
      * Gets tournaments by format.
      *
-     * @param format the format
-     * @return the tournaments by format
-     * @throws PresentationException the presentation exception
+     * @param format the format of the tournaments to retrieve
+     * @return the list of tournaments with the specified format
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/format/{format}")
@@ -168,12 +186,13 @@ public class TournamentController {
     }
 
     /**
-     * Gets tournament by name.
+     * Gets tournaments by name.
      *
-     * @param name the name
-     * @return the tournament by name
-     * @throws PresentationException the presentation exception
+     * @param name the name of the tournaments to retrieve
+     * @return the list of tournaments with the specified name
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
@@ -188,16 +207,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets tournament by size.
+     * Gets tournaments by size.
      *
-     * @param size the size
-     * @return the tournament by size
-     * @throws PresentationException the presentation exception
+     * @param size the size of the tournaments to retrieve
+     * @return the list of tournaments with the specified size
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by size")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/size/{size}")
@@ -212,16 +231,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets tournament by start date.
+     * Gets tournaments by start date.
      *
-     * @param start the start
-     * @return the tournament by start date
-     * @throws PresentationException the presentation exception
+     * @param start the start date of the tournaments to retrieve
+     * @return the list of tournaments starting from the specified date
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by start date")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/start/{start}")
@@ -237,16 +256,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Gets tournament by end date.
+     * Gets tournaments by end date.
      *
-     * @param end the end
-     * @return the tournament by end date
-     * @throws PresentationException the presentation exception
+     * @param end the end date of the tournaments to retrieve
+     * @return the list of tournaments ending on the specified date
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Get tournaments by end date")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @GetMapping("/end/{end}")
     public List<TournamentDTO> getTournamentByEndDate(@PathVariable("end") LocalDateTime end)
@@ -261,16 +280,16 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
-     * Register tournament tournament dto.
+     * Register tournament.
      *
-     * @param tournament the tournament
-     * @return the tournament dto
-     * @throws PresentationException the presentation exception
+     * @param tournament the tournament to register
+     * @return the registered tournament
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Register tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
@@ -284,14 +303,15 @@ public class TournamentController {
         } catch (BusinessException e) {
             throw new PresentationException(e.getMessage(), e);
         }
-
     }
 
     /**
      * Delete tournament.
      *
-     * @param id the id
+     * @param id the id of the tournament to delete
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Delete tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
@@ -306,11 +326,13 @@ public class TournamentController {
     }
 
     /**
-     * Add team.
+     * Add team to tournament.
      *
-     * @param team       the team
-     * @param tournament the tournament
+     * @param team       the id of the team to add
+     * @param tournament the id of the tournament to add the team to
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Add team to tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addTeam/{tournament}/{team}")
@@ -327,8 +349,10 @@ public class TournamentController {
     /**
      * Update tournament.
      *
-     * @param tournament the tournament
+     * @param tournament the tournament to update
+     * @throws PresentationException if there is an issue with the presentation layer
      */
+    @Operation(summary = "Update tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
@@ -341,5 +365,4 @@ public class TournamentController {
             throw new PresentationException(e.getMessage(), e);
         }
     }
-
 }
