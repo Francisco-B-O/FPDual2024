@@ -39,8 +39,8 @@ public interface ModalityRepository extends JpaRepository<Modality, Long> {
     /**
      * Finds the modality with the specified name.
      *
-     * @param name the name of the modality
-     * @return the modality with the specified name
+     * @param name {@link String} the name of the modality
+     * @return {@link Optional} the modality with the specified name or null
      */
     Optional<Modality> findByName(String name);
 }

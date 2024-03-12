@@ -41,13 +41,18 @@ public class AppConfiguration {
     /**
      * Creates a ModelMapper bean.
      *
-     * @return The ModelMapper bean
+     * @return {@link ModelMapper} The ModelMapper bean
      */
     @Bean
     ModelMapper modelMapper() {
         return new ModelMapper();
     }
 
+    /**
+     * OpenApi configuration
+     *
+     * @return {@link OpenAPI}
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

@@ -1,10 +1,10 @@
 package com.dual2024.projectcompetition.business.service;
 
-import com.dual2024.projectcompetition.utils.TournamentState;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessobject.FormatBO;
 import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
 import com.dual2024.projectcompetition.business.businessobject.TournamentBO;
+import com.dual2024.projectcompetition.utils.TournamentState;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -67,8 +67,8 @@ public interface TournamentService {
     /**
      * Registers a new tournament.
      *
-     * @param tournamentBO The tournament BO to register
-     * @return The registered tournament BO
+     * @param tournamentBO {@link TournamentBO} The tournament BO to register
+     * @return {@link TournamentBO} The registered tournament BO
      * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO registerTournament(TournamentBO tournamentBO) throws BusinessException;
@@ -76,8 +76,8 @@ public interface TournamentService {
     /**
      * Retrieves a tournament by ID.
      *
-     * @param id The ID of the tournament to retrieve
-     * @return The tournament BO with the specified ID
+     * @param id {@link Long} The ID of the tournament to retrieve
+     * @return {@link TournamentBO} The tournament BO with the specified ID
      * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO getTournamentById(Long id) throws BusinessException;
@@ -85,7 +85,7 @@ public interface TournamentService {
     /**
      * Retrieves all tournaments.
      *
-     * @return A list of all tournaments
+     * @return {@link List} A list of all tournaments
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getAllTournaments() throws BusinessException;
@@ -93,7 +93,7 @@ public interface TournamentService {
     /**
      * Deletes a tournament.
      *
-     * @param id The ID of the tournament to delete
+     * @param id {@link Long} The ID of the tournament to delete
      * @throws BusinessException If an error occurs during the operation
      */
     void deleteTournament(Long id) throws BusinessException;
@@ -101,8 +101,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by name.
      *
-     * @param name The name of the tournaments to retrieve
-     * @return A list of tournaments with the specified name
+     * @param name {@link String} The name of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified name
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByName(String name) throws BusinessException;
@@ -110,8 +110,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by format.
      *
-     * @param formatBO The format of the tournaments to retrieve
-     * @return A list of tournaments with the specified format
+     * @param formatBO {@link FormatBO} The format of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified format
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByFormat(FormatBO formatBO) throws BusinessException;
@@ -119,8 +119,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by size.
      *
-     * @param size The size of the tournaments to retrieve
-     * @return A list of tournaments with the specified size
+     * @param size {@link Integer} The size of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified size
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsBySize(int size) throws BusinessException;
@@ -128,8 +128,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by start date.
      *
-     * @param startDate The start date of the tournaments to retrieve
-     * @return A list of tournaments with the specified start date
+     * @param startDate {@link LocalDateTime} The start date of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified start date
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByStartDate(LocalDateTime startDate) throws BusinessException;
@@ -137,8 +137,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by end date.
      *
-     * @param endDate The end date of the tournaments to retrieve
-     * @return A list of tournaments with the specified end date
+     * @param endDate {@link LocalDateTime} The end date of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified end date
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByEndDate(LocalDateTime endDate) throws BusinessException;
@@ -146,8 +146,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by state.
      *
-     * @param state The state of the tournaments to retrieve
-     * @return A list of tournaments with the specified state
+     * @param state {@link TournamentState} The state of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified state
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByState(TournamentState state) throws BusinessException;
@@ -155,8 +155,8 @@ public interface TournamentService {
     /**
      * Retrieves tournaments by modality.
      *
-     * @param modalityBO The modality of the tournaments to retrieve
-     * @return A list of tournaments with the specified modality
+     * @param modalityBO {@link ModalityBO} The modality of the tournaments to retrieve
+     * @return {@link List} A list of tournaments with the specified modality
      * @throws BusinessException If an error occurs during the operation
      */
     List<TournamentBO> getTournamentsByModality(ModalityBO modalityBO) throws BusinessException;
@@ -164,8 +164,8 @@ public interface TournamentService {
     /**
      * Updates a tournament.
      *
-     * @param tournamentBO The tournament BO to update
-     * @return The updated tournament BO
+     * @param tournamentBO {@link TournamentBO} The tournament BO to update
+     * @return {@link TournamentBO} The updated tournament BO
      * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO updateTournament(TournamentBO tournamentBO) throws BusinessException;
@@ -173,9 +173,9 @@ public interface TournamentService {
     /**
      * Adds a team to a tournament.
      *
-     * @param teamId       The ID of the team to add
-     * @param tournamentId The ID of the tournament to add the team to
-     * @return The tournament BO with the added team
+     * @param teamId       {@link Long}     The ID of the team to add
+     * @param tournamentId {@link Long} The ID of the tournament to add the team to
+     * @return {@link TournamentBO} The tournament BO with the added team
      * @throws BusinessException If an error occurs during the operation
      */
     TournamentBO addTeam(Long teamId, Long tournamentId) throws BusinessException;

@@ -39,15 +39,15 @@ public interface AuthenticationService {
     /**
      * Login method to authenticate a user.
      *
-     * @param request The authentication request containing user credentials
-     * @return The authentication response, including authentication status and tokens
+     * @param request {@link AuthenticationRequest} The authentication request containing user credentials
+     * @return {@link AuthenticationResponse} The authentication response, including authentication status and tokens
      */
     AuthenticationResponse login(AuthenticationRequest request);
 
     /**
      * Method that returns the ID of the user who is authenticated.
      *
-     * @return The ID of the authenticated user
+     * @return {@link Long} The ID of the authenticated user
      * @throws BusinessException If an error occurs while retrieving the authenticated user ID
      */
     Long getUserAuthenticated() throws BusinessException;

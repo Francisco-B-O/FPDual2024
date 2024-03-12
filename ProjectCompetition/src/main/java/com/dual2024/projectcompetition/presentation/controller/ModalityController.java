@@ -12,6 +12,7 @@ import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConver
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,7 @@ public class ModalityController {
     /**
      * Retrieves all modalities in the system.
      *
-     * @return List of all modalities
+     * @return {@link List} List of all modalities
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities")
@@ -57,7 +58,7 @@ public class ModalityController {
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<ModalityDTO> getAllModalities() throws PresentationException {
-        List<ModalityDTO> listModalityDTO = new ArrayList<ModalityDTO>();
+        List<ModalityDTO> listModalityDTO = new ArrayList<>();
         try {
             modalityService.getAllModalities()
                     .forEach((ModalityBO modality) -> listModalityDTO.add(boToDTOConverter.modalityBOToDTO(modality)));
@@ -72,15 +73,15 @@ public class ModalityController {
     /**
      * Retrieves a modality by its ID.
      *
-     * @param id The ID of the modality
-     * @return The modality with the specified ID
+     * @param id {@link Long} The ID of the modality
+     * @return {@link ModalityDTO} The modality with the specified ID
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
-    public ModalityDTO getModalityById(@PathVariable("id") Long id) throws PresentationException {
+    public ModalityDTO getModalityById(@PathVariable("id") @Parameter(description = "ID of the modality") Long id) throws PresentationException {
         try {
             return boToDTOConverter.modalityBOToDTO(modalityService.getModalityById(id));
         } catch (ModalityNotFoundException e) {
@@ -93,8 +94,8 @@ public class ModalityController {
     /**
      * Adds a new modality.
      *
-     * @param modality The modality to be added
-     * @return The added modality
+     * @param modality {@link RegisterModalityDTO} The modality to be added
+     * @return {@link ModalityDTO} The added modality
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add a new modality")
@@ -115,14 +116,14 @@ public class ModalityController {
     /**
      * Deletes a modality.
      *
-     * @param id The ID of the modality to be deleted
+     * @param id {@link Long} The ID of the modality to be deleted
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete a modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
-    public void deleteModality(@PathVariable Long id) {
+    public void deleteModality(@PathVariable @Parameter(description = "ID of the modality to be deleted") Long id) throws PresentationException {
         try {
             modalityService.deleteModality(id);
         } catch (ModalityNotFoundException e) {
@@ -135,15 +136,15 @@ public class ModalityController {
     /**
      * Retrieves a modality by its name.
      *
-     * @param name The name of the modality
-     * @return The modality with the specified name
+     * @param name {@link String} The name of the modality
+     * @return {@link ModalityDTO} The modality with the specified name
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
-    public ModalityDTO getModalityByName(@PathVariable("name") String name) throws PresentationException {
+    public ModalityDTO getModalityByName(@PathVariable("name") @Parameter(description = "Name of the modality") String name) throws PresentationException {
         try {
             return boToDTOConverter.modalityBOToDTO(modalityService.getModalityByName(name));
         } catch (ModalityNotFoundException e) {
@@ -156,16 +157,16 @@ public class ModalityController {
     /**
      * Retrieves all modalities based on the number of players.
      *
-     * @param players The number of players
-     * @return List of modalities with the specified number of players
+     * @param players {@link Integer} The number of players
+     * @return {@link List} List of modalities with the specified number of players
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities by number of players")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/players/{players}")
-    public List<ModalityDTO> getAllModalities(@PathVariable("players") int players) throws PresentationException {
-        List<ModalityDTO> listModalityDTO = new ArrayList<ModalityDTO>();
+    public List<ModalityDTO> getAllModalities(@PathVariable("players") @Parameter(description = "Number of players") int players) throws PresentationException {
+        List<ModalityDTO> listModalityDTO = new ArrayList<>();
         try {
             modalityService.getModalitiesByNumberPlayers(players)
                     .forEach((ModalityBO modality) -> listModalityDTO.add(boToDTOConverter.modalityBOToDTO(modality)));
@@ -180,14 +181,14 @@ public class ModalityController {
     /**
      * Updates an existing modality.
      *
-     * @param modality The updated modality
+     * @param modality {@link ModalityDTO} The updated modality
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update an existing modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
-    public void updateModality(@RequestBody @Valid ModalityDTO modality) {
+    public void updateModality(@RequestBody @Valid ModalityDTO modality) throws PresentationException {
         try {
             modalityService.updateModality(dtoToBOConverter.modalityDTOToBO(modality));
         } catch (ModalityNotFoundException e) {

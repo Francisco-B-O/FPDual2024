@@ -60,8 +60,8 @@ public interface ModalityService {
     /**
      * Adds a new modality.
      *
-     * @param modalityBO The modality business object
-     * @return The saved modality business object
+     * @param modalityBO {@link ModalityBO} The modality business object
+     * @return {@link ModalityBO} The saved modality business object
      * @throws BusinessException If an error occurs during the operation
      */
     ModalityBO addModality(ModalityBO modalityBO) throws BusinessException;
@@ -69,8 +69,8 @@ public interface ModalityService {
     /**
      * Retrieves a modality by ID.
      *
-     * @param id The ID of the modality
-     * @return The modality business object
+     * @param id {@link Long} The ID of the modality
+     * @return {@link ModalityBO} The modality business object
      * @throws BusinessException If the modality is not found or an error occurs during the operation
      */
     ModalityBO getModalityById(Long id) throws BusinessException;
@@ -78,7 +78,7 @@ public interface ModalityService {
     /**
      * Retrieves all modalities.
      *
-     * @return A list of all modalities
+     * @return {@link List}  A list of all modalities
      * @throws BusinessException If an error occurs during the operation
      */
     List<ModalityBO> getAllModalities() throws BusinessException;
@@ -86,8 +86,8 @@ public interface ModalityService {
     /**
      * Retrieves a modality by name.
      *
-     * @param name The name of the modality
-     * @return The modality business object
+     * @param name {@link String} The name of the modality
+     * @return {@link ModalityBO} The modality business object
      * @throws BusinessException If the modality is not found or an error occurs during the operation
      */
     ModalityBO getModalityByName(String name) throws BusinessException;
@@ -95,7 +95,7 @@ public interface ModalityService {
     /**
      * Deletes a modality by ID.
      *
-     * @param id The ID of the modality to be deleted
+     * @param id {@link Long} The ID of the modality to be deleted
      * @throws BusinessException If the modality is not found or an error occurs during the operation
      */
     void deleteModality(Long id) throws BusinessException;
@@ -103,8 +103,8 @@ public interface ModalityService {
     /**
      * Retrieves modalities by the number of players.
      *
-     * @param numberPlayers The number of players
-     * @return A list of modalities that match the specified number of players
+     * @param numberPlayers {@link Integer} The number of players
+     * @return {@link List} A list of modalities that match the specified number of players
      * @throws BusinessException If an error occurs during the operation
      */
     List<ModalityBO> getModalitiesByNumberPlayers(int numberPlayers) throws BusinessException;
@@ -112,8 +112,8 @@ public interface ModalityService {
     /**
      * Updates a modality.
      *
-     * @param modalityBO The updated modality business object
-     * @return The updated modality business object
+     * @param modalityBO {@link ModalityBO}  The updated modality business object
+     * @return {@link ModalityBO} The updated modality business object
      * @throws BusinessException If the modality is not found or an error occurs during the operation
      */
     ModalityBO updateModality(ModalityBO modalityBO) throws BusinessException;

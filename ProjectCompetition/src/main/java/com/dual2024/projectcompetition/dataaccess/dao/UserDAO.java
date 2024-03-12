@@ -53,8 +53,8 @@ public interface UserDAO {
     /**
      * Saves a user.
      *
-     * @param user User to save.
-     * @return Saved user.
+     * @param user {@link User} User to save.
+     * @return {@link User} Saved user.
      * @throws DataException If there is an issue saving the user.
      */
     User save(User user) throws DataException;
@@ -62,8 +62,8 @@ public interface UserDAO {
     /**
      * Finds a user by its ID.
      *
-     * @param id The ID of the user to find.
-     * @return The user found.
+     * @param id {@link Long} The ID of the user to find.
+     * @return {@link User} The user found.
      * @throws DataException If there is an issue retrieving the user.
      */
     User findById(Long id) throws DataException;
@@ -71,7 +71,7 @@ public interface UserDAO {
     /**
      * Retrieves a list of all users.
      *
-     * @return A list with all the users.
+     * @return {@link List} A list with all the users.
      * @throws DataException If there is an issue retrieving the users.
      */
     List<User> findAll() throws DataException;
@@ -79,7 +79,7 @@ public interface UserDAO {
     /**
      * Deletes a user by its ID.
      *
-     * @param id The ID of the user to be deleted.
+     * @param id {@link Long} The ID of the user to be deleted.
      * @throws DataException If there is an issue deleting the user.
      */
     void delete(Long id) throws DataException;
@@ -87,8 +87,8 @@ public interface UserDAO {
     /**
      * Finds a user by their nickname.
      *
-     * @param nick The nickname of the user to find.
-     * @return The user found.
+     * @param nick {@link String} The nickname of the user to find.
+     * @return {@link User} The user found.
      * @throws DataException If there is an issue retrieving the user.
      */
     User findByNick(String nick) throws DataException;
@@ -96,8 +96,8 @@ public interface UserDAO {
     /**
      * Finds a user by their email address.
      *
-     * @param email The email address of the user to find.
-     * @return The user found.
+     * @param email {@link String} The email address of the user to find.
+     * @return {@link User} The user found.
      * @throws DataException If there is an issue retrieving the user.
      */
     User findByEmail(String email) throws DataException;
@@ -105,8 +105,8 @@ public interface UserDAO {
     /**
      * Finds a list of users with a specified state.
      *
-     * @param state The state of the users to find.
-     * @return A list with found users.
+     * @param state {@link UserState} The state of the users to find.
+     * @return {@link List} A list with found users.
      * @throws DataException If there is an issue retrieving the users.
      */
     List<User> findByState(UserState state) throws DataException;
@@ -114,9 +114,9 @@ public interface UserDAO {
     /**
      * Finds a list of users with a specified nickname or email address.
      *
-     * @param nick  The nickname of the user to find.
-     * @param email The email address of the user to find.
-     * @return A list with found users.
+     * @param nick  {@link String} The nickname of the user to find.
+     * @param email {@link String} The email address of the user to find.
+     * @return {@link List} A list with found users.
      * @throws DataException If there is an issue retrieving the users.
      */
     List<User> findByNickOrEmail(String nick, String email) throws DataException;

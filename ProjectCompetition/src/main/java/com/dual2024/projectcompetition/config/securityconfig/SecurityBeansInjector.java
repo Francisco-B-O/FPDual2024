@@ -50,8 +50,8 @@ public class SecurityBeansInjector {
     /**
      * Creates an AuthenticationManager bean.
      *
-     * @param authenticationConfiguration The authentication configuration
-     * @return The AuthenticationManager bean
+     * @param authenticationConfiguration {@link AuthenticationConfiguration} The authentication configuration
+     * @return {@link AuthenticationManager} The AuthenticationManager bean
      * @throws Exception If an exception occurs during bean creation
      */
     @Bean
@@ -63,7 +63,7 @@ public class SecurityBeansInjector {
     /**
      * Creates an AuthenticationProvider bean.
      *
-     * @return The AuthenticationProvider bean
+     * @return {@link DaoAuthenticationProvider} The AuthenticationProvider bean
      */
     @Bean
     AuthenticationProvider authenticationProvider() {
@@ -76,7 +76,7 @@ public class SecurityBeansInjector {
     /**
      * Creates a PasswordEncoder bean.
      *
-     * @return The PasswordEncoder bean
+     * @return {@link BCryptPasswordEncoder} The PasswordEncoder bean
      */
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -86,7 +86,7 @@ public class SecurityBeansInjector {
     /**
      * Creates a UserDetailsService bean.
      *
-     * @return The UserDetailsService bean
+     * @return {@link UserDetailsService} The UserDetailsService bean
      */
     @Bean
     UserDetailsService userDetailsService() {

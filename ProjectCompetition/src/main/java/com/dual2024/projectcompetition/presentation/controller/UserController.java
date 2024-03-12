@@ -18,6 +18,7 @@ import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import com.dual2024.projectcompetition.utils.UserState;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class UserController {
     /**
      * Retrieves all users.
      *
-     * @return List of all users
+     * @return {@link List} List of all users
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all users")
@@ -101,8 +102,8 @@ public class UserController {
     /**
      * Gets user by ID.
      *
-     * @param id The ID of the user
-     * @return The user with the specified ID
+     * @param id {@link Long} The ID of the user
+     * @return {@link UserDTO} The user with the specified ID
      * @throws PresentationException if an error occurs during presentation
      */
 
@@ -110,7 +111,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable("id") Long id) throws PresentationException {
+    public UserDTO getUserById(@PathVariable("id") @Parameter(description = "ID of the user") Long id) throws PresentationException {
         try {
             return boToDTOConverter.userBOToDTO(userService.getUser(id));
         } catch (UserNotFoundException e) {
@@ -123,15 +124,15 @@ public class UserController {
     /**
      * Gets users by state.
      *
-     * @param state The state of the users
-     * @return List of users with the specified state
+     * @param state {@link UserState} The state of the users
+     * @return {@link List} List of users with the specified state
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get users by state")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
-    public List<UserDTO> getUsersByState(@PathVariable("state") UserState state) throws PresentationException {
+    public List<UserDTO> getUsersByState(@PathVariable("state") @Parameter(description = "State of the users") UserState state) throws PresentationException {
         List<UserDTO> listUserDTO = new ArrayList<UserDTO>();
         try {
             userService.getUsersByState(state).forEach((UserBO user) -> listUserDTO.add(boToDTOConverter.userBOToDTO(user)));
@@ -146,15 +147,15 @@ public class UserController {
     /**
      * Gets user by email.
      *
-     * @param email The email of the user
-     * @return The user with the specified email
+     * @param email {@link String} The email of the user
+     * @return {@link UserDTO} The user with the specified email
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get user by email")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/email/{email}")
-    public UserDTO getUserByEmail(@PathVariable("email") String email) throws PresentationException {
+    public UserDTO getUserByEmail(@PathVariable("email") @Parameter(description = "Email of the user") String email) throws PresentationException {
         try {
             return boToDTOConverter.userBOToDTO(userService.getUserByEmail(email));
         } catch (UserNotFoundException e) {
@@ -167,15 +168,15 @@ public class UserController {
     /**
      * Gets user by nick.
      *
-     * @param nick The nickname of the user
-     * @return The user with the specified nickname
+     * @param nick {@link String} The nickname of the user
+     * @return {@link UserDTO} The user with the specified nickname
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get user by nickname")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/nick/{nick}")
-    public UserDTO getUserByNick(@PathVariable("nick") String nick) throws PresentationException {
+    public UserDTO getUserByNick(@PathVariable("nick") @Parameter(description = "Nickname of the user") String nick) throws PresentationException {
         try {
             return boToDTOConverter.userBOToDTO(userService.getUserByNick(nick));
         } catch (UserNotFoundException e) {
@@ -188,8 +189,8 @@ public class UserController {
     /**
      * Register a new user.
      *
-     * @param user The user to be registered
-     * @return The registered user
+     * @param user {@link RegisterUserDTO} The user to be registered
+     * @return {@link UserDTO} The registered user
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Register a new user")
@@ -210,14 +211,14 @@ public class UserController {
     /**
      * Deletes a user.
      *
-     * @param id The ID of the user to be deleted
+     * @param id {@link Long} The ID of the user to be deleted
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete a user")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/deletePlayer/{id}")
-    public void deleteUser(@PathVariable long id) {
+    public void deleteUser(@PathVariable @Parameter(description = "ID of the user to be deleted") long id) throws PresentationException {
         try {
             userService.deleteUser(id);
         } catch (UserNotFoundException e) {
@@ -230,8 +231,8 @@ public class UserController {
     /**
      * Updates a user.
      *
-     * @param user The updated user information
-     * @return The updated user
+     * @param user {@link UpdateUserDTO} The updated user information
+     * @return {@link UserDTO} The updated user
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update a user")
@@ -252,16 +253,16 @@ public class UserController {
     /**
      * Updates the role of a user.
      *
-     * @param id   The ID of the user
-     * @param user The updated user information
-     * @return The updated user with the new role
+     * @param id   {@link Long}  The ID of the user
+     * @param user {@link UpdateUserDTO} The updated user information
+     * @return {@link UserDTO} The updated user with the new roles
      * @throws PresentationException if an error occurs during presentation
      */
-    @Operation(summary = "Update a user")
+    @Operation(summary = "Update a user roles")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/admin/update/{id}")
-    public UserDTO updateUserRole(@PathVariable long id, @RequestBody @Valid UpdateUserDTO user)
+    public UserDTO updateUserRole(@PathVariable @Parameter(description = "ID of the user") long id, @RequestBody @Valid UpdateUserDTO user)
             throws PresentationException {
         List<RoleBO> roles = new ArrayList<RoleBO>();
         user.getRoles().forEach((RoleDTO role) -> roles.add(dtoToBOConverter.roleDTOToBO(role)));

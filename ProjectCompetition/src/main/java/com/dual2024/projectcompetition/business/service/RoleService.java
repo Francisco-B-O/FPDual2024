@@ -33,7 +33,7 @@ public interface RoleService {
     /**
      * Retrieves all roles.
      *
-     * @return A list of all roles
+     * @return {@link List} A list of all roles
      * @throws BusinessException If an error occurs during the operation
      */
     List<RoleBO> getAllRoles() throws BusinessException;

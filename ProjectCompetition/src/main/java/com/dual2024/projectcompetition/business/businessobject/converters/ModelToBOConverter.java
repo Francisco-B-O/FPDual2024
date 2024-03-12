@@ -1,7 +1,7 @@
 package com.dual2024.projectcompetition.business.businessobject.converters;
 
-import com.dual2024.projectcompetition.dataaccess.model.*;
 import com.dual2024.projectcompetition.business.businessobject.*;
+import com.dual2024.projectcompetition.dataaccess.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,8 +44,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Role entity to a RoleBO.
      *
-     * @param role The role entity
-     * @return The corresponding RoleBO
+     * @param role {@link Role} The role entity
+     * @return {@link RoleBO} The corresponding RoleBO
      */
     public RoleBO roleModelToBO(Role role) {
         return modelMapper.map(role, RoleBO.class);
@@ -54,8 +54,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Modality entity to a ModalityBO.
      *
-     * @param modality The modality entity
-     * @return The corresponding ModalityBO
+     * @param modality {@link Modality} The modality entity
+     * @return {@link ModalityBO} The corresponding ModalityBO
      */
     public ModalityBO modalityModelToBO(Modality modality) {
         return modelMapper.map(modality, ModalityBO.class);
@@ -64,8 +64,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Team entity to a TeamBO.
      *
-     * @param team The team entity
-     * @return The corresponding TeamBO
+     * @param team {@link Team} The team entity
+     * @return {@link TeamBO} The corresponding TeamBO
      */
     public TeamBO teamModelToBO(Team team) {
         return modelMapper.map(team, TeamBO.class);
@@ -74,8 +74,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Format entity to a FormatBO.
      *
-     * @param format The format entity
-     * @return The corresponding FormatBO
+     * @param format {@link Format}The format entity
+     * @return {@link FormatBO} The corresponding FormatBO
      */
     public FormatBO formatModelToBO(Format format) {
         return modelMapper.map(format, FormatBO.class);
@@ -84,8 +84,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Tournament entity to a TournamentBO.
      *
-     * @param tournament The tournament entity
-     * @return The corresponding TournamentBO
+     * @param tournament {@link Tournament} The tournament entity
+     * @return {@link TournamentBO} The corresponding TournamentBO
      */
     public TournamentBO tournamentModelToBO(Tournament tournament) {
         return modelMapper.map(tournament, TournamentBO.class);
@@ -94,8 +94,8 @@ public class ModelToBOConverter {
     /**
      * Converts a User entity to a UserBOAux.
      *
-     * @param user The user entity
-     * @return The corresponding UserBOAux
+     * @param user {@link User} The user entity
+     * @return {@link UserBOAux} The corresponding UserBOAux
      */
     public UserBOAux userModelToBOAux(User user) {
         return modelMapper.map(user, UserBOAux.class);
@@ -104,8 +104,8 @@ public class ModelToBOConverter {
     /**
      * Converts a Tournament entity to a TournamentBOAux.
      *
-     * @param tournament The tournament entity
-     * @return The corresponding TournamentBOAux
+     * @param tournament {@link Tournament} The tournament entity
+     * @return {@link TournamentBOAux} The corresponding TournamentBOAux
      */
     public TournamentBOAux tournamentModelToBOAux(Tournament tournament) {
         return modelMapper.map(tournament, TournamentBOAux.class);

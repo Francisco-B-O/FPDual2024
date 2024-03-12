@@ -56,8 +56,8 @@ public interface FormatService {
     /**
      * Adds a new format.
      *
-     * @param formatBO The format business object
-     * @return The saved format business object
+     * @param formatBO {@link FormatBO} The format business object
+     * @return {@link FormatBO} The saved format business object
      * @throws BusinessException If an error occurs during the operation
      */
     FormatBO addFormat(FormatBO formatBO) throws BusinessException;
@@ -65,8 +65,8 @@ public interface FormatService {
     /**
      * Retrieves a format by ID.
      *
-     * @param id The ID of the format
-     * @return The format business object
+     * @param id {@link Long} The ID of the format
+     * @return {@link FormatBO} The format business object
      * @throws BusinessException If the format is not found or an error occurs during the operation
      */
     FormatBO getFormatById(Long id) throws BusinessException;
@@ -74,7 +74,7 @@ public interface FormatService {
     /**
      * Retrieves all formats.
      *
-     * @return A list of all formats
+     * @return {@link List} A list of all formats
      * @throws BusinessException If an error occurs during the operation
      */
     List<FormatBO> getAllFormats() throws BusinessException;
@@ -82,7 +82,7 @@ public interface FormatService {
     /**
      * Deletes a format by ID.
      *
-     * @param id The ID of the format to be deleted
+     * @param id {@link Long} The ID of the format to be deleted
      * @throws BusinessException If the format is not found or an error occurs during the operation
      */
     void deleteFormat(Long id) throws BusinessException;
@@ -90,8 +90,8 @@ public interface FormatService {
     /**
      * Retrieves a format by name.
      *
-     * @param name The name of the format
-     * @return The format business object
+     * @param name {@link String} The name of the format
+     * @return {@link FormatBO}  The format business object
      * @throws BusinessException If the format is not found or an error occurs during the operation
      */
     FormatBO getFormatByName(String name) throws BusinessException;
@@ -99,8 +99,8 @@ public interface FormatService {
     /**
      * Updates a format.
      *
-     * @param formatBO The updated format business object
-     * @return The updated format business object
+     * @param formatBO {@link FormatBO} The updated format business object
+     * @return {@link FormatBO} The updated format business object
      * @throws BusinessException If the format is not found or an error occurs during the operation
      */
     FormatBO updateFormat(FormatBO formatBO) throws BusinessException;

@@ -33,8 +33,8 @@ public class DTOToBOConverter {
     /**
      * Converts a UserDTO to a UserBO.
      *
-     * @param userDTO The UserDTO
-     * @return The corresponding UserBO
+     * @param userDTO The {@link UserDTO} object to convert
+     * @return The {@link UserBO} object representing the converted user
      */
     public UserBO userDTOToBO(UserDTO userDTO) {
         return modelMapper.map(userDTO, UserBO.class);
@@ -43,8 +43,8 @@ public class DTOToBOConverter {
     /**
      * Converts a RoleDTO to a RoleBO.
      *
-     * @param roleDTO The RoleDTO
-     * @return The corresponding RoleBO
+     * @param roleDTO The {@link RoleDTO} object to convert
+     * @return The {@link RoleBO} object representing the converted role
      */
     public RoleBO roleDTOToBO(RoleDTO roleDTO) {
         return modelMapper.map(roleDTO, RoleBO.class);
@@ -53,8 +53,8 @@ public class DTOToBOConverter {
     /**
      * Converts a ModalityDTO to a ModalityBO.
      *
-     * @param modalityDTO The ModalityDTO
-     * @return The corresponding ModalityBO
+     * @param modalityDTO The {@link ModalityDTO} object to convert
+     * @return The {@link ModalityBO} object representing the converted modality
      */
     public ModalityBO modalityDTOToBO(ModalityDTO modalityDTO) {
         return modelMapper.map(modalityDTO, ModalityBO.class);
@@ -63,8 +63,8 @@ public class DTOToBOConverter {
     /**
      * Converts a TeamDTO to a TeamBO.
      *
-     * @param teamDTO The TeamDTO
-     * @return The corresponding TeamBO
+     * @param teamDTO The {@link TeamDTO} object to convert
+     * @return The {@link TeamBO} object representing the converted team
      */
     public TeamBO teamDTOToBO(TeamDTO teamDTO) {
         return modelMapper.map(teamDTO, TeamBO.class);
@@ -73,8 +73,8 @@ public class DTOToBOConverter {
     /**
      * Converts a FormatDTO to a FormatBO.
      *
-     * @param formatDTO The FormatDTO
-     * @return The corresponding FormatBO
+     * @param formatDTO The {@link FormatDTO} object to convert
+     * @return The {@link FormatBO} object representing the converted format
      */
     public FormatBO formatDTOToBO(FormatDTO formatDTO) {
         return modelMapper.map(formatDTO, FormatBO.class);
@@ -83,8 +83,8 @@ public class DTOToBOConverter {
     /**
      * Converts a TournamentDTO to a TournamentBO.
      *
-     * @param tournamentDTO The TournamentDTO
-     * @return The corresponding TournamentBO
+     * @param tournamentDTO The {@link TournamentDTO} object to convert
+     * @return The {@link TournamentBO} object representing the converted tournament
      */
     public TournamentBO tournamentDTOToBO(TournamentDTO tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBO.class);
@@ -93,8 +93,8 @@ public class DTOToBOConverter {
     /**
      * Converts a UserDTOAux to a UserBOAux.
      *
-     * @param userDTO The UserDTOAux
-     * @return The corresponding UserBOAux
+     * @param userDTO The {@link UserDTOAux} object to convert
+     * @return The {@link UserBOAux} object representing the converted user auxiliary information
      */
     public UserBOAux userDTOAuxToBOAux(UserDTOAux userDTO) {
         return modelMapper.map(userDTO, UserBOAux.class);
@@ -103,8 +103,8 @@ public class DTOToBOConverter {
     /**
      * Converts a TournamentDTOAux to a TournamentBOAux.
      *
-     * @param tournamentDTO The TournamentDTOAux
-     * @return The corresponding TournamentBOAux
+     * @param tournamentDTO The {@link TournamentDTOAux} object to convert
+     * @return The {@link TournamentBOAux} object representing the converted tournament auxiliary information
      */
     public TournamentBOAux tournamentDTOAuxToBOAux(TournamentDTOAux tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBOAux.class);
@@ -113,8 +113,8 @@ public class DTOToBOConverter {
     /**
      * Converts a RegisterUserDTO to a UserBO.
      *
-     * @param userDTO The RegisterUserDTO
-     * @return The corresponding UserBO
+     * @param userDTO The {@link RegisterUserDTO} object to convert
+     * @return The {@link UserBO} object representing the converted user
      */
     public UserBO RegisterUserDTOToBO(RegisterUserDTO userDTO) {
         return modelMapper.map(userDTO, UserBO.class);
@@ -123,8 +123,8 @@ public class DTOToBOConverter {
     /**
      * Converts a RegisterTeamDTO to a TeamBO.
      *
-     * @param teamDTO The RegisterTeamDTO
-     * @return The corresponding TeamBO
+     * @param teamDTO The {@link RegisterTeamDTO} object to convert
+     * @return The {@link TeamBO} object representing the converted team
      */
     public TeamBO RegisterTeamDTOToBO(RegisterTeamDTO teamDTO) {
         return modelMapper.map(teamDTO, TeamBO.class);
@@ -133,8 +133,8 @@ public class DTOToBOConverter {
     /**
      * Converts a RegisterTournamentDTO to a TournamentBO.
      *
-     * @param tournamentDTO The RegisterTournamentDTO
-     * @return The corresponding TournamentBO
+     * @param tournamentDTO The {@link RegisterTournamentDTO} object to convert
+     * @return The {@link TournamentBO} object representing the converted tournament
      */
     public TournamentBO RegisterTournamentDTOToBO(RegisterTournamentDTO tournamentDTO) {
         return modelMapper.map(tournamentDTO, TournamentBO.class);
@@ -143,8 +143,8 @@ public class DTOToBOConverter {
     /**
      * Converts a RegisterModalityDTO to a ModalityBO.
      *
-     * @param modalityDTO The RegisterModalityDTO
-     * @return The corresponding ModalityBO
+     * @param modalityDTO The {@link RegisterModalityDTO} object to convert
+     * @return The {@link ModalityBO} object representing the converted modality
      */
     public ModalityBO RegisterModalityDTOToBO(RegisterModalityDTO modalityDTO) {
         return modelMapper.map(modalityDTO, ModalityBO.class);
@@ -153,11 +153,10 @@ public class DTOToBOConverter {
     /**
      * Converts a RegisterFormatDTO to a FormatBO.
      *
-     * @param formatDTO The RegisterFormatDTO
-     * @return The corresponding FormatBO
+     * @param formatDTO The {@link RegisterFormatDTO} object to convert
+     * @return The {@link FormatBO} object representing the converted format
      */
     public FormatBO RegisterFormatDTOToBO(RegisterFormatDTO formatDTO) {
         return modelMapper.map(formatDTO, FormatBO.class);
     }
-
 }

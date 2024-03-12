@@ -43,8 +43,8 @@ public interface RoleDAO {
     /**
      * Saves a role.
      *
-     * @param role Role to save.
-     * @return Saved role.
+     * @param role {@link Role} Role to save.
+     * @return {@link Role} Saved role.
      * @throws DataException If there is an issue saving the role.
      */
     Role save(Role role) throws DataException;
@@ -52,8 +52,8 @@ public interface RoleDAO {
     /**
      * Finds a role by its ID.
      *
-     * @param id The ID of the role to find.
-     * @return The role found.
+     * @param id {@link Long} The ID of the role to find.
+     * @return {@link Role} The role found.
      * @throws DataException If there is an issue retrieving the role.
      */
     Role findById(Long id) throws DataException;
@@ -61,7 +61,7 @@ public interface RoleDAO {
     /**
      * Retrieves a list of all roles.
      *
-     * @return A list with all the roles.
+     * @return {@link List} A list with all the roles.
      * @throws DataException If there is an issue retrieving the roles.
      */
     List<Role> findAll() throws DataException;
@@ -69,7 +69,7 @@ public interface RoleDAO {
     /**
      * Deletes a role by its ID.
      *
-     * @param id The ID of the role to be deleted.
+     * @param id {@link Long} The ID of the role to be deleted.
      * @throws DataException If there is an issue deleting the role.
      */
     void delete(Long id) throws DataException;
@@ -77,8 +77,8 @@ public interface RoleDAO {
     /**
      * Finds a role by its name.
      *
-     * @param name The name of the role to find.
-     * @return The role found.
+     * @param name {@link String} The name of the role to find.
+     * @return {@link Role} The role found.
      * @throws DataException If there is an issue retrieving the role by name.
      */
     Role findByName(String name) throws DataException;

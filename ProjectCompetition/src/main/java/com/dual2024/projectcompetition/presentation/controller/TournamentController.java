@@ -15,6 +15,7 @@ import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import com.dual2024.projectcompetition.utils.TournamentState;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +68,7 @@ public class TournamentController {
     /**
      * Gets all tournaments.
      *
-     * @return the list of all tournaments
+     * @return {@link List} the list of all tournaments
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get all tournaments")
@@ -90,15 +91,15 @@ public class TournamentController {
     /**
      * Gets tournament by id.
      *
-     * @param id the id of the tournament
-     * @return the tournament with the specified id
+     * @param id {@link Long} the id of the tournament
+     * @return {@link TournamentDTO} the tournament with the specified id
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournament by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
-    public TournamentDTO getTournamentById(@PathVariable("id") Long id) throws PresentationException {
+    public TournamentDTO getTournamentById(@PathVariable("id") @Parameter(description = "ID of the tournament") Long id) throws PresentationException {
         try {
             return boToDTOConverter.tournamentBOToDTO(tournamentService.getTournamentById(id));
         } catch (TournamentNotFoundException e) {
@@ -111,15 +112,15 @@ public class TournamentController {
     /**
      * Gets tournaments by state.
      *
-     * @param state the state of the tournaments to retrieve
-     * @return the list of tournaments with the specified state
+     * @param state {@link TournamentState} the state of the tournaments to retrieve
+     * @return {@link List} the list of tournaments with the specified state
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by state")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
-    public List<TournamentDTO> getTournamentByState(@PathVariable("state") TournamentState state)
+    public List<TournamentDTO> getTournamentByState(@PathVariable("state") @Parameter(description = "State of the tournament") TournamentState state)
             throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
@@ -136,15 +137,15 @@ public class TournamentController {
     /**
      * Gets tournaments by modality.
      *
-     * @param modality the modality of the tournaments to retrieve
-     * @return the list of tournaments with the specified modality
+     * @param modality {@link String} the modality of the tournaments to retrieve
+     * @return {@link List} the list of tournaments with the specified modality
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
-    public List<TournamentDTO> getTournamentsByModality(@PathVariable("modality") String modality)
+    public List<TournamentDTO> getTournamentsByModality(@PathVariable("modality") @Parameter(description = "Modality name of the tournament") String modality)
             throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
@@ -162,15 +163,15 @@ public class TournamentController {
     /**
      * Gets tournaments by format.
      *
-     * @param format the format of the tournaments to retrieve
-     * @return the list of tournaments with the specified format
+     * @param format {@link String} the format of the tournaments to retrieve
+     * @return {@link List} the list of tournaments with the specified format
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/format/{format}")
-    public List<TournamentDTO> getTournamentsByFormat(@PathVariable("format") String format)
+    public List<TournamentDTO> getTournamentsByFormat(@PathVariable("format") @Parameter(description = "Format name of the tournament") String format)
             throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
@@ -188,15 +189,15 @@ public class TournamentController {
     /**
      * Gets tournaments by name.
      *
-     * @param name the name of the tournaments to retrieve
-     * @return the list of tournaments with the specified name
+     * @param name {@link String} the name of the tournaments to retrieve
+     * @return {@link List} the list of tournaments with the specified name
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
-    public List<TournamentDTO> getTournamentByName(@PathVariable("name") String name) throws PresentationException {
+    public List<TournamentDTO> getTournamentByName(@PathVariable("name") @Parameter(description = "Name of the tournament") String name) throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
             tournamentService.getTournamentsByName(name).forEach(
@@ -212,15 +213,15 @@ public class TournamentController {
     /**
      * Gets tournaments by size.
      *
-     * @param size the size of the tournaments to retrieve
-     * @return the list of tournaments with the specified size
+     * @param size {@link Integer} the size of the tournaments to retrieve
+     * @return {@link List} the list of tournaments with the specified size
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by size")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/size/{size}")
-    public List<TournamentDTO> getTournamentBySize(@PathVariable("size") int size) throws PresentationException {
+    public List<TournamentDTO> getTournamentBySize(@PathVariable("size") @Parameter(description = "Size of the tournament") int size) throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
             tournamentService.getTournamentsBySize(size).forEach(
@@ -236,15 +237,15 @@ public class TournamentController {
     /**
      * Gets tournaments by start date.
      *
-     * @param start the start date of the tournaments to retrieve
-     * @return the list of tournaments starting from the specified date
+     * @param start {@link LocalDateTime} the start date of the tournaments to retrieve
+     * @return {@link List} the list of tournaments starting from the specified date
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by start date")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/start/{start}")
-    public List<TournamentDTO> getTournamentByStartDate(@PathVariable("start") LocalDateTime start)
+    public List<TournamentDTO> getTournamentByStartDate(@PathVariable("start") @Parameter(description = "Start date of the tournament") LocalDateTime start)
             throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
@@ -261,14 +262,14 @@ public class TournamentController {
     /**
      * Gets tournaments by end date.
      *
-     * @param end the end date of the tournaments to retrieve
-     * @return the list of tournaments ending on the specified date
+     * @param end {@link LocalDateTime} the end date of the tournaments to retrieve
+     * @return {@link List} the list of tournaments ending on the specified date
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by end date")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @GetMapping("/end/{end}")
-    public List<TournamentDTO> getTournamentByEndDate(@PathVariable("end") LocalDateTime end)
+    public List<TournamentDTO> getTournamentByEndDate(@PathVariable("end") @Parameter(description = "End date of the tournament") LocalDateTime end)
             throws PresentationException {
         List<TournamentDTO> listTournamentDTO = new ArrayList<TournamentDTO>();
         try {
@@ -285,8 +286,8 @@ public class TournamentController {
     /**
      * Register tournament.
      *
-     * @param tournament the tournament to register
-     * @return the registered tournament
+     * @param tournament {@link RegisterTournamentDTO} the tournament to register
+     * @return {@link TournamentDTO} the registered tournament
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Register tournament")
@@ -308,14 +309,14 @@ public class TournamentController {
     /**
      * Delete tournament.
      *
-     * @param id the id of the tournament to delete
+     * @param id {@link Long} the id of the tournament to delete
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Delete tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
-    public void deleteTournament(@PathVariable long id) {
+    public void deleteTournament(@PathVariable @Parameter(description = "ID of the tournament to be deleted") long id) throws PresentationException {
         try {
             tournamentService.deleteTournament(id);
         } catch (TournamentNotFoundException e) {
@@ -328,15 +329,15 @@ public class TournamentController {
     /**
      * Add team to tournament.
      *
-     * @param team       the id of the team to add
-     * @param tournament the id of the tournament to add the team to
+     * @param team       {@link Long} the id of the team to add
+     * @param tournament {@link Long} the id of the tournament to add the team to
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Add team to tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addTeam/{tournament}/{team}")
-    public void addTeam(@PathVariable long team, @PathVariable long tournament) {
+    public void addTeam(@PathVariable @Parameter(description = "The ID of the team") long team, @PathVariable @Parameter(description = "The ID of the tournament") long tournament) throws PresentationException {
         try {
             tournamentService.addTeam(team, tournament);
         } catch (TeamNotFoundException | TournamentNotFoundException e) {
@@ -349,14 +350,14 @@ public class TournamentController {
     /**
      * Update tournament.
      *
-     * @param tournament the tournament to update
+     * @param tournament {@link TournamentDTO} the tournament to update
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Update tournament")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
-    public void updateTournament(@RequestBody @Valid TournamentDTO tournament) {
+    public void updateTournament(@RequestBody @Valid TournamentDTO tournament) throws PresentationException {
         try {
             tournamentService.updateTournament(dtoToBOConverter.tournamentDTOToBO(tournament));
         } catch (TournamentNotFoundException e) {

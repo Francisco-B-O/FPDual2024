@@ -47,8 +47,8 @@ public interface ModalityDAO {
     /**
      * Saves a modality.
      *
-     * @param modality Modality to save.
-     * @return Saved modality.
+     * @param modality {@link Modality} Modality to save.
+     * @return {@link Modality} Saved modality.
      * @throws DataException If there is an issue saving the modality.
      */
     Modality save(Modality modality) throws DataException;
@@ -56,8 +56,8 @@ public interface ModalityDAO {
     /**
      * Finds a modality by its ID.
      *
-     * @param id The ID of the modality to find.
-     * @return The modality found.
+     * @param id {@link Long} The ID of the modality to find.
+     * @return {@link Modality} The modality found.
      * @throws DataException If there is an issue retrieving the modality.
      */
     Modality findById(Long id) throws DataException;
@@ -65,7 +65,7 @@ public interface ModalityDAO {
     /**
      * Retrieves a list of all modalities.
      *
-     * @return A list with all the modalities.
+     * @return {@link List} A list with all the modalities.
      * @throws DataException If there is an issue retrieving the modalities.
      */
     List<Modality> findAll() throws DataException;
@@ -73,7 +73,7 @@ public interface ModalityDAO {
     /**
      * Deletes a modality by its ID.
      *
-     * @param id The ID of the modality to be deleted.
+     * @param id {@link Long}The ID of the modality to be deleted.
      * @throws DataException If there is an issue deleting the modality.
      */
     void delete(Long id) throws DataException;
@@ -81,8 +81,8 @@ public interface ModalityDAO {
     /**
      * Finds a modality by its name.
      *
-     * @param name The name of the modality to find.
-     * @return The modality found.
+     * @param name {@link String} The name of the modality to find.
+     * @return {@link Modality} The modality found.
      * @throws DataException If there is an issue retrieving the modality by name.
      */
     Modality findByName(String name) throws DataException;
@@ -90,8 +90,8 @@ public interface ModalityDAO {
     /**
      * Finds a list of modalities with a specified number of players.
      *
-     * @param numberPlayers The number of players of the modalities to find.
-     * @return A list with found modalities.
+     * @param numberPlayers {@link Integer} The number of players of the modalities to find.
+     * @return @{@link List} A list with found modalities.
      * @throws DataException If there is an issue retrieving the modalities.
      */
     List<Modality> findByNumberPlayers(int numberPlayers) throws DataException;

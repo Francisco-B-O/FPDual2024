@@ -28,8 +28,8 @@ public interface FormatRepository extends JpaRepository<Format, Long> {
     /**
      * Finds the format with the specified name.
      *
-     * @param name the name of the role
-     * @return the format with the specified name
+     * @param name {@link String} the name of the role
+     * @return {@link Optional} the format with the specified name or null
      */
     Optional<Format> findByName(String name);
 }

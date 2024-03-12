@@ -65,8 +65,8 @@ public interface TournamentDAO {
     /**
      * Saves a tournament.
      *
-     * @param tournament Tournament to save.
-     * @return Saved tournament.
+     * @param tournament {@link Tournament} Tournament to save.
+     * @return {@link Tournament} Saved tournament.
      * @throws DataException If there is an issue saving the tournament.
      */
     Tournament save(Tournament tournament) throws DataException;
@@ -74,8 +74,8 @@ public interface TournamentDAO {
     /**
      * Finds a tournament by its ID.
      *
-     * @param id The ID of the tournament to find.
-     * @return The tournament found.
+     * @param id {@link Long} The ID of the tournament to find.
+     * @return {@link Tournament} The tournament found.
      * @throws DataException If there is an issue retrieving the tournament.
      */
     Tournament findById(Long id) throws DataException;
@@ -83,7 +83,7 @@ public interface TournamentDAO {
     /**
      * Retrieves a list of all tournaments.
      *
-     * @return A list with all the tournaments.
+     * @return {@link List} A list with all the tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findAll() throws DataException;
@@ -91,7 +91,7 @@ public interface TournamentDAO {
     /**
      * Deletes a tournament by its ID.
      *
-     * @param id The ID of the tournament to be deleted.
+     * @param id {@link Long} The ID of the tournament to be deleted.
      * @throws DataException If there is an issue deleting the tournament.
      */
     void delete(Long id) throws DataException;
@@ -99,8 +99,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their name.
      *
-     * @param name The name of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param name {@link String} The name of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByName(String name) throws DataException;
@@ -108,8 +108,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their format.
      *
-     * @param format The format of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param format {@link Format} The format of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByFormat(Format format) throws DataException;
@@ -117,8 +117,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their size.
      *
-     * @param size The size of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param size {@link Integer} The size of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findBySize(int size) throws DataException;
@@ -126,8 +126,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their start date.
      *
-     * @param startDate The start date of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param startDate {@link LocalDateTime} The start date of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByStartDate(LocalDateTime startDate) throws DataException;
@@ -135,8 +135,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their end date.
      *
-     * @param endDate The end date of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param endDate {@link LocalDateTime} The end date of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByEndDate(LocalDateTime endDate) throws DataException;
@@ -144,8 +144,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their state.
      *
-     * @param state The state of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param state {@link TournamentState} The state of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByState(TournamentState state) throws DataException;
@@ -153,8 +153,8 @@ public interface TournamentDAO {
     /**
      * Finds tournaments by their modality.
      *
-     * @param modality The modality of the tournaments to find.
-     * @return A list with found tournaments.
+     * @param modality {@link Modality} The modality of the tournaments to find.
+     * @return {@link List} A list with found tournaments.
      * @throws DataException If there is an issue retrieving the tournaments.
      */
     List<Tournament> findByModality(Modality modality) throws DataException;

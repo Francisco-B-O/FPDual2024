@@ -51,8 +51,8 @@ public interface TeamDAO {
     /**
      * Saves a team.
      *
-     * @param team Team to save.
-     * @return Saved team.
+     * @param team {@link Team} Team to save.
+     * @return {@link Team} Saved team.
      * @throws DataException If there is an issue saving the team.
      */
     Team save(Team team) throws DataException;
@@ -60,8 +60,8 @@ public interface TeamDAO {
     /**
      * Finds a team by its ID.
      *
-     * @param id The ID of the team to find.
-     * @return The team found.
+     * @param id {@link Long} The ID of the team to find.
+     * @return {@link Team} The team found.
      * @throws DataException If there is an issue retrieving the team.
      */
     Team findById(Long id) throws DataException;
@@ -69,7 +69,7 @@ public interface TeamDAO {
     /**
      * Retrieves a list of all teams.
      *
-     * @return A list with all the teams.
+     * @return {@link List} A list with all the teams.
      * @throws DataException If there is an issue retrieving the teams.
      */
     List<Team> findAll() throws DataException;
@@ -77,7 +77,7 @@ public interface TeamDAO {
     /**
      * Deletes a team by its ID.
      *
-     * @param id The ID of the team to be deleted.
+     * @param id {@link Long} The ID of the team to be deleted.
      * @throws DataException If there is an issue deleting the team.
      */
     void delete(Long id) throws DataException;
@@ -85,8 +85,8 @@ public interface TeamDAO {
     /**
      * Finds a list of teams with a specified name.
      *
-     * @param name The name of the teams to find.
-     * @return A list with found teams.
+     * @param name {@link String} The name of the teams to find.
+     * @return {@link List} A list with found teams.
      * @throws DataException If there is an issue retrieving the teams by name.
      */
     List<Team> findByName(String name) throws DataException;
@@ -94,8 +94,8 @@ public interface TeamDAO {
     /**
      * Finds a list of teams with a specified modality.
      *
-     * @param modality The modality of the teams to find.
-     * @return A list with found teams.
+     * @param modality {@link Modality} The modality of the teams to find.
+     * @return {@link List} A list with found teams.
      * @throws DataException If there is an issue retrieving the teams by modality.
      */
     List<Team> findByModality(Modality modality) throws DataException;
@@ -103,8 +103,8 @@ public interface TeamDAO {
     /**
      * Finds a list of teams with a specified captain.
      *
-     * @param captain The captain of the teams to find.
-     * @return A list with found teams.
+     * @param captain {@link User} The captain of the teams to find.
+     * @return {@link List} A list with found teams.
      * @throws DataException If there is an issue retrieving the teams by captain.
      */
     List<Team> findByCaptain(User captain) throws DataException;

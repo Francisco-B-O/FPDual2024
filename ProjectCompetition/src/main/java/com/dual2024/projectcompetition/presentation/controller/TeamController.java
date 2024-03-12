@@ -13,6 +13,7 @@ import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConver
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ import java.util.List;
 /**
  * Controller class for managing teams in the system.
  *
- * <p>This class defines RESTful endpoints for various team-related operations.It handles
- * requests related to retrieving all teams, retrieving a teams by ID or name, adding, updating,adding players,
+ * <p>This class defines RESTful endpoints for various team-related operations. It handles
+ * requests related to retrieving all teams, retrieving a teams by ID or name, adding, updating, adding players,
  * and deleting teams. The endpoints are secured, and only authorized users with specific roles
  * can access them.</p>
  *
@@ -64,7 +65,7 @@ public class TeamController {
     /**
      * Retrieves all teams in the system.
      *
-     * @return List of all teams
+     * @return {@link List} List of all teams
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all teams")
@@ -72,7 +73,7 @@ public class TeamController {
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<TeamDTO> getAllTeams() throws PresentationException {
-        List<TeamDTO> listTeamDTO = new ArrayList<TeamDTO>();
+        List<TeamDTO> listTeamDTO = new ArrayList<>();
         try {
             teamService.getAllTeams().forEach((TeamBO team) -> listTeamDTO.add(boToDTOConverter.teamBOToDTO(team)));
             return listTeamDTO;
@@ -86,15 +87,16 @@ public class TeamController {
     /**
      * Retrieves a team by its unique identifier.
      *
-     * @param id The identifier of the team
-     * @return TeamDTO representing the team with the specified ID
+     * @param id {@link Long} The identifier of the team
+     * @return {@link TeamDTO} TeamDTO representing the team with the specified ID
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get team by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
-    public TeamDTO getTeamById(@PathVariable("id") Long id) throws PresentationException {
+    public TeamDTO getTeamById(
+            @Parameter(description = "The ID of the team") @PathVariable("id") Long id) throws PresentationException {
         try {
             return boToDTOConverter.teamBOToDTO(teamService.getTeamById(id));
         } catch (TeamNotFoundException e) {
@@ -107,16 +109,18 @@ public class TeamController {
     /**
      * Retrieves teams by the specified modality.
      *
-     * @param modality The name of the modality
-     * @return List of teams within the specified modality
+     * @param modality {@link String} The name of the modality
+     * @return {@link List} List of teams within the specified modality
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get teams by modality")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
-    public List<TeamDTO> getTeamsByModality(@PathVariable("modality") String modality) throws PresentationException {
-        List<TeamDTO> listTeamDTO = new ArrayList<TeamDTO>();
+    public List<TeamDTO> getTeamsByModality(
+            @Parameter(description = "The name of the modality") @PathVariable("modality") String modality)
+            throws PresentationException {
+        List<TeamDTO> listTeamDTO = new ArrayList<>();
         try {
             ModalityBO found = modalityService.getModalityByName(modality);
             teamService.getTeamsByModality(found)
@@ -132,16 +136,18 @@ public class TeamController {
     /**
      * Retrieves teams by the specified name.
      *
-     * @param name The name of the team
-     * @return List of teams with the specified name
+     * @param name {@link String} The name of the team
+     * @return {@link List} List of teams with the specified name
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get team by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
-    public List<TeamDTO> getTeamByName(@PathVariable("name") String name) throws PresentationException {
-        List<TeamDTO> listTeamDTO = new ArrayList<TeamDTO>();
+    public List<TeamDTO> getTeamByName(
+            @Parameter(description = "The name of the team") @PathVariable("name") String name)
+            throws PresentationException {
+        List<TeamDTO> listTeamDTO = new ArrayList<>();
         try {
             teamService.getTeamsByName(name)
                     .forEach((TeamBO team) -> listTeamDTO.add(boToDTOConverter.teamBOToDTO(team)));
@@ -156,8 +162,8 @@ public class TeamController {
     /**
      * Registers a new team.
      *
-     * @param team The team information to register
-     * @return TeamDTO representing the newly registered team
+     * @param team {@link RegisterTeamDTO} The team information to register
+     * @return {@link TeamDTO} TeamDTO representing the newly registered team
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Register a new team")
@@ -167,7 +173,8 @@ public class TeamController {
     public TeamDTO registerTeam(@RequestBody @Valid RegisterTeamDTO team) throws PresentationException {
         try {
             Long captain = authenticationService.getUserAuthenticated();
-            return boToDTOConverter.teamBOToDTO(teamService.registerTeam(captain, dtoToBOConverter.RegisterTeamDTOToBO(team)));
+            return boToDTOConverter.teamBOToDTO(
+                    teamService.registerTeam(captain, dtoToBOConverter.RegisterTeamDTOToBO(team)));
         } catch (DuplicatedCaptainException | DuplicatedNameAndModalityException e) {
             throw new PresentationException(e.getMessage());
         } catch (BusinessException e) {
@@ -178,15 +185,18 @@ public class TeamController {
     /**
      * Adds a player to the specified team.
      *
-     * @param team   The ID of the team to which the player will be added
-     * @param player The ID of the player
-     * @return TeamDTO representing the updated team
+     * @param team   {@link Long}   The ID of the team to which the player will be added
+     * @param player {@link Long} The ID of the player
+     * @return {@link TeamDTO} TeamDTO representing the updated team
+     * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add player to the team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addPlayer/{team}/{player}")
-    public TeamDTO addPlayer(@PathVariable Long team, @PathVariable Long player) {
+    public TeamDTO addPlayer(
+            @Parameter(description = "The ID of the team to which the player will be added") @PathVariable Long team,
+            @Parameter(description = "The ID of the player") @PathVariable Long player) throws PresentationException {
         try {
             return boToDTOConverter.teamBOToDTO(teamService.addPlayer(player, team));
         } catch (UserNotFoundException | TeamNotFoundException e) {
@@ -199,13 +209,14 @@ public class TeamController {
     /**
      * Deletes the specified team.
      *
-     * @param id The ID of the team to be deleted
+     * @param id {@link Long} The ID of the team to be deleted
+     * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
-    public void deleteTeam(@PathVariable Long id) {
+    public void deleteTeam(@Parameter(description = "The ID of the team to be deleted") @PathVariable Long id) throws PresentationException {
         try {
             teamService.deleteTeam(id);
         } catch (TeamNotFoundException e) {
@@ -218,13 +229,14 @@ public class TeamController {
     /**
      * Updates information for the specified team.
      *
-     * @param team The updated information for the team
+     * @param team {@link TeamDTO} The updated information for the team
+     * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update team")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
-    public void updateTeam(@RequestBody @Valid TeamDTO team) {
+    public void updateTeam(@RequestBody @Valid TeamDTO team) throws PresentationException {
         try {
             teamService.updateTeam(dtoToBOConverter.teamDTOToBO(team));
         } catch (TeamNotFoundException e) {

@@ -12,6 +12,7 @@ import com.dual2024.projectcompetition.presentation.dto.converters.DTOToBOConver
 import com.dual2024.projectcompetition.presentation.exception.NotFoundException;
 import com.dual2024.projectcompetition.presentation.exception.PresentationException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +56,7 @@ public class FormatController {
     /**
      * Retrieves all formats.
      *
-     * @return List of all formats
+     * @return {@link List} List of all formats
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all formats")
@@ -78,15 +79,15 @@ public class FormatController {
     /**
      * Retrieves a format by its ID.
      *
-     * @param id The ID of the format
-     * @return The format with the specified ID
+     * @param id {@link Long} The ID of the format
+     * @return {@link FormatDTO} The format with the specified ID
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by ID")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
-    public FormatDTO getFormatById(@PathVariable("id") Long id) throws PresentationException {
+    public FormatDTO getFormatById(@PathVariable("id") @Parameter(description = "The ID of the format") Long id) throws PresentationException {
         try {
             return boToDTOConverter.formatBOToDTO(formatService.getFormatById(id));
         } catch (FormatNotFoundException e) {
@@ -99,8 +100,8 @@ public class FormatController {
     /**
      * Adds a new format.
      *
-     * @param format The format to be added
-     * @return The added format
+     * @param format {@link RegisterFormatDTO} The format to be added
+     * @return {@link FormatDTO} The added format
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add a new format")
@@ -120,14 +121,14 @@ public class FormatController {
     /**
      * Deletes a format.
      *
-     * @param id The ID of the format to be deleted
+     * @param id {@link Long} The ID of the format to be deleted
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete a format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
-    public void deleteFormat(@PathVariable Long id) {
+    public void deleteFormat(@PathVariable @Parameter(description = "The ID of the format to be deleted") Long id) throws PresentationException {
         try {
             formatService.deleteFormat(id);
         } catch (FormatNotFoundException e) {
@@ -140,15 +141,15 @@ public class FormatController {
     /**
      * Retrieves a format by its name.
      *
-     * @param name The name of the format
-     * @return The format with the specified name
+     * @param name {@link String} The name of the format
+     * @return {@link FormatDTO} The format with the specified name
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by name")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
-    public FormatDTO getFormatByName(@PathVariable("name") String name) throws PresentationException {
+    public FormatDTO getFormatByName(@PathVariable("name") @Parameter(description = "The name of the format") String name) throws PresentationException {
         try {
             return boToDTOConverter.formatBOToDTO(formatService.getFormatByName(name));
         } catch (FormatNotFoundException e) {
@@ -161,14 +162,14 @@ public class FormatController {
     /**
      * Updates a format.
      *
-     * @param format The updated format
+     * @param format {@link FormatDTO} The updated format
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update a format")
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/update")
-    public void updateFormat(@RequestBody @Valid FormatDTO format) {
+    public void updateFormat(@RequestBody @Valid FormatDTO format) throws PresentationException {
         try {
             formatService.updateFormat(dtoToBOConverter.formatDTOToBO(format));
         } catch (FormatNotFoundException e) {

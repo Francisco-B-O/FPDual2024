@@ -38,7 +38,7 @@ public class NotFoundException extends PresentationException {
     /**
      * Constructs a new NotFoundException with the specified detail message.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
      */
     public NotFoundException(String message) {
         super(message);
@@ -47,8 +47,8 @@ public class NotFoundException extends PresentationException {
     /**
      * Constructs a new NotFoundException with the specified detail message and cause.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
-     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   {@link Exception}  The cause (which is saved for later retrieval by the getCause() method)
      */
     public NotFoundException(String message, Exception cause) {
         super(message, cause);

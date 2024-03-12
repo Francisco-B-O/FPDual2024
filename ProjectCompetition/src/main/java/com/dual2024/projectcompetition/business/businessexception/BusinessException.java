@@ -34,7 +34,7 @@ public class BusinessException extends Exception {
     /**
      * Constructs a new BusinessException with the specified detail message.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
      */
     public BusinessException(String message) {
         super(message);
@@ -43,8 +43,8 @@ public class BusinessException extends Exception {
     /**
      * Constructs a new BusinessException with the specified detail message and cause.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
-     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   {@link Exception}    The cause (which is saved for later retrieval by the getCause() method)
      */
     public BusinessException(String message, Exception cause) {
         super(message, cause);

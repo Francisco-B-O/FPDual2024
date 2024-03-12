@@ -42,8 +42,8 @@ public class HttpSecurityConfig {
     /**
      * Creates a SecurityFilterChain bean for configuring HTTP security settings.
      *
-     * @param http The HttpSecurity object
-     * @return The SecurityFilterChain bean
+     * @param http {@link HttpSecurity} The HttpSecurity object
+     * @return {@link SecurityFilterChain} The SecurityFilterChain bean
      * @throws Exception If an exception occurs during security configuration
      */
     @Bean

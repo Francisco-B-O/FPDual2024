@@ -51,8 +51,8 @@ public class AuthenticationController {
     /**
      * Handles the login request and returns an authentication response.
      *
-     * @param request The authentication request
-     * @return ResponseEntity containing the authentication response
+     * @param request {@link AuthenticationRequest} The authentication request
+     * @return ResponseEntity @{@link ResponseEntity} containing the authentication response
      */
     @Operation(summary = "Handles the login request and returns an authentication response")
     @PreAuthorize("permitAll")

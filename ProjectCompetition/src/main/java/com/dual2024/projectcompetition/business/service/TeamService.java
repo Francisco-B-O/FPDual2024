@@ -65,9 +65,9 @@ public interface TeamService {
     /**
      * Registers a new team.
      *
-     * @param captainId The ID of the team captain
-     * @param teamBO    The team BO to register
-     * @return The registered team BO
+     * @param captainId {@link Long} The ID of the team captain
+     * @param teamBO    {@link TeamBO}   The team BO to register
+     * @return {@link TeamBO}  The registered team BO
      * @throws BusinessException If an error occurs during the operation
      */
     TeamBO registerTeam(Long captainId, TeamBO teamBO) throws BusinessException;
@@ -75,8 +75,8 @@ public interface TeamService {
     /**
      * Retrieves a team by ID.
      *
-     * @param id The ID of the team to retrieve
-     * @return The team BO with the specified ID
+     * @param id {@link Long} The ID of the team to retrieve
+     * @return {@link TeamBO}  The team BO with the specified ID
      * @throws BusinessException If an error occurs during the operation
      */
     TeamBO getTeamById(Long id) throws BusinessException;
@@ -84,7 +84,7 @@ public interface TeamService {
     /**
      * Retrieves all teams.
      *
-     * @return A list of all teams
+     * @return {@link List} A list of all teams
      * @throws BusinessException If an error occurs during the operation
      */
     List<TeamBO> getAllTeams() throws BusinessException;
@@ -92,7 +92,7 @@ public interface TeamService {
     /**
      * Deletes a team.
      *
-     * @param id The ID of the team to delete
+     * @param id {@link Long} The ID of the team to delete
      * @throws BusinessException If an error occurs during the operation
      */
     void deleteTeam(Long id) throws BusinessException;
@@ -100,8 +100,8 @@ public interface TeamService {
     /**
      * Retrieves teams by name.
      *
-     * @param name The name of the teams to retrieve
-     * @return A list of teams with the specified name
+     * @param name {@link String} The name of the teams to retrieve
+     * @return {@link List}  A list of teams with the specified name
      * @throws BusinessException If an error occurs during the operation
      */
     List<TeamBO> getTeamsByName(String name) throws BusinessException;
@@ -109,8 +109,8 @@ public interface TeamService {
     /**
      * Retrieves teams by modality.
      *
-     * @param modalityBO The modality of the teams to retrieve
-     * @return A list of teams with the specified modality
+     * @param modalityBO {@link ModalityBO} The modality of the teams to retrieve
+     * @return {@link List}  A list of teams with the specified modality
      * @throws BusinessException If an error occurs during the operation
      */
     List<TeamBO> getTeamsByModality(ModalityBO modalityBO) throws BusinessException;
@@ -118,8 +118,8 @@ public interface TeamService {
     /**
      * Updates a team.
      *
-     * @param teamBO The team BO to update
-     * @return The updated team BO
+     * @param teamBO {@link TeamBO}  The team BO to update
+     * @return {@link TeamBO}  The updated team BO
      * @throws BusinessException If an error occurs during the operation
      */
     TeamBO updateTeam(TeamBO teamBO) throws BusinessException;
@@ -127,9 +127,9 @@ public interface TeamService {
     /**
      * Adds a player to a team.
      *
-     * @param userId The ID of the user to add
-     * @param teamId The ID of the team to which the user will be added
-     * @return The team BO with the added player
+     * @param userId {@link Long} The ID of the user to add
+     * @param teamId {@link Long} The ID of the team to which the user will be added
+     * @return {@link TeamBO} The team BO with the added player
      * @throws BusinessException If an error occurs during the operation
      */
     TeamBO addPlayer(Long userId, Long teamId) throws BusinessException;

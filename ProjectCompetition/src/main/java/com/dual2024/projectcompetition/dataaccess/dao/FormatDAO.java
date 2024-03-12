@@ -43,8 +43,8 @@ public interface FormatDAO {
     /**
      * Saves a format.
      *
-     * @param format Format to save.
-     * @return Saved format.
+     * @param format {@link Format} Format to save.
+     * @return {@link Format} Saved format.
      * @throws DataException If there is an issue saving the format.
      */
     Format save(Format format) throws DataException;
@@ -52,8 +52,8 @@ public interface FormatDAO {
     /**
      * Finds a format by its ID.
      *
-     * @param id The ID of the format to find.
-     * @return The format found.
+     * @param id {@link Long} The ID of the format to find.
+     * @return {@link Format} The format found.
      * @throws DataException If there is an issue retrieving the format.
      */
     Format findById(Long id) throws DataException;
@@ -61,7 +61,7 @@ public interface FormatDAO {
     /**
      * Retrieves a list of all formats.
      *
-     * @return A list with all the formats.
+     * @return {@link List} A list with all the formats.
      * @throws DataException If there is an issue retrieving the formats.
      */
     List<Format> findAll() throws DataException;
@@ -69,7 +69,7 @@ public interface FormatDAO {
     /**
      * Deletes a format by its ID.
      *
-     * @param id The ID of the format to be deleted.
+     * @param id {@link Long} The ID of the format to be deleted.
      * @throws DataException If there is an issue deleting the format.
      */
     void delete(Long id) throws DataException;
@@ -77,8 +77,8 @@ public interface FormatDAO {
     /**
      * Finds a format by its name.
      *
-     * @param name The name of the format to find.
-     * @return The format found.
+     * @param name {@link String} The name of the format to find.
+     * @return {@link Format} The format found.
      * @throws DataException If there is an issue retrieving the format by name.
      */
     Format findByName(String name) throws DataException;

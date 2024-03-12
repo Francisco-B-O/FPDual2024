@@ -50,56 +50,56 @@ public interface TournamentRepository extends JpaRepository<Tournament, Long> {
     /**
      * Finds all tournaments with the specified name.
      *
-     * @param name the name of the tournament
-     * @return a list of tournaments with the specified name
+     * @param name {@link String} the name of the tournament
+     * @return {@link List} a list of tournaments with the specified name
      */
     List<Tournament> findByName(String name);
 
     /**
      * Finds all tournaments with the specified format.
      *
-     * @param format the format of the tournament
-     * @return a list of tournaments with the specified format
+     * @param format {@link Format} the format of the tournament
+     * @return {@link List} a list of tournaments with the specified format
      */
     List<Tournament> findByFormat(Format format);
 
     /**
      * Finds all tournaments with the specified size.
      *
-     * @param size the size of the tournament
-     * @return a list of tournaments with the specified size
+     * @param size {@link Integer} the size of the tournament
+     * @return {@link List} a list of tournaments with the specified size
      */
     List<Tournament> findBySize(int size);
 
     /**
      * Finds all tournaments with the specified start date.
      *
-     * @param startDate the start date of the tournament
-     * @return a list of tournaments with the specified start date
+     * @param startDate {@link LocalDateTime} the start date of the tournament
+     * @return {@link List} a list of tournaments with the specified start date
      */
     List<Tournament> findByStartDate(LocalDateTime startDate);
 
     /**
      * Finds all tournaments with the specified end date.
      *
-     * @param endDate the end date of the tournament
-     * @return a list of tournaments with the specified end date
+     * @param endDate {@link LocalDateTime} the end date of the tournament
+     * @return {@link List} a list of tournaments with the specified end date
      */
     List<Tournament> findByEndDate(LocalDateTime endDate);
 
     /**
      * Finds all tournaments with the specified state.
      *
-     * @param state the state of the tournament
-     * @return a list of tournaments with the specified state
+     * @param state {@link TournamentState} the state of the tournament
+     * @return {@link List} a list of tournaments with the specified state
      */
     List<Tournament> findByState(TournamentState state);
 
     /**
      * Finds all tournaments with the specified modality.
      *
-     * @param modality the modality of the tournament
-     * @return a list of tournaments with the specified modality
+     * @param modality {@link Modality} the modality of the tournament
+     * @return {@link List} a list of tournaments with the specified modality
      */
     List<Tournament> findByModality(Modality modality);
 

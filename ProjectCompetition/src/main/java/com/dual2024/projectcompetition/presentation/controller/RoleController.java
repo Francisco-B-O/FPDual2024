@@ -23,7 +23,7 @@ import java.util.List;
  * Controller class for managing roles.
  *
  * <p>This class defines a RESTful endpoint for retrieving all roles in the system. Only users with
- * the 'ROLE_ADMIN' role are authorized to access this endpoint.
+ * the 'ROLE_ADMIN' role are authorized to access this endpoint.</p>
  *
  * @author Franciosco Balonero Olivera
  * @see RoleService
@@ -42,7 +42,7 @@ public class RoleController {
     /**
      * Retrieves all roles in the system.
      *
-     * @return List of all roles
+     * @return {@link List} List of all roles
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all roles")
@@ -50,7 +50,7 @@ public class RoleController {
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<RoleDTO> getAllRoles() throws PresentationException {
-        List<RoleDTO> listRoleDTO = new ArrayList<RoleDTO>();
+        List<RoleDTO> listRoleDTO = new ArrayList<>();
         try {
             roleService.getAllRoles().forEach((RoleBO role) -> listRoleDTO.add(boToDTOConverter.roleBOToDTO(role)));
             return listRoleDTO;

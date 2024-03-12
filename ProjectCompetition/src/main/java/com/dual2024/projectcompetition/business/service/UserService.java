@@ -1,9 +1,9 @@
 package com.dual2024.projectcompetition.business.service;
 
-import com.dual2024.projectcompetition.utils.UserState;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessobject.RoleBO;
 import com.dual2024.projectcompetition.business.businessobject.UserBO;
+import com.dual2024.projectcompetition.utils.UserState;
 
 import java.util.List;
 
@@ -72,7 +72,7 @@ public interface UserService {
     /**
      * Retrieves all users.
      *
-     * @return A list of all users
+     * @return {@link List} A list of all users
      * @throws BusinessException If an error occurs during the operation
      */
     List<UserBO> getAllUsers() throws BusinessException;
@@ -80,8 +80,8 @@ public interface UserService {
     /**
      * Registers a new user.
      *
-     * @param userBO The user BO to register
-     * @return The registered user BO
+     * @param userBO {@link UserBO} The user BO to register
+     * @return {@link UserBO} The registered user BO
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO registerUser(UserBO userBO) throws BusinessException;
@@ -89,8 +89,8 @@ public interface UserService {
     /**
      * Retrieves a user by ID.
      *
-     * @param id The ID of the user to retrieve
-     * @return The user BO with the specified ID
+     * @param id {@link Long}  The ID of the user to retrieve
+     * @return {@link UserBO} The user BO with the specified ID
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO getUser(Long id) throws BusinessException;
@@ -98,7 +98,7 @@ public interface UserService {
     /**
      * Deletes a user.
      *
-     * @param id The ID of the user to delete
+     * @param id {@link Long}  The ID of the user to delete
      * @throws BusinessException If an error occurs during the operation
      */
     void deleteUser(Long id) throws BusinessException;
@@ -106,8 +106,8 @@ public interface UserService {
     /**
      * Retrieves a user by nickname.
      *
-     * @param nick The nickname of the user to retrieve
-     * @return The user BO with the specified nickname
+     * @param nick {@link String} The nickname of the user to retrieve
+     * @return {@link UserBO} The user BO with the specified nickname
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO getUserByNick(String nick) throws BusinessException;
@@ -115,8 +115,8 @@ public interface UserService {
     /**
      * Retrieves a user by email.
      *
-     * @param email The email of the user to retrieve
-     * @return The user BO with the specified email
+     * @param email {@link String} The email of the user to retrieve
+     * @return {@link UserBO} The user BO with the specified email
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO getUserByEmail(String email) throws BusinessException;
@@ -124,8 +124,8 @@ public interface UserService {
     /**
      * Retrieves users by state.
      *
-     * @param state The state of the users to retrieve
-     * @return A list of users with the specified state
+     * @param state {@link UserState} The state of the users to retrieve
+     * @return {@link List} A list of users with the specified state
      * @throws BusinessException If an error occurs during the operation
      */
     List<UserBO> getUsersByState(UserState state) throws BusinessException;
@@ -133,10 +133,10 @@ public interface UserService {
     /**
      * Updates a user's information.
      *
-     * @param id       The ID of the user to update
-     * @param avatar   The new avatar of the user
-     * @param password The new password of the user
-     * @return The updated user BO
+     * @param id       {@link Long}    The ID of the user to update
+     * @param avatar   {@link String}   The new avatar of the user
+     * @param password {@link String} The new password of the user
+     * @return {@link UserBO} The updated user BO
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO updateUser(Long id, String avatar, String password) throws BusinessException;
@@ -144,9 +144,9 @@ public interface UserService {
     /**
      * Updates the role of a user (only for admins).
      *
-     * @param id    The ID of the user to update roles
-     * @param roles The new roles for the user
-     * @return The updated user BO
+     * @param id    {@link Long}   The ID of the user to update roles
+     * @param roles {@link List} The new roles for the user
+     * @return {@link UserBO} The updated user BO
      * @throws BusinessException If an error occurs during the operation
      */
     UserBO updateRoleUser(Long id, List<RoleBO> roles) throws BusinessException;

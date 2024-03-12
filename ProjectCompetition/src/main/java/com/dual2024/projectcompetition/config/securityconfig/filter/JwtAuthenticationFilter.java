@@ -1,9 +1,9 @@
 package com.dual2024.projectcompetition.config.securityconfig.filter;
 
+import com.dual2024.projectcompetition.business.service.security.JwtService;
 import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import com.dual2024.projectcompetition.dataaccess.model.User;
-import com.dual2024.projectcompetition.business.service.security.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,9 +45,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     /**
      * Handles the processing of each incoming HTTP request to check for JWT authentication.
      *
-     * @param request     The HTTP request
-     * @param response    The HTTP response
-     * @param filterChain The filter chain for handling the request
+     * @param request     {@link HttpServletRequest }     The HTTP request
+     * @param response    {@link HttpServletResponse}   The HTTP response
+     * @param filterChain {@link FilterChain } The filter chain for handling the request
      * @throws ServletException If an exception occurs during servlet processing
      * @throws IOException      If an I/O exception occurs
      */

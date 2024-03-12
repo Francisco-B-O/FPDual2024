@@ -41,8 +41,8 @@ public interface JwtService {
     /**
      * Method that generates a JSON Web Token (JWT) for a user with extra claims.
      *
-     * @param user        The user for whom the JWT is generated
-     * @param extraClaims Additional claims to include in the JWT
+     * @param user        {@link UserBO}        The user for whom the JWT is generated
+     * @param extraClaims {@link Map} Additional claims to include in the JWT
      * @return The generated JWT as a string
      */
     String generateToken(UserBO user, Map<String, Object> extraClaims);
@@ -50,16 +50,16 @@ public interface JwtService {
     /**
      * Method that extracts the email from a JSON Web Token (JWT).
      *
-     * @param jwt The JWT from which to extract the email
-     * @return The email extracted from the JWT
+     * @param jwt {@link String} The JWT from which to extract the email
+     * @return {@link String} The email extracted from the JWT
      */
     String extractEmail(String jwt);
 
     /**
      * Method that extracts all claims from a JSON Web Token (JWT).
      *
-     * @param jwt The JWT from which to extract all claims
-     * @return All claims extracted from the JWT as a Claims object
+     * @param jwt {@link String} The JWT from which to extract all claims
+     * @return {@link Claims} All claims extracted from the JWT as a Claims object
      */
     Claims extractAllClaims(String jwt);
 }

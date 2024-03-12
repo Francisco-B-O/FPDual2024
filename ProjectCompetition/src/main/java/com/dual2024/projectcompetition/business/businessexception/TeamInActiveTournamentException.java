@@ -36,7 +36,7 @@ public class TeamInActiveTournamentException extends BusinessException {
     /**
      * Constructs a new TeamInActiveTournamentException with the specified detail message.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
      */
     public TeamInActiveTournamentException(String message) {
         super(message);
@@ -45,8 +45,8 @@ public class TeamInActiveTournamentException extends BusinessException {
     /**
      * Constructs a new TeamInActiveTournamentException with the specified detail message and cause.
      *
-     * @param message The detail message (which is saved for later retrieval by the getMessage() method)
-     * @param cause   The cause (which is saved for later retrieval by the getCause() method)
+     * @param message {@link String} The detail message (which is saved for later retrieval by the getMessage() method)
+     * @param cause   {@link Exception}    The cause (which is saved for later retrieval by the getCause() method)
      */
     public TeamInActiveTournamentException(String message, Exception cause) {
         super(message, cause);
