@@ -29,7 +29,8 @@ public class UserDAOImpl implements UserDAO {
     public User save(User user) throws DataException {
         try {
             User savedUser = userRepository.save(user);
-            log.info("User saved successfully: {}", savedUser.getId());
+            log.debug("User saved successfully: {}", savedUser.getId());
+            log.info("User saved successfully");
             return savedUser;
         } catch (ConstraintViolationException | NestedRuntimeException e) {
             log.error("Error saving user", e);
@@ -42,7 +43,8 @@ public class UserDAOImpl implements UserDAO {
         try {
             User user = userRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
-            log.info("User retrieved successfully: {}", id);
+            log.debug("User retrieved successfully: {}", id);
+            log.info("User retrieved successfully");
             return user;
         } catch (NestedRuntimeException nre) {
             log.error("Error when trying to find user: {}", id, nre);
@@ -71,7 +73,8 @@ public class UserDAOImpl implements UserDAO {
     public void delete(Long id) throws DataException {
         try {
             userRepository.deleteById(id);
-            log.info("User deleted successfully: {}", id);
+            log.debug("User deleted successfully: {}", id);
+            log.info("User deleted successfully");
         } catch (NestedRuntimeException nre) {
             log.error("Error deleting user: {}", id, nre);
             throw new DataException("User not deleted", nre);
@@ -83,7 +86,8 @@ public class UserDAOImpl implements UserDAO {
         try {
             User user = userRepository.findByNick(nick)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
-            log.info("User retrieved successfully by nick: {}", nick);
+            log.debug("User retrieved successfully by nick: {}", nick);
+            log.info("User retrieved successfully by nick");
             return user;
         } catch (NestedRuntimeException nre) {
             log.error("Error when trying to find user by nick: {}", nick, nre);
@@ -96,7 +100,8 @@ public class UserDAOImpl implements UserDAO {
         try {
             User user = userRepository.findByEmail(email)
                     .orElseThrow(() -> new EntityNotFoundException("User not found"));
-            log.info("User retrieved successfully by email: {}", email);
+            log.debug("User retrieved successfully by email: {}", email);
+            log.info("User retrieved successfully by email");
             return user;
         } catch (NestedRuntimeException nre) {
             log.error("Error when trying to find user by email: {}", email, nre);
@@ -129,7 +134,7 @@ public class UserDAOImpl implements UserDAO {
                 log.warn("No users found with nick or email: {}, {}", nick, email);
                 throw new EntityNotFoundException("Users not found");
             } else {
-                log.info("Found {} users with nick or email: {}, {}", users.size(), nick, email);
+                log.info("Found {} users with nick or email", users.size());
                 return users;
             }
         } catch (NestedRuntimeException nre) {

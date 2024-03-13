@@ -56,12 +56,13 @@ public class ModalityServiceImpl implements ModalityService {
             log.error("This name is already registered: {}", modalityBO.getName());
             throw new DuplicatedNameException("This name is already registered");
         } catch (DataException ignored) {
+            log.debug("This name is not registered: {}", modalityBO.getName());
+            log.info("This name is not registered");
         }
         try {
             return modelToBOConverter
                     .modalityModelToBO(modalityDAO.save(boToModelConverter.modalityBOToModel(modalityBO)));
         } catch (DataException e) {
-            log.error("Error add modality", e);
             throw new BusinessException("Error add modality", e);
         }
     }
@@ -71,10 +72,9 @@ public class ModalityServiceImpl implements ModalityService {
         try {
             return modelToBOConverter.modalityModelToBO(modalityDAO.findById(id));
         } catch (EntityNotFoundException e) {
-            log.error("Modality not found", e);
+            log.error("Modality not found by id: {}", id, e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find modality", e);
             throw new BusinessException("Error when trying to find modality", e);
         }
     }
@@ -87,10 +87,8 @@ public class ModalityServiceImpl implements ModalityService {
                     (Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
             return listModalitiesBO;
         } catch (EntityNotFoundException e) {
-            log.error("Modalities not found", e);
             throw new ModalityNotFoundException("Modalities not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find modalities", e);
             throw new BusinessException("Error when trying to find modalities", e);
         }
     }
@@ -100,10 +98,9 @@ public class ModalityServiceImpl implements ModalityService {
         try {
             return modelToBOConverter.modalityModelToBO(modalityDAO.findByName(name));
         } catch (EntityNotFoundException e) {
-            log.error("Modality not found", e);
+            log.error("Modality not found by name:{}", name, e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find modality", e);
             throw new BusinessException("Error when trying to find modality", e);
         }
     }
@@ -116,10 +113,8 @@ public class ModalityServiceImpl implements ModalityService {
                     (Modality modality) -> listModalitiesBO.add(modelToBOConverter.modalityModelToBO(modality)));
             return listModalitiesBO;
         } catch (EntityNotFoundException e) {
-            log.error("Modalities not found", e);
             throw new ModalityNotFoundException("Modalities not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find modalities", e);
             throw new BusinessException("Error when trying to find modalities", e);
         }
     }
@@ -131,10 +126,9 @@ public class ModalityServiceImpl implements ModalityService {
             modalityDAO.findById(id);
             modalityDAO.delete(id);
         } catch (EntityNotFoundException e) {
-            log.error("Modality not found", e);
+            log.error("Modality not found by Id{}", id, e);
             throw new ModalityNotFoundException("Modality not found", e);
         } catch (DataException e) {
-            log.error("Modality not deleted", e);
             throw new BusinessException("Modality not deleted", e);
         }
     }
@@ -147,7 +141,7 @@ public class ModalityServiceImpl implements ModalityService {
             modalityDAO.findById(modalityBO.getId());
             modality = modalityBO;
         } catch (DataException e) {
-            log.error("This modality not exists", e);
+            log.error("Modality not found by Id{}", modalityBO.getId(), e);
             throw new ModalityNotFoundException("This modality not exists", e);
         }
         try {

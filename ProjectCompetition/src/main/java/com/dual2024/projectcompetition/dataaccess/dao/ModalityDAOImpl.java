@@ -28,7 +28,8 @@ public class ModalityDAOImpl implements ModalityDAO {
     public Modality save(Modality modality) throws DataException {
         try {
             Modality savedModality = modalityRepository.save(modality);
-            log.info("Modality saved successfully with id: {}", savedModality.getId());
+            log.debug("Modality saved successfully with id: {}", savedModality.getId());
+            log.info("Modality saved successfully");
             return savedModality;
         } catch (NestedRuntimeException | ConstraintViolationException e) {
             log.error("Error saving modality", e);
@@ -41,7 +42,8 @@ public class ModalityDAOImpl implements ModalityDAO {
         try {
             Modality modality = modalityRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Modality not found"));
-            log.info("Modality found by id: {}", id);
+            log.debug("Modality found by id: {}", id);
+            log.info("Modality found by id");
             return modality;
         } catch (NestedRuntimeException nre) {
             log.error("Error finding modality by id: {}", id, nre);
@@ -70,7 +72,8 @@ public class ModalityDAOImpl implements ModalityDAO {
     public void delete(Long id) throws DataException {
         try {
             modalityRepository.deleteById(id);
-            log.info("Modality deleted successfully with id: {}", id);
+            log.debug("Modality deleted successfully with id: {}", id);
+            log.info("Modality deleted successfully");
         } catch (NestedRuntimeException nre) {
             log.error("Error deleting modality with id: {}", id, nre);
             throw new DataException("Modality not deleted", nre);
@@ -82,7 +85,8 @@ public class ModalityDAOImpl implements ModalityDAO {
         try {
             Modality modality = modalityRepository.findByName(name)
                     .orElseThrow(() -> new EntityNotFoundException("Modality not found"));
-            log.info("Modality found by name: {}", name);
+            log.debug("Modality found by name: {}", name);
+            log.info("Modality found by name");
             return modality;
         } catch (NestedRuntimeException nre) {
             log.error("Error finding modality by name: {}", name, nre);

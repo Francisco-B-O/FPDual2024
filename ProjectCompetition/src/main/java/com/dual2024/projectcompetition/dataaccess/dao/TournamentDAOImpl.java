@@ -33,7 +33,8 @@ public class TournamentDAOImpl implements TournamentDAO {
     public Tournament save(Tournament tournament) throws DataException {
         try {
             Tournament savedTournament = tournamentRepository.save(tournament);
-            log.info("Tournament saved successfully with id: {}", savedTournament.getId());
+            log.debug("Tournament saved successfully with id: {}", savedTournament.getId());
+            log.info("Tournament saved successfully");
             return savedTournament;
         } catch (NestedRuntimeException | ConstraintViolationException nre) {
             log.error("Error saving tournament", nre);
@@ -46,7 +47,8 @@ public class TournamentDAOImpl implements TournamentDAO {
         try {
             Tournament tournament = tournamentRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Tournament not found"));
-            log.info("Tournament retrieved successfully with id: {}", id);
+            log.debug("Tournament retrieved successfully with id: {}", id);
+            log.info("Tournament retrieved successfully with id");
             return tournament;
         } catch (NestedRuntimeException nre) {
             log.error("Error when trying to find tournament by id: {}", id, nre);
@@ -75,7 +77,8 @@ public class TournamentDAOImpl implements TournamentDAO {
     public void delete(Long id) throws DataException {
         try {
             tournamentRepository.deleteById(id);
-            log.info("Tournament deleted successfully with id: {}", id);
+            log.debug("Tournament deleted successfully with id: {}", id);
+            log.info("Tournament deleted successfully");
         } catch (NestedRuntimeException nre) {
             log.error("Error when trying to delete tournament with id: {}", id, nre);
             throw new DataException("Tournament not deleted", nre);

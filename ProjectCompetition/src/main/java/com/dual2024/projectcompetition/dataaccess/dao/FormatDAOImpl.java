@@ -28,7 +28,8 @@ public class FormatDAOImpl implements FormatDAO {
     public Format save(Format format) throws DataException {
         try {
             Format savedFormat = formatRepository.save(format);
-            log.info("Format saved successfully with id: {}", savedFormat.getId());
+            log.debug("Format saved successfully with id: {}", savedFormat.getId());
+            log.info("Format saved successfully");
             return savedFormat;
         } catch (NestedRuntimeException | ConstraintViolationException e) {
             log.error("Error saving format", e);
@@ -41,7 +42,8 @@ public class FormatDAOImpl implements FormatDAO {
         try {
             Format format = formatRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Format not found"));
-            log.info("Format found by id: {}", id);
+            log.debug("Format found by id: {}", id);
+            log.info("Format found by id");
             return format;
         } catch (NestedRuntimeException nre) {
             log.error("Error finding format by id: {}", id, nre);
@@ -70,7 +72,8 @@ public class FormatDAOImpl implements FormatDAO {
     public void delete(Long id) throws DataException {
         try {
             formatRepository.deleteById(id);
-            log.info("Format deleted successfully with id: {}", id);
+            log.debug("Format deleted successfully with id: {}", id);
+            log.info("Format deleted successfully");
         } catch (NestedRuntimeException nre) {
             log.error("Error deleting format with id: {}", id, nre);
             throw new DataException("Format not deleted", nre);
@@ -82,7 +85,8 @@ public class FormatDAOImpl implements FormatDAO {
         try {
             Format format = formatRepository.findByName(name)
                     .orElseThrow(() -> new EntityNotFoundException("Format not found"));
-            log.info("Format found by name: {}", name);
+            log.debug("Format found by name: {}", name);
+            log.info("Format found by name");
             return format;
         } catch (NestedRuntimeException nre) {
             log.error("Error finding format by name: {}", name, nre);

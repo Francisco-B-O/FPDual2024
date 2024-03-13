@@ -1,15 +1,15 @@
 package com.dual2024.projectcompetition.business.service;
 
-import com.dual2024.projectcompetition.dataaccess.dao.FormatDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
-import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
-import com.dual2024.projectcompetition.dataaccess.model.Format;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessexception.DuplicatedNameException;
 import com.dual2024.projectcompetition.business.businessexception.FormatNotFoundException;
 import com.dual2024.projectcompetition.business.businessobject.FormatBO;
 import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.dataaccess.dao.FormatDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Format;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,12 +56,11 @@ public class FormatServiceImpl implements FormatService {
             log.error("This name is already registered: {}", formatBO.getName());
             throw new DuplicatedNameException("This name is already registered");
         } catch (DataException ignored) {
+            log.debug("This name is not registered: {}", formatBO.getName());
+            log.info("This name is not registered");
         }
         try {
-            Format savedFormat = formatDAO.save(boToModelConverter.formatBOToModel(formatBO));
-            FormatBO savedFormatBO = modelToBOConverter.formatModelToBO(savedFormat);
-            log.info("Format added successfully with id: {}", savedFormatBO.getId());
-            return savedFormatBO;
+            return modelToBOConverter.formatModelToBO(formatDAO.save(boToModelConverter.formatBOToModel(formatBO)));
         } catch (DataException e) {
             log.error("Error adding format", e);
             throw new BusinessException("Error add format", e);
@@ -71,14 +70,11 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public FormatBO getFormatById(Long id) throws BusinessException {
         try {
-            FormatBO formatBO = modelToBOConverter.formatModelToBO(formatDAO.findById(id));
-            log.info("Format found by id: {}", id);
-            return formatBO;
+            return modelToBOConverter.formatModelToBO(formatDAO.findById(id));
         } catch (EntityNotFoundException e) {
             log.error("Format not found by id: {}", id, e);
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
-            log.error("Error finding format by id: {}", id, e);
             throw new BusinessException("Error when trying to find format", e);
         }
     }
@@ -94,10 +90,8 @@ public class FormatServiceImpl implements FormatService {
             log.info("Found {} formats", listFormatsBO.size());
             return listFormatsBO;
         } catch (EntityNotFoundException e) {
-            log.warn("No formats found", e);
             throw new FormatNotFoundException("Formats not found", e);
         } catch (DataException e) {
-            log.error("Error finding all formats", e);
             throw new BusinessException("Error when trying to find formats", e);
         }
     }
@@ -105,14 +99,11 @@ public class FormatServiceImpl implements FormatService {
     @Override
     public FormatBO getFormatByName(String name) throws BusinessException {
         try {
-            FormatBO formatBO = modelToBOConverter.formatModelToBO(formatDAO.findByName(name));
-            log.info("Format found by name: {}", name);
-            return formatBO;
+            return modelToBOConverter.formatModelToBO(formatDAO.findByName(name));
         } catch (EntityNotFoundException e) {
             log.error("Format not found by name: {}", name, e);
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
-            log.error("Error finding format by name: {}", name, e);
             throw new BusinessException("Error when trying to find format", e);
         }
     }
@@ -123,12 +114,10 @@ public class FormatServiceImpl implements FormatService {
         try {
             formatDAO.findById(id);
             formatDAO.delete(id);
-            log.info("Format deleted successfully with id: {}", id);
         } catch (EntityNotFoundException e) {
             log.error("Format not found by id: {}", id, e);
             throw new FormatNotFoundException("Format not found", e);
         } catch (DataException e) {
-            log.error("Error deleting format with id: {}", id, e);
             throw new FormatNotFoundException("Format not deleted", e);
         }
     }
@@ -139,7 +128,6 @@ public class FormatServiceImpl implements FormatService {
 
         try {
             formatDAO.findById(formatBO.getId());
-            log.info("Format found by id: {}", formatBO.getId());
         } catch (DataException e) {
             log.error("Format not found by id: {}", formatBO.getId(), e);
             throw new FormatNotFoundException("This format not exists", e);
@@ -147,7 +135,8 @@ public class FormatServiceImpl implements FormatService {
         try {
             Format savedFormat = formatDAO.save(boToModelConverter.formatBOToModel(formatBO));
             FormatBO savedFormatBO = modelToBOConverter.formatModelToBO(savedFormat);
-            log.info("Format updated successfully with id: {}", savedFormatBO.getId());
+            log.debug("Format updated successfully with id: {}", savedFormatBO.getId());
+            log.info("Format updated successfully");
             return savedFormatBO;
         } catch (DataException e) {
             log.error("Error updating format", e);

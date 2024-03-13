@@ -30,7 +30,8 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String generateToken(UserBO user, Map<String, Object> extraClaims) {
-        log.info("Generating JWT token for user with email: {}", user.getEmail());
+        log.debug("Generating JWT token for user with email: {}", user.getEmail());
+        log.info("Generating JWT token");
         Date issuedAt = new Date(System.currentTimeMillis());
         Date expiration = new Date(issuedAt.getTime() + (60 * EXPIRATION_MINUTES * 1000));
         String jwtToken = Jwts.builder()
@@ -52,7 +53,8 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String extractEmail(String jwt) {
         String email = extractAllClaims(jwt).getSubject();
-        log.info("Extracted email {} from JWT token.", email);
+        log.debug("Extracted email {} from JWT token.", email);
+        log.info("Extracted email from JWT token.");
         return email;
     }
 

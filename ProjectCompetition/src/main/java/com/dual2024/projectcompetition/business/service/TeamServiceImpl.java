@@ -1,16 +1,16 @@
 package com.dual2024.projectcompetition.business.service;
 
-import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
-import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
-import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
-import com.dual2024.projectcompetition.dataaccess.model.Team;
 import com.dual2024.projectcompetition.business.businessexception.*;
 import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
 import com.dual2024.projectcompetition.business.businessobject.TeamBO;
 import com.dual2024.projectcompetition.business.businessobject.UserBOAux;
 import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.dataaccess.dao.TeamDAO;
+import com.dual2024.projectcompetition.dataaccess.dao.UserDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Team;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,6 +77,7 @@ public class TeamServiceImpl implements TeamService {
                 log.error("This user is already captain of another team");
                 throw new DuplicatedCaptainException("This user is already captain of another team");
             } catch (DataException ignored) {
+                log.info("This user is not captain of any team");
             }
 
             List<TeamBO> listTeamsBO = new ArrayList<>();
@@ -98,7 +99,6 @@ public class TeamServiceImpl implements TeamService {
 
             return modelToBOConverter.teamModelToBO(teamDAO.save(boToModelConverter.teamBOToModel(teamBO)));
         } catch (DataException e) {
-            log.error("Error registering team", e);
             throw new BusinessException("Error registering team", e);
         }
     }
@@ -108,10 +108,9 @@ public class TeamServiceImpl implements TeamService {
         try {
             return modelToBOConverter.teamModelToBO(teamDAO.findById(id));
         } catch (EntityNotFoundException e) {
-            log.error("Team not found", e);
+            log.error("Team not found by id: {}", id, e);
             throw new TeamNotFoundException("Team not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find team", e);
             throw new BusinessException("Error when trying to find team", e);
         }
     }
@@ -123,10 +122,8 @@ public class TeamServiceImpl implements TeamService {
             teamDAO.findAll().forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
             return listTeamsBO;
         } catch (EntityNotFoundException e) {
-            log.error("Teams not found", e);
             throw new TeamNotFoundException("Teams not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find teams", e);
             throw new BusinessException("Error when trying to find teams", e);
         }
     }
@@ -143,10 +140,9 @@ public class TeamServiceImpl implements TeamService {
                 teamDAO.delete(id);
             }
         } catch (EntityNotFoundException e) {
-            log.error("Team not found", e);
+            log.error("Team not found by id: {}", id, e);
             throw new TeamNotFoundException("Team not found", e);
         } catch (DataException e) {
-            log.error("Team not deleted", e);
             throw new BusinessException("Team not deleted", e);
         }
     }
@@ -158,10 +154,8 @@ public class TeamServiceImpl implements TeamService {
             teamDAO.findByName(name).forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
             return listTeamsBO;
         } catch (EntityNotFoundException e) {
-            log.error("Teams not found", e);
             throw new TeamNotFoundException("Teams not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find teams", e);
             throw new BusinessException("Error when trying to find teams", e);
         }
     }
@@ -174,10 +168,8 @@ public class TeamServiceImpl implements TeamService {
                     .forEach((Team team) -> listTeamsBO.add(modelToBOConverter.teamModelToBO(team)));
             return listTeamsBO;
         } catch (EntityNotFoundException e) {
-            log.error("Teams not found", e);
             throw new TeamNotFoundException("Teams not found", e);
         } catch (DataException e) {
-            log.error("Error when trying to find teams", e);
             throw new BusinessException("Error when trying to find teams", e);
         }
     }

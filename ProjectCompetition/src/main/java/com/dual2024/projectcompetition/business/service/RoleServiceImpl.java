@@ -1,10 +1,10 @@
 package com.dual2024.projectcompetition.business.service;
 
-import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessobject.RoleBO;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
+import com.dual2024.projectcompetition.dataaccess.dao.RoleDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,6 @@ public class RoleServiceImpl implements RoleService {
             log.info("Found {} roles", listRolesBO.size());
             return listRolesBO;
         } catch (DataException e) {
-            log.error("Error finding all roles", e);
             throw new BusinessException("Roles not found", e);
         }
     }

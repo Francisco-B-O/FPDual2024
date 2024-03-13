@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest(showSql = false)
-@ComponentScan(basePackages = "com.Dual2024.ProjectCompetition.DataAccess.DAO")
+@ComponentScan(basePackages = "com.dual2024.projectcompetition.dataAccess.dao")
 public class ModalityDAOTest {
     @Autowired
     private ModalityDAO modalityDAO;

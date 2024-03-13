@@ -31,7 +31,8 @@ public class TeamDAOImpl implements TeamDAO {
     public Team save(Team team) throws DataException {
         try {
             Team savedTeam = teamRepository.save(team);
-            log.info("Team saved successfully with id: {}", savedTeam.getId());
+            log.debug("Team saved successfully with id: {}", savedTeam.getId());
+            log.info("Team saved successfully with id");
             return savedTeam;
         } catch (NestedRuntimeException | ConstraintViolationException e) {
             log.error("Error saving team", e);
@@ -44,7 +45,8 @@ public class TeamDAOImpl implements TeamDAO {
         try {
             Team team = teamRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Team not found"));
-            log.info("Team found by id: {}", id);
+            log.debug("Team found by id: {}", id);
+            log.info("Team found by id");
             return team;
         } catch (NestedRuntimeException nre) {
             log.error("Error finding team by id: {}", id, nre);
@@ -73,7 +75,8 @@ public class TeamDAOImpl implements TeamDAO {
     public void delete(Long id) throws DataException {
         try {
             teamRepository.deleteById(id);
-            log.info("Team deleted successfully with id: {}", id);
+            log.debug("Team deleted successfully with id: {}", id);
+            log.info("Team deleted successfully");
         } catch (NestedRuntimeException nre) {
             log.error("Error deleting team with id: {}", id, nre);
             throw new DataException("Team not deleted", nre);

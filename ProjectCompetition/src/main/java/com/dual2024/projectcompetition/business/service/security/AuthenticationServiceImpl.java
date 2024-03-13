@@ -58,7 +58,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         try {
             UserBO user = modelToBOConverter.userModelToBO(userDAO.findByEmail(authenticationToken.getName()));
             String jwt = jwtService.generateToken(user, generateExtraClaims(user));
-            log.info("User {} successfully logged in.", user.getNick());
+            log.debug("User {} successfully logged in.", user.getNick());
+            log.info("User successfully logged.");
             return new AuthenticationResponse(jwt);
         } catch (DataException e) {
             log.error("User not found", e);
@@ -75,7 +76,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             try {
                 UserBO authenticatedUser = modelToBOConverter.userModelToBO(userDAO.findByEmail(email));
                 id = authenticatedUser.getId();
-                log.info("Retrieved authenticated user with ID: {}", id);
+                log.debug("Retrieved authenticated user with ID: {}", id);
+                log.info("Retrieved authenticated user");
             } catch (DataException e) {
                 log.error("Error retrieving authenticated user", e);
                 throw new BusinessException(e.getMessage(), e);
