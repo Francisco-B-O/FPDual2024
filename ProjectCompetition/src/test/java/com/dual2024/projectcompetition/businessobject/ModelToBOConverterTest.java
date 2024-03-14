@@ -1,4 +1,4 @@
-package com.dual2024.projectcompetition.BusinessObject;
+package com.dual2024.projectcompetition.businessobject;
 
 import com.dual2024.projectcompetition.business.businessobject.*;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;

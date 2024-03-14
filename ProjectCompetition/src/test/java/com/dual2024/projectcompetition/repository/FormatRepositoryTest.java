@@ -1,25 +1,24 @@
-package com.dual2024.projectcompetition.DAO;
+package com.dual2024.projectcompetition.repository;
 
-import com.dual2024.projectcompetition.dataaccess.dao.FormatDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
 import com.dual2024.projectcompetition.dataaccess.model.Format;
+import com.dual2024.projectcompetition.dataaccess.repository.FormatRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest(showSql = false)
-@ComponentScan(basePackages = "com.dual2024.projectcompetition.dataAccess.dao")
-public class FormatDAOTest {
+public class FormatRepositoryTest {
     @Autowired
-    private FormatDAO formatDAO;
+    FormatRepository formatRepository;
     private Format format, format2, duplicatedNameFormat;
 
     @BeforeEach
@@ -32,12 +31,11 @@ public class FormatDAOTest {
 
     @Test
     @DisplayName("findById operation")
-    public void givenId_whenFindById_theReturnFormat() throws DataException {
+    public void givenId_whenFindById_theReturnFormat() {
 
-        Format savedFormat = null;
-        savedFormat = formatDAO.save(format);
+        Format savedFormat = formatRepository.save(format);
 
-        Format foundFormat = formatDAO.findById(format.getId());
+        Format foundFormat = formatRepository.findById(format.getId()).get();
 
         assertThat(foundFormat).isNotNull();
         assertThat(foundFormat).isEqualTo(savedFormat);
@@ -45,23 +43,23 @@ public class FormatDAOTest {
 
     @Test
     @DisplayName("save operation")
-    public void givenFormatObject_whenSave_theReturnSavedFormat() throws DataException {
+    public void givenFormatObject_whenSave_theReturnSavedFormat() {
 
-        Format savedFormat = formatDAO.save(format);
+        Format savedFormat = formatRepository.save(format);
 
-        assertThrows(DataException.class, () -> formatDAO.save(duplicatedNameFormat));
+        assertThrows(DataIntegrityViolationException.class, () -> formatRepository.save(duplicatedNameFormat));
         assertThat(savedFormat).isNotNull();
         assertThat(savedFormat.getId()).isGreaterThan(0);
     }
 
     @Test
     @DisplayName("findAll operation")
-    public void givenFormatList_whenSave_theReturnFormatList() throws DataException {
+    public void givenFormatList_whenSave_theReturnFormatList() {
 
-        formatDAO.save(format);
-        formatDAO.save(format2);
+        formatRepository.save(format);
+        formatRepository.save(format2);
 
-        List<Format> formats = formatDAO.findAll();
+        List<Format> formats = formatRepository.findAll();
 
         assertThat(formats).isNotNull();
         assertThat(formats.size()).isEqualTo(2);
@@ -69,11 +67,11 @@ public class FormatDAOTest {
 
     @Test
     @DisplayName("findByName operation")
-    public void givenFormat_whenFindByName_theReturnFormat() throws DataException {
+    public void givenFormat_whenFindByName_theReturnFormat() {
 
-        Format savedFormat = formatDAO.save(format);
+        Format savedFormat = formatRepository.save(format);
 
-        Format foundFormat = formatDAO.findByName("torneo");
+        Format foundFormat = formatRepository.findByName("torneo").get();
 
         assertThat(foundFormat).isNotNull();
         assertThat(foundFormat).isEqualTo(savedFormat);
@@ -81,14 +79,14 @@ public class FormatDAOTest {
 
     @Test
     @DisplayName("update operation")
-    public void givenFormat_whenUpdate_theReturnUpdatedFormat() throws DataException {
+    public void givenFormat_whenUpdate_theReturnUpdatedFormat() {
 
-        formatDAO.save(format);
+        formatRepository.save(format);
         Format updatedFormat = new Format();
         updatedFormat.setId(format.getId());
         updatedFormat.setName("playOff");
 
-        Format savedUpdatedFormat = formatDAO.save(updatedFormat);
+        Format savedUpdatedFormat = formatRepository.save(updatedFormat);
 
         assertThat(savedUpdatedFormat).isNotNull();
         assertThat(savedUpdatedFormat).isEqualTo(updatedFormat);
@@ -96,12 +94,13 @@ public class FormatDAOTest {
 
     @Test
     @DisplayName("delete operation")
-    public void givenFormat_whenDelete_thenDeletedFormat() throws DataException {
+    public void givenFormat_whenDeleteById_thenDeletedFormat() {
 
-        formatDAO.save(format);
+        formatRepository.save(format);
 
-        formatDAO.delete(format.getId());
+        formatRepository.deleteById(format.getId());
+        Optional<Format> deletedFormat = formatRepository.findByName("torneo");
 
-        assertThrows(DataException.class, () -> formatDAO.findByName("torneo"));
+        assertThat(deletedFormat).isNotPresent();
     }
 }

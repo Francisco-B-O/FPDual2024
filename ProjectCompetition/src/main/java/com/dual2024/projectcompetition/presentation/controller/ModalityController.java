@@ -54,7 +54,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<ModalityDTO> getAllModalities() throws PresentationException {
@@ -78,7 +78,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public ModalityDTO getModalityById(@PathVariable("id") @Parameter(description = "ID of the modality") Long id) throws PresentationException {
@@ -141,7 +141,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public ModalityDTO getModalityByName(@PathVariable("name") @Parameter(description = "Name of the modality") String name) throws PresentationException {
@@ -162,7 +162,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities by number of players")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/players/{players}")
     public List<ModalityDTO> getAllModalities(@PathVariable("players") @Parameter(description = "Number of players") int players) throws PresentationException {

@@ -69,7 +69,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all teams")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<TeamDTO> getAllTeams() throws PresentationException {
@@ -92,7 +92,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get team by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public TeamDTO getTeamById(
@@ -114,7 +114,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get teams by modality")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
     public List<TeamDTO> getTeamsByModality(
@@ -141,7 +141,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get team by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public List<TeamDTO> getTeamByName(
@@ -167,7 +167,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Register a new team")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
     public TeamDTO registerTeam(@RequestBody @Valid RegisterTeamDTO team) throws PresentationException {
@@ -191,7 +191,7 @@ public class TeamController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add player to the team")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addPlayer/{team}/{player}")
     public TeamDTO addPlayer(

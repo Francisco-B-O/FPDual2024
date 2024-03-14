@@ -95,5 +95,9 @@ CREATE TABLE tournaments_teams (
     CONSTRAINT fk_teamId_inscriptions FOREIGN KEY (tournaments_teams_team_id)
         REFERENCES teams (team_id)
         ON DELETE CASCADE ON UPDATE CASCADE
-)
+);
 
+INSERT INTO roles (role_name, role_description) VALUES
+('ADMIN', 'Encargado de crear, eliminar y modificar torneos. Tiene permisos absolutos'),
+('GESTOR', 'Puede gestionar torneos a menor nivel, no se le permite crear, modificar o eliminarlos. Tiene algunos permisos'),
+('PLAYER', 'Usuario que solo se le permite entrar y salir de equipos y de torneos. Tiene los permisos básicos');

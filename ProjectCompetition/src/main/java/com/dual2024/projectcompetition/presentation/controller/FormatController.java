@@ -60,7 +60,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all formats")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<FormatDTO> getAllFormats() throws PresentationException {
@@ -84,7 +84,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public FormatDTO getFormatById(@PathVariable("id") @Parameter(description = "The ID of the format") Long id) throws PresentationException {
@@ -146,7 +146,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public FormatDTO getFormatByName(@PathVariable("name") @Parameter(description = "The name of the format") String name) throws PresentationException {

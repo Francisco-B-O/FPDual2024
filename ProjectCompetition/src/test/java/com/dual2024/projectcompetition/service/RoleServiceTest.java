@@ -1,4 +1,4 @@
-package com.dual2024.projectcompetition.Service;
+package com.dual2024.projectcompetition.service;
 
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessobject.RoleBO;

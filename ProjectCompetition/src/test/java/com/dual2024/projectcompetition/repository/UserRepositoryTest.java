@@ -1,4 +1,4 @@
-package com.dual2024.projectcompetition.Repository;
+package com.dual2024.projectcompetition.repository;
 
 import com.dual2024.projectcompetition.dataaccess.model.User;
 import com.dual2024.projectcompetition.dataaccess.repository.UserRepository;

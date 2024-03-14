@@ -1,9 +1,5 @@
-package com.dual2024.projectcompetition.Service;
+package com.dual2024.projectcompetition.service;
 
-import com.dual2024.projectcompetition.dataaccess.dao.ModalityDAO;
-import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
-import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
-import com.dual2024.projectcompetition.dataaccess.model.Modality;
 import com.dual2024.projectcompetition.business.businessexception.BusinessException;
 import com.dual2024.projectcompetition.business.businessexception.DuplicatedNameException;
 import com.dual2024.projectcompetition.business.businessexception.ModalityNotFoundException;
@@ -11,6 +7,10 @@ import com.dual2024.projectcompetition.business.businessobject.ModalityBO;
 import com.dual2024.projectcompetition.business.businessobject.converters.BOToModelConverter;
 import com.dual2024.projectcompetition.business.businessobject.converters.ModelToBOConverter;
 import com.dual2024.projectcompetition.business.service.ModalityServiceImpl;
+import com.dual2024.projectcompetition.dataaccess.dao.ModalityDAO;
+import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;
+import com.dual2024.projectcompetition.dataaccess.dataexception.EntityNotFoundException;
+import com.dual2024.projectcompetition.dataaccess.model.Modality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

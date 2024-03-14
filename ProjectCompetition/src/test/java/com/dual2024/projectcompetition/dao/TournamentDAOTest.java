@@ -1,4 +1,4 @@
-package com.dual2024.projectcompetition.DAO;
+package com.dual2024.projectcompetition.dao;
 
 import com.dual2024.projectcompetition.dataaccess.dao.*;
 import com.dual2024.projectcompetition.dataaccess.dataexception.DataException;

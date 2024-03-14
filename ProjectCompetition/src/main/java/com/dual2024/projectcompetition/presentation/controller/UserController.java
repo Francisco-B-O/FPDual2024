@@ -84,7 +84,7 @@ public class UserController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all users")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<UserDTO> getAllUsers() throws PresentationException {
@@ -108,7 +108,7 @@ public class UserController {
      */
 
     @Operation(summary = "Get user by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public UserDTO getUserById(@PathVariable("id") @Parameter(description = "ID of the user") Long id) throws PresentationException {
@@ -129,7 +129,7 @@ public class UserController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get users by state")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
     public List<UserDTO> getUsersByState(@PathVariable("state") @Parameter(description = "State of the users") UserState state) throws PresentationException {
@@ -152,7 +152,7 @@ public class UserController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get user by email")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/email/{email}")
     public UserDTO getUserByEmail(@PathVariable("email") @Parameter(description = "Email of the user") String email) throws PresentationException {
@@ -173,7 +173,7 @@ public class UserController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get user by nickname")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/nick/{nick}")
     public UserDTO getUserByNick(@PathVariable("nick") @Parameter(description = "Nickname of the user") String nick) throws PresentationException {
@@ -236,7 +236,7 @@ public class UserController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update a user")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_JUGADOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update/")
     public UserDTO updateUser(@RequestBody @Valid UpdateUserDTO user) throws PresentationException {
