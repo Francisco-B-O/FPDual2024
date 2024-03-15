@@ -24,7 +24,7 @@ import java.io.Serial;
  * <p>The exception includes a serial version UID for serialization purposes. It provides
  * two constructors, one with a message and another with both a message and a cause.</p>
  *
- * @author Franciosco Balonero Olivera
+ * @author Franciso Balonero Olivera
  * @see BusinessException
  */
 public class TeamNotFoundException extends BusinessException {
