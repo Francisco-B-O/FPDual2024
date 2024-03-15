@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest(showSql = false)
-@ComponentScan(basePackages = "com.dual2024.projectcompetition.dataAccess.dao")
+@ComponentScan(basePackages = "com.dual2024.projectcompetition.dataaccess.dao")
 public class TournamentDAOTest {
     @Autowired
     private TournamentDAO tournamentDAO;
