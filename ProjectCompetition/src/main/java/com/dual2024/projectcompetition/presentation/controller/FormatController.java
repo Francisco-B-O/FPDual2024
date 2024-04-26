@@ -60,7 +60,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all formats")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<FormatDTO> getAllFormats() throws PresentationException {
@@ -84,7 +84,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public FormatDTO getFormatById(@PathVariable("id") @Parameter(description = "The ID of the format") Long id) throws PresentationException {
@@ -105,7 +105,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add a new format")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
     public FormatDTO addFormat(@RequestBody @Valid RegisterFormatDTO format) throws PresentationException {
@@ -125,7 +125,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete a format")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
     public void deleteFormat(@PathVariable @Parameter(description = "The ID of the format to be deleted") Long id) throws PresentationException {
@@ -146,7 +146,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get format by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public FormatDTO getFormatByName(@PathVariable("name") @Parameter(description = "The name of the format") String name) throws PresentationException {
@@ -166,7 +166,7 @@ public class FormatController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update a format")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/update")
     public void updateFormat(@RequestBody @Valid FormatDTO format) throws PresentationException {

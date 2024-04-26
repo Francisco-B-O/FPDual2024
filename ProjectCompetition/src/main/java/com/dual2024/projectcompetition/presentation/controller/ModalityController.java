@@ -54,7 +54,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<ModalityDTO> getAllModalities() throws PresentationException {
@@ -78,7 +78,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public ModalityDTO getModalityById(@PathVariable("id") @Parameter(description = "ID of the modality") Long id) throws PresentationException {
@@ -99,7 +99,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Add a new modality")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/add")
     public ModalityDTO addModality(@RequestBody @Valid RegisterModalityDTO modality) throws PresentationException {
@@ -120,7 +120,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Delete a modality")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
     public void deleteModality(@PathVariable @Parameter(description = "ID of the modality to be deleted") Long id) throws PresentationException {
@@ -141,7 +141,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get modality by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public ModalityDTO getModalityByName(@PathVariable("name") @Parameter(description = "Name of the modality") String name) throws PresentationException {
@@ -162,7 +162,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Get all modalities by number of players")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/players/{players}")
     public List<ModalityDTO> getAllModalities(@PathVariable("players") @Parameter(description = "Number of players") int players) throws PresentationException {
@@ -185,7 +185,7 @@ public class ModalityController {
      * @throws PresentationException if an error occurs during presentation
      */
     @Operation(summary = "Update an existing modality")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
     public void updateModality(@RequestBody @Valid ModalityDTO modality) throws PresentationException {

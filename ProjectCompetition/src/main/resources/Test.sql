@@ -97,7 +97,44 @@ CREATE TABLE tournaments_teams (
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO roles (role_name, role_description) VALUES
-('ADMIN', 'Encargado de crear, eliminar y modificar torneos. Tiene permisos absolutos'),
-('MANAGER', 'Puede gestionar torneos a menor nivel, no se le permite crear, modificar o eliminarlos. Tiene algunos permisos'),
-('PLAYER', 'Usuario que solo se le permite entrar y salir de equipos y de torneos. Tiene los permisos básicos');
+
+INSERT INTO roles (role_id,role_name, role_description) VALUES
+(1,'ADMIN', 'Encargado de crear, eliminar y modificar torneos. Tiene permisos absolutos'),
+(2,'MANAGER', 'Puede gestionar torneos a menor nivel, no se le permite crear, modificar o eliminarlos. Tiene algunos permisos'),
+(3,'PLAYER', 'Usuario que solo se le permite entrar y salir de equipos y de torneos. Tiene los permisos básicos');
+
+
+INSERT INTO users (user_id, user_nick, user_email, user_password, user_state)
+VALUES (1, 'usuario1', '@Mail1', 'password1', 'CONNECTED'),
+       (2, 'usuario2', '@Mail2', 'password2', 'CONNECTED');
+
+
+INSERT INTO users_roles (users_roles_user_id, users_roles_role_id)
+VALUES (1, 1),
+       (2, 2);
+
+INSERT INTO modalities (modality_id, modality_number_players, modality_name)
+VALUES (1, 5, 'Mod1'),
+       (2, 10, 'Mod2');
+
+INSERT INTO teams (team_id, team_name, team_logo, team_modality_id, team_captain_id)
+VALUES (1, 'Equipo1', 'logo1', 1, 1),
+       (2, 'Equipo2', 'logo2', 1, 2);
+
+INSERT INTO users_teams (users_teams_user_id, users_teams_team_id)
+VALUES (1, 1),
+       (2, 2);
+
+INSERT INTO formats (format_id, format_name)
+VALUES (1, 'Formato1'),
+       (2, 'Formato2');
+
+INSERT INTO tournaments (tournament_id, tournament_name, tournament_size, tournament_start_date, tournament_end_date, tournament_state, tournament_description, tournament_modality_id, tournament_format_id)
+VALUES (1, 'Torneo1', 10, '2023-01-01 00:00:00', '2023-01-01 23:59:59', 'NOT_STARTED', 'Descripción del torneo 1', 1, 1),
+       (2, 'Torneo2', 20, '2023-02-01 00:00:00', '2023-02-02 23:59:59', 'NOT_STARTED', 'Descripción del torneo 2', 2, 2);
+
+INSERT INTO tournaments_teams (tournaments_teams_tournament_id, tournaments_teams_team_id)
+VALUES (1, 1),
+       (1, 2),
+       (2, 1),
+       (2, 2);

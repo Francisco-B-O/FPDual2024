@@ -72,7 +72,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get all tournaments")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/all")
     public List<TournamentDTO> getAllTournaments() throws PresentationException {
@@ -96,7 +96,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournament by ID")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/{id}")
     public TournamentDTO getTournamentById(@PathVariable("id") @Parameter(description = "ID of the tournament") Long id) throws PresentationException {
@@ -117,7 +117,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by state")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/state/{state}")
     public List<TournamentDTO> getTournamentByState(@PathVariable("state") @Parameter(description = "State of the tournament") TournamentState state)
@@ -142,7 +142,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by modality")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/modality/{modality}")
     public List<TournamentDTO> getTournamentsByModality(@PathVariable("modality") @Parameter(description = "Modality name of the tournament") String modality)
@@ -168,7 +168,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by format")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/format/{format}")
     public List<TournamentDTO> getTournamentsByFormat(@PathVariable("format") @Parameter(description = "Format name of the tournament") String format)
@@ -194,7 +194,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by name")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/name/{name}")
     public List<TournamentDTO> getTournamentByName(@PathVariable("name") @Parameter(description = "Name of the tournament") String name) throws PresentationException {
@@ -218,7 +218,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by size")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/size/{size}")
     public List<TournamentDTO> getTournamentBySize(@PathVariable("size") @Parameter(description = "Size of the tournament") int size) throws PresentationException {
@@ -242,7 +242,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by start date")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @ResponseStatus(code = HttpStatus.OK)
     @GetMapping("/start/{start}")
     public List<TournamentDTO> getTournamentByStartDate(@PathVariable("start") @Parameter(description = "Start date of the tournament") LocalDateTime start)
@@ -267,7 +267,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Get tournaments by end date")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR') or hasRole('ROLE_PLAYER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER') or hasRole('ROLE_PLAYER')")
     @GetMapping("/end/{end}")
     public List<TournamentDTO> getTournamentByEndDate(@PathVariable("end") @Parameter(description = "End date of the tournament") LocalDateTime end)
             throws PresentationException {
@@ -291,7 +291,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Register tournament")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PostMapping("/register")
     public TournamentDTO registerTournament(@RequestBody @Valid RegisterTournamentDTO tournament)
@@ -313,7 +313,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Delete tournament")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @DeleteMapping("/delete/{id}")
     public void deleteTournament(@PathVariable @Parameter(description = "ID of the tournament to be deleted") long id) throws PresentationException {
@@ -334,7 +334,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Add team to tournament")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.ACCEPTED)
     @PutMapping("/addTeam/{tournament}/{team}")
     public void addTeam(@PathVariable @Parameter(description = "The ID of the team") long team, @PathVariable @Parameter(description = "The ID of the tournament") long tournament) throws PresentationException {
@@ -354,7 +354,7 @@ public class TournamentController {
      * @throws PresentationException if there is an issue with the presentation layer
      */
     @Operation(summary = "Update tournament")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_GESTOR')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
     @ResponseStatus(code = HttpStatus.CREATED)
     @PutMapping("/update")
     public void updateTournament(@RequestBody @Valid TournamentDTO tournament) throws PresentationException {
